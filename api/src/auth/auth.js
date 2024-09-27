@@ -1,6 +1,6 @@
 const allowedUsers = ["yevgeniyvaleyev"];
 
-function authorizeRequest(req) {
+function authorizeRequest(_, req) {
   const clientPrincipalHeader = req.headers["x-ms-client-principal"];
 
   if (!clientPrincipalHeader) {
