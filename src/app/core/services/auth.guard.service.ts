@@ -14,7 +14,7 @@ export class AuthGuardService {
     // TODO: change to signal store
     return this.authService.getCurrentUser().pipe(
       tap(({ authenticated, hasAccess }) => {
-        if (!authenticated) this.authService.navigateToLogin();
+        if (!authenticated) this.router.navigate(['/login']);
         if (!hasAccess && authenticated)
           this.router.navigate(['/pending-access']);
       }),
