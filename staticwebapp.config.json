@@ -9,6 +9,10 @@
       "allowedRoles": ["anonymous"]
     },
     {
+      "route": "/api/current-user",
+      "allowedRoles": ["anonymous"]
+    },
+    {
       "route": "/api/*",
       "allowedRoles": ["authenticated"]
     }

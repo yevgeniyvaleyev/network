@@ -22,4 +22,4 @@ To only run Azure function go to the `/api` folder and run `func start`
 ### Create Azure Function
 
 - `func init api --worker-runtime node`
-- `func new --name HelloWorld --template "api_name"`
+- `func new --name my_api --template "HTTP trigger"`

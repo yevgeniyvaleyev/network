@@ -1,14 +1,14 @@
 const { app } = require("@azure/functions");
-const { authorizeRequest } = require("../auth/auth");
+const { getCurrentUser } = require("../auth/auth");
 
 app.http("items", {
   methods: ["GET", "POST"],
   authLevel: "anonymous",
   handler: async (request, context) => {
-    const unauthorizedResponseObject = authorizeRequest(request);
+    const currentUser = getCurrentUser(request);
 
-    if (unauthorizedResponseObject) {
-      return unauthorizedResponseObject;
+    if (!currentUser.hasAccess) {
+      return getAuthenticationResponse(currentUser);
     }
 
     context.log(`Http function processed request for url "${request.url}"`);

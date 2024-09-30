@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "emulate": "swa start http://localhost:4200 --api-location ./api",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

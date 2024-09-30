@@ -1,23 +1,35 @@
 const allowedUsers = ["yevgeniyvaleyev"];
 
-function authorizeRequest(req) {
+function getCurrentUser(req) {
   const clientPrincipalHeader = req.headers.get("x-ms-client-principal");
+  let user = clientPrincipalHeader ? decodeUser(clientPrincipalHeader) : null;
 
-  if (!clientPrincipalHeader) {
+  return {
+    authenticated: !!clientPrincipalHeader,
+    hasAccess:
+      !!clientPrincipalHeader && allowedUsers.includes(user?.userDetails),
+    name: user?.userDetails,
+  };
+}
+
+function decodeUser(clientPrincipalHeader) {
+  const decodedPrincipal = Buffer.from(
+    clientPrincipalHeader,
+    "base64",
+  ).toString("utf8");
+  const user = JSON.parse(decodedPrincipal);
+  return user;
+}
+
+function getAuthenticationResponse(currentUser) {
+  if (!currentUser.authenticated) {
     return {
       status: 401,
       body: "Unauthorized. Please log in to access this API.",
     };
   }
 
-  // Decode the Base64-encoded user info
-  const decodedPrincipal = Buffer.from(
-    clientPrincipalHeader,
-    "base64",
-  ).toString("utf8");
-  const user = JSON.parse(decodedPrincipal);
-
-  if (!allowedUsers.includes(user.userDetails)) {
+  if (!currentUser.hasAccess) {
     return {
       status: 403,
       body: "Access denied. You are not authorized to access this API.",
@@ -28,5 +40,6 @@ function authorizeRequest(req) {
 }
 
 module.exports = {
-  authorizeRequest,
+  getAuthenticationResponse,
+  getCurrentUser,
 };

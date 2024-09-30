@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { filter, map, take } from 'rxjs';
-import { AuthService } from '../../../shared/services/auth.service';
+import { map } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -13,11 +13,11 @@ import { AuthService } from '../../../shared/services/auth.service';
 export class HeaderComponent {
   private authService = inject(AuthService);
 
-  public user = toSignal(
-    this.authService.getUserInfo().pipe(
-      filter((data) => !!data),
-      take(1),
-      map((data) => data.clientPrincipal),
-    ),
+  public userName = toSignal(
+    this.authService.getCurrentUser().pipe(map((data) => data.name)),
   );
+
+  public logout() {
+    this.authService.navigateToLogout();
+  }
 }
