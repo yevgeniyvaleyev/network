@@ -1,8 +1,13 @@
-const allowedUsers = ["yevgeniyvaleyev"];
+const { getDatabase } = require("../db/db");
 
-function getCurrentUser(req) {
+async function getCurrentUser(req, context) {
   const clientPrincipalHeader = req.headers.get("x-ms-client-principal");
   let user = clientPrincipalHeader ? decodeUser(clientPrincipalHeader) : null;
+
+  const db = await getDatabase(context);
+  const allowedUsers = (await db.collection("users").find({}).toArray()).map(
+    ({ name }) => name,
+  );
 
   return {
     authenticated: !!clientPrincipalHeader,

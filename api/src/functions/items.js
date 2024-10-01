@@ -1,20 +1,31 @@
 const { app } = require("@azure/functions");
 const { getCurrentUser } = require("../auth/auth");
+const { getDatabase } = require("../db/db");
 
 app.http("items", {
   methods: ["GET", "POST"],
   authLevel: "anonymous",
   handler: async (request, context) => {
-    const currentUser = getCurrentUser(request);
+    const currentUser = await getCurrentUser(request, context);
 
     if (!currentUser.hasAccess) {
       return getAuthenticationResponse(currentUser);
     }
 
-    context.log(`Http function processed request for url "${request.url}"`);
+    const db = await getDatabase(context);
+    const networkList = (
+      await db
+        .collection("network-list")
+        .find({ userId: currentUser.name })
+        .toArray()
+    ).map(({ name }) => name);
 
-    const name = request.query.get("name") || (await request.text()) || "world";
-
-    return { body: `Hello, ${name}!` };
+    return {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(networkList),
+    };
   },
 });

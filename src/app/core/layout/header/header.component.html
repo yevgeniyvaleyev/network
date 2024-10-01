@@ -1,1 +1,7 @@
-<div>Github user: {{ userName() }}</div>
+<div>
+  @if (userName()) {
+    Github user: {{ userName() }}
+
+    <button (click)="logout()">Logout</button>
+  }
+</div>

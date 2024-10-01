@@ -4,8 +4,8 @@ const { getCurrentUser } = require("../auth/auth");
 app.http("current-user", {
   methods: ["GET", "POST"],
   authLevel: "anonymous",
-  handler: async (request) => {
-    const currentUser = getCurrentUser(request);
+  handler: async (request, context) => {
+    const currentUser = await getCurrentUser(request, context);
 
     return {
       status: 200,

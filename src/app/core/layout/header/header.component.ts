@@ -16,4 +16,8 @@ export class HeaderComponent {
   public userName = toSignal(
     this.authService.getCurrentUser().pipe(map((data) => data.name)),
   );
+
+  logout(): void {
+    this.authService.navigateToLogout();
+  }
 }
