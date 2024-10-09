@@ -15,7 +15,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 
 ### Run
 
-Emulate locally Azure Static Web Apps use `swa start http://localhost:4200 --api-location ./api`
+Emulate locally Azure Static Web Apps use `npm run emulate` or `swa start http://localhost:4200 --api-location ./api`
 
 To only run Azure function go to the `/api` folder and run `func start`
 
