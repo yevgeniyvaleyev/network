@@ -1,0 +1,8 @@
+/// Convert the amount of given grid units to pixels
+@function grid-unit($multiplier: 1) {
+  @if $multiplier == 0 {
+    @return 0;
+  } @else {
+    @return $grid-unit * $multiplier;
+  }
+}

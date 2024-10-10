@@ -31,8 +31,11 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/rose-red.css",
-              "src/styles.scss"
+              "src/css/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/css"]
+            },
             "scripts": []
           },
           "configurations": {
