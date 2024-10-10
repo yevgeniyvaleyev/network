@@ -6,3 +6,9 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.no-access-screen {
+  background-image: url("/assets/images/no-access-bg.webp");
+  background-size: auto 100%;
+  background-position: center;
+}
