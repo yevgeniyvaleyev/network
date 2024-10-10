@@ -1,1 +1,17 @@
-<p>Your account is not approved yet!</p>
+<mat-card class="pending-card" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>My Network App</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>
+      Hello <b>{{ userName() }}</b>
+    </p>
+    <p>Your account is not approved yet.</p>
+  </mat-card-content>
+  <mat-card-footer class="pending-card-footer">
+    <button (click)="logout()" mat-fab extended>
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
+  </mat-card-footer>
+</mat-card>

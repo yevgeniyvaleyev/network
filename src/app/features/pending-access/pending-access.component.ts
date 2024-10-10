@@ -1,12 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { map } from 'rxjs';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-pending-access',
   standalone: true,
-  imports: [],
+  imports: [MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './pending-access.component.html',
-  styleUrl: './pending-access.component.scss'
+  styleUrl: './pending-access.component.scss',
 })
 export class PendingAccessComponent {
+  private authService = inject(AuthService);
 
+  public userName = toSignal(
+    this.authService.getCurrentUser().pipe(map((data) => data.name)),
+  );
+
+  logout(): void {
+    this.authService.navigateToLogout();
+  }
 }
