@@ -1,2 +1,13 @@
-<p>network-list works!</p>
-<p>{{ items() | json }}</p>
+@if (!items()) {
+  <div class="spinner-container">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+} @else {
+  <mat-list>
+    @for (item of items(); track item) {
+      <mat-list-item>
+        {{ item }}
+      </mat-list-item>
+    }
+  </mat-list>
+}

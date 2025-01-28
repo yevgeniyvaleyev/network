@@ -1,0 +1,60 @@
+<div class="app-container" [class.is-mobile]="isMobile()">
+  <mat-sidenav-container class="app-sidenav-container">
+    <mat-sidenav #snav [mode]="isMobile() ? 'over' : 'side'" 
+                [fixedInViewport]="isMobile()" 
+                [fixedTopGap]="0"
+                [fixedBottomGap]="0">
+      <div class="sidenav-content">
+        <div class="sidenav-header">
+          <h2>Menu</h2>
+          <button mat-icon-button (click)="snav.close()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <mat-nav-list>
+        </mat-nav-list>
+
+        <div class="sidenav-footer">
+          @if (userName()) {
+            <div class="user-info">
+              <span class="username">Hi <i>{{ userName() }}</i>!</span>
+              <button mat-icon-button (click)="logout()">
+                <mat-icon>logout</mat-icon>
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <mat-toolbar class="app-toolbar">
+        <button mat-icon-button (click)="snav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>      
+      </mat-toolbar>
+
+      <div class="content-container">
+        <router-outlet></router-outlet>
+      </div>
+
+      <mat-toolbar class="app-toolbar bottom-toolbar">
+        <nav class="bottom-nav">
+          <a mat-button routerLink="/network-list" routerLinkActive="active">
+            <div class="nav-item">
+              <mat-icon>hub</mat-icon>
+              <span>Networks</span>
+            </div>
+          </a>
+          <a mat-button routerLink="/dashboard" routerLinkActive="active">
+            <div class="nav-item">
+              <mat-icon>dashboard</mat-icon>
+              <span>Dashboard</span>
+            </div>
+          </a>
+        </nav>
+      </mat-toolbar>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
