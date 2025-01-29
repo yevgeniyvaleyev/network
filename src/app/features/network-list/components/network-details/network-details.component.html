@@ -57,6 +57,10 @@
       <span>{{ networkItem.reconnectionFrequency }} days</span>
     </div>
   </div>
+
+  <button mat-fab color="primary" class="edit-button" [routerLink]="['/network/edit', networkItem.id]">
+    <mat-icon>edit</mat-icon>
+  </button>
 } @else {
   <div class="loading">Loading...</div>
 }

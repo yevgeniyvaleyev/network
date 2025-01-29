@@ -3,9 +3,9 @@ const { getCurrentUser } = require("../auth/auth");
 const { getDatabase } = require("../db/db");
 
 app.http("item", {
-  methods: ["POST", "GET"],
+  methods: ["POST", "GET", "PUT"],
   authLevel: "anonymous",
-  route: "item/{id?}", // Optional id parameter for GET requests
+  route: "item/{id?}",
   handler: async (request, context) => {
     const currentUser = await getCurrentUser(request, context);
 
@@ -17,13 +17,8 @@ app.http("item", {
 
     // GET request - fetch item by ID
     if (request.method === "GET") {
-
-      context.log(request.params)
-
       const id = request.params.id;
       
-      
-
       if (!id) {
         return {
           status: 400,
@@ -66,6 +61,69 @@ app.http("item", {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ error: "Failed to fetch network item" })
+        };
+      }
+    }
+
+    // PUT request - update item
+    if (request.method === "PUT") {
+      const id = request.params.id;
+      
+      if (!id) {
+        return {
+          status: 400,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ error: "Item ID is required" })
+        };
+      }
+
+      const updateData = await request.json();
+      
+      // Ensure lastConnect is a Date object if provided
+      if (updateData.lastConnect) {
+        updateData.lastConnect = new Date(updateData.lastConnect);
+      }
+
+      // Ensure reconnectionFrequency is a number if provided
+      if (updateData.reconnectionFrequency) {
+        updateData.reconnectionFrequency = Number(updateData.reconnectionFrequency);
+      }
+
+      try {
+        const result = await db.collection("network-list").findOneAndUpdate(
+          { id, userId: currentUser.name },
+          { $set: { ...updateData, updatedAt: new Date() } },
+          { returnDocument: 'after' }
+        );
+
+        if (!result) {
+          return {
+            status: 404,
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ error: "Item not found" })
+          };
+        }
+
+        return {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(result.value)
+        };
+      } catch (error) {
+        context.log.error('Error updating network item:', error);
+        
+        return {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ error: "Failed to update network item" })
         };
       }
     }

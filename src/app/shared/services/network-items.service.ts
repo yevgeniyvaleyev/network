@@ -33,4 +33,8 @@ export class NetworkItemsService {
   public createItem(item: NetworkItem): Observable<NetworkItem> {
     return this.http.post<NetworkItem>(this.itemUrl, item);
   }
+
+  public updateItem(id: string, item: Partial<NetworkItem>): Observable<NetworkItem> {
+    return this.http.put<NetworkItem>(`${this.itemUrl}/${id}`, item);
+  }
 }

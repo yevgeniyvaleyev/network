@@ -2,7 +2,7 @@ import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NetworkItem, NetworkItemsService } from '../../../../shared/services/network-items.service';
 
 @Component({
@@ -11,7 +11,8 @@ import { NetworkItem, NetworkItemsService } from '../../../../shared/services/ne
   imports: [
     CommonModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    RouterModule
   ],
   templateUrl: './network-details.component.html',
   styleUrls: ['./network-details.component.scss']
@@ -19,7 +20,7 @@ import { NetworkItem, NetworkItemsService } from '../../../../shared/services/ne
 export class NetworkDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private networkItemsService = inject(NetworkItemsService);
-  private location = inject(Location);
+  private router = inject(Router);
 
   public networkItem?: NetworkItem;
 
@@ -38,6 +39,6 @@ export class NetworkDetailsComponent implements OnInit {
   }
 
   public goBack(): void {
-    this.location.back();
+    this.router.navigate(['/network/list']);
   }
 }

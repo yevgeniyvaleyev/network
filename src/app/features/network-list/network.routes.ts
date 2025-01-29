@@ -17,6 +17,11 @@ export const NETWORK_LIST_ROUTES: Routes = [
       .then(m => m.NetworkDetailsComponent)
   },
   {
+    path: 'edit/:id',
+    loadComponent: () => import('./components/edit-network-item/edit-network-item.component')
+      .then(m => m.EditNetworkItemComponent)
+  },
+  {
     path: '',
     redirectTo: 'list',
     pathMatch: 'full'
