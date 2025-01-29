@@ -1,10 +1,10 @@
-@if (!items()) {
+@if (!networkItems()) {
   <div class="spinner-container">
     <mat-spinner diameter="40"></mat-spinner>
   </div>
 } @else {
   <mat-nav-list>
-    @for (item of items(); track item.id) {
+    @for (item of networkItems(); track item.id) {
       <a mat-list-item [routerLink]="['/network/view', item.id]">
         {{ item.name }}
       </a>
