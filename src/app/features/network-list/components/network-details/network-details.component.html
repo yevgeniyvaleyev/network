@@ -1,0 +1,62 @@
+<div class="header">
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <h2>Contact Details</h2>
+</div>
+
+@if (networkItem) {
+  <div class="details-container">
+    <div class="detail-item">
+      <label>Name</label>
+      <span>{{ networkItem.name }}</span>
+    </div>
+    
+    @if (networkItem.phoneNumber) {
+      <div class="detail-item">
+        <label>Phone Number</label>
+        <span>{{ networkItem.phoneNumber }}</span>
+      </div>
+    }
+
+    <div class="detail-item">
+      <label>Last Connect</label>
+      <span>{{ networkItem.lastConnect | date }}</span>
+    </div>
+
+    @if (networkItem.jobTitle) {
+      <div class="detail-item">
+        <label>Job Title</label>
+        <span>{{ networkItem.jobTitle }}</span>
+      </div>
+    }
+
+    @if (networkItem.workedAt) {
+      <div class="detail-item">
+        <label>Worked At</label>
+        <span>{{ networkItem.workedAt }}</span>
+      </div>
+    }
+
+    @if (networkItem.preferredCommunicationChannel) {
+      <div class="detail-item">
+        <label>Preferred Communication Channel</label>
+        <span>{{ networkItem.preferredCommunicationChannel }}</span>
+      </div>
+    }
+
+    @if (networkItem.email) {
+      <div class="detail-item">
+        <label>Email</label>
+        <span>{{ networkItem.email }}</span>
+      </div>
+    }
+
+    <div class="detail-item">
+      <label>Reconnection Frequency</label>
+      <span>{{ networkItem.reconnectionFrequency }} days</span>
+    </div>
+  </div>
+} @else {
+  <div class="loading">Loading...</div>
+}

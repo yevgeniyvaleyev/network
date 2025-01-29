@@ -10,3 +10,10 @@
   height: 100%;
   min-height: calc(100vh - 112px); // Subtract top and bottom toolbar heights
 }
+
+.fab-button {
+  position: fixed;
+  bottom: 72px; // Above bottom toolbar
+  right: 24px;
+  z-index: 100;
+}

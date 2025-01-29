@@ -18,7 +18,7 @@ app.http("items", {
         .collection("network-list")
         .find({ userId: currentUser.name })
         .toArray()
-    ).map(({ name }) => name);
+    );
 
     return {
       status: 200,

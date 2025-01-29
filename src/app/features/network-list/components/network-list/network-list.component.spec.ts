@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NetworkListComponent } from './network-list.component';
+import { NetworkListComponent } from '../../network-list.component';
 
 describe('NetworkListComponent', () => {
   let component: NetworkListComponent;

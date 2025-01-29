@@ -3,8 +3,9 @@ const { getCurrentUser } = require("../auth/auth");
 const { getDatabase } = require("../db/db");
 
 app.http("item", {
-  methods: ["POST"],
+  methods: ["POST", "GET"],
   authLevel: "anonymous",
+  route: "item/{id?}", // Optional id parameter for GET requests
   handler: async (request, context) => {
     const currentUser = await getCurrentUser(request, context);
 
@@ -12,6 +13,64 @@ app.http("item", {
       return getAuthenticationResponse(currentUser);
     }
 
+    const db = await getDatabase(context);
+
+    // GET request - fetch item by ID
+    if (request.method === "GET") {
+
+      context.log(request.params)
+
+      const id = request.params.id;
+      
+      
+
+      if (!id) {
+        return {
+          status: 400,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ error: "Item ID is required" })
+        };
+      }
+
+      try {
+        const networkItem = await db.collection("network-list").findOne({
+          id,
+          userId: currentUser.name
+        });
+
+        if (!networkItem) {
+          return {
+            status: 404,
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ error: "Item not found" })
+          };
+        }
+
+        return {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(networkItem)
+        };
+      } catch (error) {
+        context.log.error('Error fetching network item:', error);
+        
+        return {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ error: "Failed to fetch network item" })
+        };
+      }
+    }
+
+    // POST request - create new item
     if (request.method === "POST") {
       const { 
         name, 
@@ -35,8 +94,6 @@ app.http("item", {
         };
       }
 
-      const db = await getDatabase(context);
-      
       const networkItem = {
         id: name.toLowerCase().replace(/\s+/g, ''),
         name,

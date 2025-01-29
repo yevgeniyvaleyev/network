@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NetworkListComponent } from './features/network-list/network-list.component';
+import { NetworkListComponent } from './features/network-list/components/network-list/network-list.component';
 import { PendingAccessComponent } from './core/layout/pending-access/pending-access.component';
 import { MainComponent } from './core/components/main/main.component';
 
