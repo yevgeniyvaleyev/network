@@ -20,7 +20,6 @@ import { NetworkContact, NetworkContactsService } from '../../../../shared/servi
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatCardModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,

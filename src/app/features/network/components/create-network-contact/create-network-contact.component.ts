@@ -20,7 +20,6 @@ import { NetworkContactsService } from '../../../../shared/services/network-cont
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatCardModule,
     RouterModule,
     MatDatepickerModule,
     MatNativeDateModule,

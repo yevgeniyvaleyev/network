@@ -1,8 +1,4 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Edit Network Contact</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
+
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
       <mat-form-field>
         <mat-label>Name</mat-label>
@@ -58,5 +54,3 @@
         <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Update</button>
       </div>
     </form>
-  </mat-card-content>
-</mat-card>
