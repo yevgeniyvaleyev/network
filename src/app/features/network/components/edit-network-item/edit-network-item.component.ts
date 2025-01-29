@@ -9,10 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { NetworkItem, NetworkItemsService } from '../../../../shared/services/network-items.service';
+import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-items.service';
 
 @Component({
-  selector: 'app-edit-network-item',
+  selector: 'app-edit-network-contact',
   standalone: true,
   imports: [
     CommonModule,
@@ -29,9 +29,9 @@ import { NetworkItem, NetworkItemsService } from '../../../../shared/services/ne
   templateUrl: './edit-network-item.component.html',
   styleUrls: ['./edit-network-item.component.scss']
 })
-export class EditNetworkItemComponent implements OnInit {
+export class EditNetworkContactComponent implements OnInit {
   private fb = inject(FormBuilder);
-  private networkItemsService = inject(NetworkItemsService);
+  private networkContactsService = inject(NetworkContactsService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -54,42 +54,42 @@ export class EditNetworkItemComponent implements OnInit {
     'Telegram'
   ];
 
-  private itemId?: string;
+  private contactId?: string;
 
   ngOnInit(): void {
-    this.itemId = this.route.snapshot.paramMap.get('id') || undefined;
-    if (this.itemId) {
-      this.networkItemsService.getItemById(this.itemId).subscribe({
-        next: (item) => {
+    this.contactId = this.route.snapshot.paramMap.get('id') || undefined;
+    if (this.contactId) {
+      this.networkContactsService.getContactById(this.contactId).subscribe({
+        next: (contact) => {
           this.form.patchValue({
-            ...item,
-            lastConnect: new Date(item.lastConnect)
+            ...contact,
+            lastConnect: new Date(contact.lastConnect)
           });
         },
         error: (error) => {
-          console.error('Error fetching network item:', error);
+          console.error('Error fetching network contact:', error);
         }
       });
     }
   }
 
   public onSubmit(): void {
-    if (this.form.valid && this.itemId) {
-      this.networkItemsService.updateItem(this.itemId, this.form.value)
+    if (this.form.valid && this.contactId) {
+      this.networkContactsService.updateContact(this.contactId, this.form.value)
         .subscribe({
           next: () => {
-            this.router.navigate(['/network/view', this.itemId]);
+            this.router.navigate(['/network/view', this.contactId]);
           },
           error: (error) => {
-            console.error('Error updating network item:', error);
+            console.error('Error updating network contact:', error);
           }
         });
     }
   }
 
   public onCancel(): void {
-    if (this.itemId) {
-      this.router.navigate(['/network/view', this.itemId]);
+    if (this.contactId) {
+      this.router.navigate(['/network/view', this.contactId]);
     }
   }
 }

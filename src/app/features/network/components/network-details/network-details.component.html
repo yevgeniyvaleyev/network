@@ -5,60 +5,60 @@
   <h2>Contact Details</h2>
 </div>
 
-@if (networkItem) {
+@if (contact) {
   <div class="details-container">
     <div class="detail-item">
       <label>Name</label>
-      <span>{{ networkItem.name }}</span>
+      <span>{{ contact.name }}</span>
     </div>
     
-    @if (networkItem.phoneNumber) {
+    @if (contact.phoneNumber) {
       <div class="detail-item">
         <label>Phone Number</label>
-        <span>{{ networkItem.phoneNumber }}</span>
+        <span>{{ contact.phoneNumber }}</span>
       </div>
     }
 
     <div class="detail-item">
       <label>Last Connect</label>
-      <span>{{ networkItem.lastConnect | date }}</span>
+      <span>{{ contact.lastConnect | date }}</span>
     </div>
 
-    @if (networkItem.jobTitle) {
+    @if (contact.jobTitle) {
       <div class="detail-item">
         <label>Job Title</label>
-        <span>{{ networkItem.jobTitle }}</span>
+        <span>{{ contact.jobTitle }}</span>
       </div>
     }
 
-    @if (networkItem.workedAt) {
+    @if (contact.workedAt) {
       <div class="detail-item">
         <label>Worked At</label>
-        <span>{{ networkItem.workedAt }}</span>
+        <span>{{ contact.workedAt }}</span>
       </div>
     }
 
-    @if (networkItem.preferredCommunicationChannel) {
+    @if (contact.preferredCommunicationChannel) {
       <div class="detail-item">
         <label>Preferred Communication Channel</label>
-        <span>{{ networkItem.preferredCommunicationChannel }}</span>
+        <span>{{ contact.preferredCommunicationChannel }}</span>
       </div>
     }
 
-    @if (networkItem.email) {
+    @if (contact.email) {
       <div class="detail-item">
         <label>Email</label>
-        <span>{{ networkItem.email }}</span>
+        <span>{{ contact.email }}</span>
       </div>
     }
 
     <div class="detail-item">
       <label>Reconnection Frequency</label>
-      <span>{{ networkItem.reconnectionFrequency }} days</span>
+      <span>{{ contact.reconnectionFrequency }} days</span>
     </div>
   </div>
 
-  <button mat-fab color="primary" class="edit-button" [routerLink]="['/network/edit', networkItem.id]">
+  <button mat-fab color="primary" class="edit-button" [routerLink]="['/network/edit', contact.id]">
     <mat-icon>edit</mat-icon>
   </button>
 } @else {

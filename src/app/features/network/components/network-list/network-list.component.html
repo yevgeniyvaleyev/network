@@ -1,17 +1,17 @@
-@if (!networkItems()) {
+@if (!contacts()) {
   <div class="spinner-container">
     <mat-spinner diameter="40"></mat-spinner>
   </div>
 } @else {
-  <mat-nav-list>
-    @for (item of networkItems(); track item.id) {
-      <a mat-list-item [routerLink]="['/network/view', item.id]">
-        {{ item.name }}
+  <mat-list>
+    @for (contact of contacts(); track contact.id) {
+      <a mat-list-item [routerLink]="['/network/view', contact.id]">
+        {{ contact.name }}
       </a>
     }
-  </mat-nav-list>
+  </mat-list>
 }
 
-<button mat-fab color="primary" class="fab-button" [routerLink]="['/network/create']">
-  <mat-icon>add</mat-icon> 
+<button mat-fab color="primary" class="create-button" routerLink="/network/create">
+  <mat-icon>add</mat-icon>
 </button>

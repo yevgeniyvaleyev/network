@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
-export interface NetworkItem {
+export interface NetworkContact {
   id: string;
   name: string;
   phoneNumber: string;
@@ -17,24 +17,24 @@ export interface NetworkItem {
 @Injectable({
   providedIn: 'root'
 })
-export class NetworkItemsService {
+export class NetworkContactsService {
   private http = inject(HttpClient);
-  private itemsUrl = '/api/items';
-  private itemUrl = '/api/item';
+  private contactsUrl = '/api/items';
+  private contactUrl = '/api/item';
 
-  public getItems(): Observable<NetworkItem[]> {
-    return this.http.get<NetworkItem[]>(this.itemsUrl);
+  public getContacts(): Observable<NetworkContact[]> {
+    return this.http.get<NetworkContact[]>(this.contactsUrl);
   }
 
-  public getItemById(id: string): Observable<NetworkItem> {
-    return this.http.get<NetworkItem>(`${this.itemUrl}/${id}`);
+  public getContactById(id: string): Observable<NetworkContact> {
+    return this.http.get<NetworkContact>(`${this.contactUrl}/${id}`);
   }
 
-  public createItem(item: NetworkItem): Observable<NetworkItem> {
-    return this.http.post<NetworkItem>(this.itemUrl, item);
+  public createContact(contact: NetworkContact): Observable<NetworkContact> {
+    return this.http.post<NetworkContact>(this.contactUrl, contact);
   }
 
-  public updateItem(id: string, item: Partial<NetworkItem>): Observable<NetworkItem> {
-    return this.http.put<NetworkItem>(`${this.itemUrl}/${id}`, item);
+  public updateContact(id: string, contact: Partial<NetworkContact>): Observable<NetworkContact> {
+    return this.http.put<NetworkContact>(`${this.contactUrl}/${id}`, contact);
   }
 }

@@ -1,19 +1,21 @@
 :host {
   display: block;
-  height: 100%;
+  padding: 16px;
+  padding-bottom: 96px; // Add extra padding at bottom to prevent FAB from overlapping content
+  min-height: calc(100vh - 128px); // Full viewport height minus toolbars
+  position: relative;
 }
 
 .spinner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  min-height: calc(100vh - 112px); // Subtract top and bottom toolbar heights
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.fab-button {
+.create-button {
   position: fixed;
-  bottom: 72px; // Above bottom toolbar
+  bottom: 72px; // Positioned above the bottom toolbar
   right: 24px;
   z-index: 100;
 }

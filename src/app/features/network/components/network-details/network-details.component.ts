@@ -3,7 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { NetworkItem, NetworkItemsService } from '../../../../shared/services/network-items.service';
+import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-items.service';
 
 @Component({
   selector: 'app-network-details',
@@ -19,20 +19,20 @@ import { NetworkItem, NetworkItemsService } from '../../../../shared/services/ne
 })
 export class NetworkDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
-  private networkItemsService = inject(NetworkItemsService);
+  private networkContactsService = inject(NetworkContactsService);
   private router = inject(Router);
 
-  public networkItem?: NetworkItem;
+  public contact?: NetworkContact;
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.networkItemsService.getItemById(id).subscribe({
-        next: (item) => {
-          this.networkItem = item;
+      this.networkContactsService.getContactById(id).subscribe({
+        next: (contact) => {
+          this.contact = contact;
         },
         error: (error) => {
-          console.error('Error fetching network item:', error);
+          console.error('Error fetching network contact:', error);
         }
       });
     }

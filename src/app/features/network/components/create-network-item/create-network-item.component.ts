@@ -9,10 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterModule } from '@angular/router';
-import { NetworkItemsService } from '../../../../shared/services/network-items.service';
+import { NetworkContactsService } from '../../../../shared/services/network-items.service';
 
 @Component({
-  selector: 'app-create-network-item',
+  selector: 'app-create-network-contact',
   standalone: true,
   imports: [
     CommonModule,
@@ -29,9 +29,9 @@ import { NetworkItemsService } from '../../../../shared/services/network-items.s
   templateUrl: './create-network-item.component.html',
   styleUrls: ['./create-network-item.component.scss']
 })
-export class CreateNetworkItemComponent {
+export class CreateNetworkContactComponent {
   private fb = inject(FormBuilder);
-  private networkItemsService = inject(NetworkItemsService);
+  private networkContactsService = inject(NetworkContactsService);
   private router = inject(Router);
 
   public form: FormGroup = this.fb.group({
@@ -55,13 +55,13 @@ export class CreateNetworkItemComponent {
 
   public onSubmit(): void {
     if (this.form.valid) {
-      this.networkItemsService.createItem(this.form.value)
+      this.networkContactsService.createContact(this.form.value)
         .subscribe({
           next: () => {
             this.router.navigate(['/network/list']);
           },
           error: (error) => {
-            console.error('Error creating network item:', error);
+            console.error('Error creating network contact:', error);
           }
         });
     }

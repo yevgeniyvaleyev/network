@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NetworkListComponent } from './components/network-list/network-list.component';
-import { CreateNetworkItemComponent } from './components/create-network-item/create-network-item.component';
+import { CreateNetworkContactComponent } from './components/create-network-item/create-network-item.component';
 import { NetworkDetailsComponent } from './components/network-details/network-details.component';
-import { EditNetworkItemComponent } from './components/edit-network-item/edit-network-item.component';
+import { EditNetworkContactComponent } from './components/edit-network-item/edit-network-item.component';
 
 const routes: Routes = [
   {
@@ -15,7 +15,7 @@ const routes: Routes = [
       },
       {
         path: 'create',
-        component: CreateNetworkItemComponent
+        component: CreateNetworkContactComponent
       },
       {
         path: 'view/:id',
@@ -23,7 +23,7 @@ const routes: Routes = [
       },
       {
         path: 'edit/:id',
-        component: EditNetworkItemComponent
+        component: EditNetworkContactComponent
       },
       {
         path: '',
