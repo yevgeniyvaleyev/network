@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterModule } from '@angular/router';
-import { NetworkContactsService } from '../../../../shared/services/network-items.service';
+import { NetworkContactsService } from '../../../../shared/services/network-contacts.service';
 
 @Component({
   selector: 'app-create-network-contact',
@@ -26,8 +26,8 @@ import { NetworkContactsService } from '../../../../shared/services/network-item
     MatNativeDateModule,
     MatSelectModule
   ],
-  templateUrl: './create-network-item.component.html',
-  styleUrls: ['./create-network-item.component.scss']
+  templateUrl: './create-network-contact.component.html',
+  styleUrls: ['./create-network-contact.component.scss']
 })
 export class CreateNetworkContactComponent {
   private fb = inject(FormBuilder);

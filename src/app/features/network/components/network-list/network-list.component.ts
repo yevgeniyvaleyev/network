@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
-import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-items.service';
+import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-contacts.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress-spinner';
 import { MatListModule, MatNavList } from '@angular/material/list';

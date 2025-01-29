@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-items.service';
+import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-contacts.service';
 
 @Component({
   selector: 'app-edit-network-contact',
@@ -26,8 +26,8 @@ import { NetworkContact, NetworkContactsService } from '../../../../shared/servi
     MatSelectModule,
     RouterModule
   ],
-  templateUrl: './edit-network-item.component.html',
-  styleUrls: ['./edit-network-item.component.scss']
+  templateUrl: './edit-network-contact.component.html',
+  styleUrls: ['./edit-network-contact.component.scss']
 })
 export class EditNetworkContactComponent implements OnInit {
   private fb = inject(FormBuilder);
