@@ -4,8 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { map } from 'rxjs';
-import { NoAccessScreenComponent } from '../../core/layout/no-access-screen/no-access-screen.component';
-import { AuthService } from '../../core/services/auth.service';
+import { NoAccessScreenComponent } from '../no-access-screen/no-access-screen.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-pending-access',

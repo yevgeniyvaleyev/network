@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { AuthGuardService } from './core/services/auth.guard.service';
-import { LoginComponent } from './features/login/login.component';
+import { LoginComponent } from './core/components/login/login.component';
 import { NetworkListComponent } from './features/network-list/network-list.component';
-import { PendingAccessComponent } from './features/pending-access/pending-access.component';
+import { PendingAccessComponent } from './core/layout/pending-access/pending-access.component';
 import { MainComponent } from './core/components/main/main.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 

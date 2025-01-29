@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component, inject, Signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatListItem, MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Observable } from 'rxjs';
+import { NetworkItemsService } from '../../shared/services/network-items.service';
 
 @Component({
   selector: 'app-network-list',
@@ -14,12 +13,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./network-list.component.scss'],
 })
 export class NetworkListComponent {
-  private http = inject(HttpClient);
-  private itemsUrl = '/api/items';
-
-  public items = toSignal(this.getItems());
-
-  private getItems(): Observable<string[]> {
-    return this.http.get(this.itemsUrl) as Observable<string[]>;
-  }
+  private networkItemsService = inject(NetworkItemsService);
+  public items = toSignal(this.networkItemsService.getItems());
 }
