@@ -1,3 +1,4 @@
+<app-main title="Network List" [config]="tabsConfig">
 @if (!contacts()) {
   <div class="spinner-container">
     <mat-spinner diameter="40"></mat-spinner>
@@ -14,4 +15,4 @@
 
 <button mat-fab color="primary" class="create-button" routerLink="/network/create">
   <mat-icon>add</mat-icon>
-</button>
+</button></app-main>

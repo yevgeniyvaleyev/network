@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { AuthGuardService } from './core/services/auth.guard.service';
 import { LoginComponent } from './core/components/login/login.component';
 import { PendingAccessComponent } from './core/layout/pending-access/pending-access.component';
-import { MainComponent } from './core/components/main/main.component';
+import { MainComponent } from './core/layout/main/main.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 
 export const routes: Routes = [
@@ -16,7 +16,6 @@ export const routes: Routes = [
   },
   {
     path: '',
-    component: MainComponent,
     canActivate: [AuthGuardService],
     children: [
       {

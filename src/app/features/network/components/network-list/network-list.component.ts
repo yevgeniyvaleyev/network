@@ -7,6 +7,8 @@ import { NetworkContact, NetworkContactsService } from '../../../../shared/servi
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress-spinner';
 import { MatListModule, MatNavList } from '@angular/material/list';
+import { MainComponent } from '../../../../core/layout/main/main.component';
+import { MainConfig } from '../../../../core/layout/main/main.types';
 
 @Component({
   selector: 'app-network-list',
@@ -17,7 +19,8 @@ import { MatListModule, MatNavList } from '@angular/material/list';
     MatIconModule,
     RouterModule,
     MatProgressSpinnerModule,
-    MatListModule
+    MatListModule,
+    MainComponent
   ],
   templateUrl: './network-list.component.html',
   styleUrls: ['./network-list.component.scss']
@@ -25,4 +28,19 @@ import { MatListModule, MatNavList } from '@angular/material/list';
 export class NetworkListComponent {
   private networkContactsService = inject(NetworkContactsService);
   public contacts = toSignal(this.networkContactsService.getContacts());
+
+  public tabsConfig: MainConfig = {
+    tabs: [
+      {
+        text: 'Network',
+        routerPath: '/network',
+        icon: 'hub'
+      },
+      {
+        text: 'Dashboard',
+        routerPath: '/dashboard',
+        icon: 'dashboard'
+      }
+    ]
+  }
 }
