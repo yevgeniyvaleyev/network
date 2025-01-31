@@ -1,11 +1,3 @@
-:host {
-  display: block;
-  padding: 16px;
-  padding-bottom: 96px; // Add extra padding at bottom to prevent FAB from overlapping content
-  min-height: calc(100vh - 128px); // Full viewport height minus toolbars
-  position: relative;
-}
-
 .spinner-container {
   position: absolute;
   top: 50%;

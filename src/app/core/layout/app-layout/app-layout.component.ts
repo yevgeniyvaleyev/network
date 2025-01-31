@@ -4,11 +4,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { MainConfig, MainTab } from './main.types';
+import { AppLayoutTab } from './app-layout.types';
 import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
-  selector: 'app-main',
+  selector: 'app-layout',
   standalone: true,
   imports: [
     CommonModule,
@@ -19,36 +19,35 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatButtonModule,
     MatTabsModule
   ],
-  templateUrl: './main.component.html',
-  styleUrl: './main.component.scss'
+  templateUrl: './app-layout.component.html',
+  styleUrl: './app-layout.component.scss'
 })
-export class MainComponent {
+export class AppLayoutComponent {
   public router = inject(Router);
 
-  @Input() title = '';
-  @Input() hasBackButton = false;
-  @Input() config?: MainConfig;
+
+  @Input() title?: string;
+  @Input() parentPath?: string;
+  @Input() config?: AppLayoutTab[];
   @Output() tabClick = new EventEmitter<string>();
 
   goBack(): void {
-    const currentUrl = this.router.url;
-    const urlParts = currentUrl.split('/').filter(part => part !== '');
-    urlParts.pop();
-    const parentUrl = `/${urlParts.join('/')}`;
-    this.router.navigate([parentUrl]);
+    if (this.parentPath) {
+      this.router.navigate([this.parentPath]);
+    }
   }
 
-  handleTabClick(tab: MainTab): void {
+  handleTabClick(tab: AppLayoutTab): void {
     if (tab.routerPath) {
       this.router.navigate([tab.routerPath]);
     } else {
-      this.tabClick.emit(tab.tabAlias);
+      this.tabClick.emit(tab.alias);
     }
   }
 
   getSelectedIndex(): number {
-    if (!this.config?.tabs) return 0;
-    return Math.max(0, this.config.tabs.findIndex(tab => 
+    if (!this.config) return 0;
+    return Math.max(0, this.config.findIndex((tab: AppLayoutTab) =>
       tab.routerPath && this.router.url.startsWith(tab.routerPath)
     ));
   }

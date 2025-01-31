@@ -1,18 +1,19 @@
-<app-main title="Network List" [config]="tabsConfig">
-@if (!contacts()) {
+<app-main-layout title="Network List">
+  @if (!contacts()) {
   <div class="spinner-container">
     <mat-spinner diameter="40"></mat-spinner>
   </div>
-} @else {
+  } @else {
   <mat-list>
     @for (contact of contacts(); track contact.id) {
-      <a mat-list-item [routerLink]="['/network/view', contact.id]">
-        {{ contact.name }}
-      </a>
+    <a mat-list-item [routerLink]="['/network/view', contact.id]">
+      {{ contact.name }}
+    </a>
     }
   </mat-list>
-}
+  }
 
-<button mat-fab color="primary" class="create-button" routerLink="/network/create">
-  <mat-icon>add</mat-icon>
-</button></app-main>
+  <button mat-fab color="primary" class="create-button" routerLink="/network/create">
+    <mat-icon>add</mat-icon>
+  </button>
+</app-main-layout>

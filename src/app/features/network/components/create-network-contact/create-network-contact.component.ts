@@ -10,6 +10,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterModule } from '@angular/router';
 import { NetworkContactsService } from '../../../../shared/services/network-contacts.service';
+import { AppLayoutComponent } from '../../../../core/layout/app-layout/app-layout.component';
+import { AppLayoutTab } from '../../../../core/layout/app-layout/app-layout.types';
 
 @Component({
   selector: 'app-create-network-contact',
@@ -23,7 +25,8 @@ import { NetworkContactsService } from '../../../../shared/services/network-cont
     RouterModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    AppLayoutComponent
   ],
   templateUrl: './create-network-contact.component.html',
   styleUrls: ['./create-network-contact.component.scss']
@@ -44,6 +47,18 @@ export class CreateNetworkContactComponent {
     reconnectionFrequency: [30, [Validators.required, Validators.min(1)]]
   });
 
+  public tabsConfig: AppLayoutTab[] = [
+    {
+      alias: 'create',
+      icon: 'save',
+      disabled: !this.form.valid
+    },
+    {
+      alias: 'cancel',
+      icon: 'cancel'
+    }
+  ]
+
   public communicationChannels = [
     'Email',
     'Phone',
@@ -51,6 +66,12 @@ export class CreateNetworkContactComponent {
     'WhatsApp',
     'Telegram'
   ];
+
+  constructor() {
+    this.form.statusChanges.subscribe(() => {
+      this.tabsConfig[0].disabled = !this.form.valid;
+    })
+  }
 
   public onSubmit(): void {
     if (this.form.valid) {
@@ -63,6 +84,14 @@ export class CreateNetworkContactComponent {
             console.error('Error creating network contact:', error);
           }
         });
+    }
+  }
+
+  public onTabClick(alias: string): void {
+    if (alias === 'cancel') {
+      this.router.navigate(['/network/list']);
+    } else if (alias === 'create') {
+      this.onSubmit();
     }
   }
 }

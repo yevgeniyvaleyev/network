@@ -10,6 +10,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-contacts.service';
+import { AppLayoutTab } from '../../../../core/layout/app-layout/app-layout.types';
+import { AppLayoutComponent } from '../../../../core/layout/app-layout/app-layout.component';
 
 @Component({
   selector: 'app-edit-network-contact',
@@ -23,7 +25,8 @@ import { NetworkContact, NetworkContactsService } from '../../../../shared/servi
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    RouterModule
+    RouterModule,
+    AppLayoutComponent
   ],
   templateUrl: './edit-network-contact.component.html',
   styleUrls: ['./edit-network-contact.component.scss']
@@ -45,6 +48,17 @@ export class EditNetworkContactComponent implements OnInit {
     reconnectionFrequency: [30, [Validators.required, Validators.min(1)]]
   });
 
+  public tabsConfig: AppLayoutTab[] = [
+    {
+      alias: 'save',
+      icon: 'save'
+    },
+    {
+      alias: 'cancel',
+      icon: 'cancel'
+    }
+  ]
+
   public communicationChannels = [
     'Email',
     'Phone',
@@ -53,10 +67,13 @@ export class EditNetworkContactComponent implements OnInit {
     'Telegram'
   ];
 
+  public parentPath?: string;
+
   private contactId?: string;
 
   ngOnInit(): void {
     this.contactId = this.route.snapshot.paramMap.get('id') || undefined;
+    this.parentPath = `/network/view/${this.contactId}`;
     if (this.contactId) {
       this.networkContactsService.getContactById(this.contactId).subscribe({
         next: (contact) => {
@@ -89,6 +106,14 @@ export class EditNetworkContactComponent implements OnInit {
   public onCancel(): void {
     if (this.contactId) {
       this.router.navigate(['/network/view', this.contactId]);
+    }
+  }
+
+  public onTabClick(alias: string): void {
+    if (alias === 'save') {
+      this.onSubmit();
+    } else if (alias === 'cancel') {
+      this.onCancel();
     }
   }
 }

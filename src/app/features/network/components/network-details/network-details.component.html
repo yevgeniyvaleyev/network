@@ -1,22 +1,16 @@
-<div class="header">
-  <button mat-icon-button (click)="goBack()">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
-  <h2>Contact Details</h2>
-</div>
-
-@if (contact) {
+<app-layout title="Contact Details" parentPath="/network" [config]="tabsConfig" (tabClick)="onTabClick($event)">
+  @if (contact) {
   <div class="details-container">
     <div class="detail-item">
       <label>Name</label>
       <span>{{ contact.name }}</span>
     </div>
-    
+
     @if (contact.phoneNumber) {
-      <div class="detail-item">
-        <label>Phone Number</label>
-        <span>{{ contact.phoneNumber }}</span>
-      </div>
+    <div class="detail-item">
+      <label>Phone Number</label>
+      <span>{{ contact.phoneNumber }}</span>
+    </div>
     }
 
     <div class="detail-item">
@@ -25,31 +19,31 @@
     </div>
 
     @if (contact.jobTitle) {
-      <div class="detail-item">
-        <label>Job Title</label>
-        <span>{{ contact.jobTitle }}</span>
-      </div>
+    <div class="detail-item">
+      <label>Job Title</label>
+      <span>{{ contact.jobTitle }}</span>
+    </div>
     }
 
     @if (contact.workedAt) {
-      <div class="detail-item">
-        <label>Worked At</label>
-        <span>{{ contact.workedAt }}</span>
-      </div>
+    <div class="detail-item">
+      <label>Worked At</label>
+      <span>{{ contact.workedAt }}</span>
+    </div>
     }
 
     @if (contact.preferredCommunicationChannel) {
-      <div class="detail-item">
-        <label>Preferred Communication Channel</label>
-        <span>{{ contact.preferredCommunicationChannel }}</span>
-      </div>
+    <div class="detail-item">
+      <label>Preferred Communication Channel</label>
+      <span>{{ contact.preferredCommunicationChannel }}</span>
+    </div>
     }
 
     @if (contact.email) {
-      <div class="detail-item">
-        <label>Email</label>
-        <span>{{ contact.email }}</span>
-      </div>
+    <div class="detail-item">
+      <label>Email</label>
+      <span>{{ contact.email }}</span>
+    </div>
     }
 
     <div class="detail-item">
@@ -58,9 +52,7 @@
     </div>
   </div>
 
-  <button mat-fab color="primary" class="edit-button" [routerLink]="['/network/edit', contact.id]">
-    <mat-icon>edit</mat-icon>
-  </button>
-} @else {
+  } @else {
   <div class="loading">Loading...</div>
-}
+  }
+</app-layout>

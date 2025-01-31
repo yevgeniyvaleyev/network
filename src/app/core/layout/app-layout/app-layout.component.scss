@@ -71,7 +71,7 @@ mat-sidenav-content {
     padding: 0;
     height: auto;
     box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.1);
-    
+
     nav {
       width: 100%;
     }
@@ -89,13 +89,13 @@ mat-sidenav-content {
 
 .content-container {
   position: absolute;
-  top: 64px;
+  top: 57px;
   bottom: 72px;
   left: 0;
   right: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 16px;
+  padding: 20px;
 }
 
 .bottom-nav {
@@ -127,12 +127,12 @@ button.active {
   .app-toolbar {
     position: fixed;
     width: 100%;
-    
+
     &.bottom-toolbar {
       bottom: 0;
     }
   }
-  
+
   .content-container {
     margin-top: 56px;
     margin-bottom: 56px;
@@ -176,7 +176,7 @@ button.active {
     &.mat-tab-label-active {
       opacity: 1;
       color: var(--mat-tab-header-active-label-text-color);
-      
+
       mat-icon {
         color: var(--mat-tab-header-active-label-text-color);
       }
