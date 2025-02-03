@@ -37,4 +37,8 @@ export class NetworkContactsService {
   public updateContact(id: string, contact: Partial<NetworkContact>): Observable<NetworkContact> {
     return this.http.put<NetworkContact>(`${this.contactUrl}/${id}`, contact);
   }
+
+  public deleteContact(id: string): Observable<any> {
+    return this.http.delete(`${this.contactUrl}/${id}`);
+  }
 }

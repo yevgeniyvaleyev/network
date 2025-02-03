@@ -3,7 +3,7 @@ const { getCurrentUser } = require("../auth/auth");
 const { getDatabase } = require("../db/db");
 
 app.http("item", {
-  methods: ["POST", "GET", "PUT"],
+  methods: ["POST", "GET", "PUT", "DELETE"],
   authLevel: "anonymous",
   route: "item/{id?}",
   handler: async (request, context) => {
@@ -18,7 +18,7 @@ app.http("item", {
     // GET request - fetch item by ID
     if (request.method === "GET") {
       const id = request.params.id;
-      
+
       if (!id) {
         return {
           status: 400,
@@ -54,7 +54,7 @@ app.http("item", {
         };
       } catch (error) {
         context.log.error('Error fetching network item:', error);
-        
+
         return {
           status: 500,
           headers: {
@@ -68,7 +68,7 @@ app.http("item", {
     // PUT request - update item
     if (request.method === "PUT") {
       const id = request.params.id;
-      
+
       if (!id) {
         return {
           status: 400,
@@ -80,7 +80,7 @@ app.http("item", {
       }
 
       const updateData = await request.json();
-      
+
       // Ensure lastConnect is a Date object if provided
       if (updateData.lastConnect) {
         updateData.lastConnect = new Date(updateData.lastConnect);
@@ -117,7 +117,7 @@ app.http("item", {
         };
       } catch (error) {
         context.log.error('Error updating network item:', error);
-        
+
         return {
           status: 500,
           headers: {
@@ -130,15 +130,15 @@ app.http("item", {
 
     // POST request - create new item
     if (request.method === "POST") {
-      const { 
-        name, 
-        phoneNumber, 
-        lastConnect, 
-        jobTitle, 
-        workedAt, 
-        preferredCommunicationChannel, 
-        email, 
-        reconnectionFrequency 
+      const {
+        name,
+        phoneNumber,
+        lastConnect,
+        jobTitle,
+        workedAt,
+        preferredCommunicationChannel,
+        email,
+        reconnectionFrequency
       } = await request.json();
 
       // Validate required fields
@@ -178,13 +178,63 @@ app.http("item", {
         };
       } catch (error) {
         context.log.error('Error creating network item:', error);
-        
+
         return {
           status: 500,
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ error: "Failed to create network item" })
+        };
+      }
+    }
+
+    // DELETE request - delete item
+    if (request.method === "DELETE") {
+      const id = request.params.id;
+
+      if (!id) {
+        return {
+          status: 400,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ error: "Item ID is required" })
+        };
+      }
+
+      try {
+        const result = await db.collection("network-list").findOneAndDelete({
+          id,
+          userId: currentUser.name
+        });
+
+        if (!result) {
+          return {
+            status: 404,
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ error: "Item not found" })
+          };
+        }
+
+        return {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: "Item deleted successfully" })
+        };
+      } catch (error) {
+        context.log.error('Error deleting network item:', error);
+
+        return {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ error: "Failed to delete network item" })
         };
       }
     }

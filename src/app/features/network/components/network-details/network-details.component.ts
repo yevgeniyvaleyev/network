@@ -6,6 +6,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-contacts.service';
 import { AppLayoutComponent } from '../../../../core/layout/app-layout/app-layout.component';
 import { AppLayoutTab } from '../../../../core/layout/app-layout/app-layout.types';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-network-details',
@@ -15,7 +17,8 @@ import { AppLayoutTab } from '../../../../core/layout/app-layout/app-layout.type
     MatButtonModule,
     MatIconModule,
     RouterModule,
-    AppLayoutComponent
+    AppLayoutComponent,
+    ConfirmationDialogComponent
   ],
   templateUrl: './network-details.component.html',
   styleUrls: ['./network-details.component.scss']
@@ -24,6 +27,7 @@ export class NetworkDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private networkContactsService = inject(NetworkContactsService);
   private router = inject(Router);
+  private dialog = inject(MatDialog);
 
   public contact?: NetworkContact;
 
@@ -31,6 +35,10 @@ export class NetworkDetailsComponent implements OnInit {
     {
       alias: 'edit',
       icon: 'edit'
+    },
+    {
+      alias: 'delete',
+      icon: 'delete'
     }
   ]
 
@@ -55,6 +63,31 @@ export class NetworkDetailsComponent implements OnInit {
   public onTabClick(alias: string): void {
     if (alias === 'edit') {
       this.router.navigate(['/network/edit', this.contact?.id]);
+    } else if (alias === 'delete') {
+      this.openDeleteConfirmationDialog();
+    }
+  }
+
+  public openDeleteConfirmationDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Delete Network Contact',
+        message: 'Are you sure you want to delete this network contact?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.onDeleteConfirm();
+      }
+    });
+  }
+
+  public onDeleteConfirm(): void {
+    if (this.contact) {
+      this.networkContactsService.deleteContact(this.contact.id).subscribe(() => {
+        this.router.navigate(['/network/list']);
+      });
     }
   }
 }

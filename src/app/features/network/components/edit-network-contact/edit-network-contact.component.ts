@@ -51,7 +51,8 @@ export class EditNetworkContactComponent implements OnInit {
   public tabsConfig: AppLayoutTab[] = [
     {
       alias: 'save',
-      icon: 'save'
+      icon: 'save',
+      disabled: !this.form.valid
     },
     {
       alias: 'cancel',
@@ -70,6 +71,12 @@ export class EditNetworkContactComponent implements OnInit {
   public parentPath?: string;
 
   private contactId?: string;
+
+  constructor() {
+    this.form.statusChanges.subscribe(() => {
+      this.tabsConfig[0].disabled = !this.form.valid;
+    });
+  }
 
   ngOnInit(): void {
     this.contactId = this.route.snapshot.paramMap.get('id') || undefined;
