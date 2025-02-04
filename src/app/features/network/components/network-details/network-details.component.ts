@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-contacts.service';
 import { AppLayoutComponent } from '../../../../core/layout/app-layout/app-layout.component';
 import { AppLayoutTab } from '../../../../core/layout/app-layout/app-layout.types';
-import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
-import { MatCardModule } from '@angular/material/card';
+import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-contacts.service';
 
 @Component({
   selector: 'app-network-details',
@@ -19,7 +20,8 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     RouterModule,
     MatCardModule,
-    AppLayoutComponent
+    AppLayoutComponent,
+    MatProgressSpinnerModule
   ],
   templateUrl: './network-details.component.html',
   styleUrls: ['./network-details.component.scss']
@@ -73,6 +75,76 @@ export class NetworkDetailsComponent implements OnInit {
     } else if (alias === 'reconnect') {
       this.openReconnectConfirmationDialog();
     }
+  }
+
+  public onCommunicationMethodClick(): void {
+    if (!this.contact?.preferredCommunicationChannel) return;
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Open Communication App',
+        message: `Do you want to open ${this.contact.preferredCommunicationChannel}?`,
+        okButtonText: 'Open',
+        cancelButtonText: 'Cancel'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && this.contact?.preferredCommunicationChannel) {
+        window.open(this.getAppUrl(this.contact.preferredCommunicationChannel), '_blank');
+      }
+    });
+  }
+
+  public onPhoneClick(): void {
+    if (!this.contact?.phoneNumber) return;
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Make a Call',
+        message: `Do you want to call ${this.contact.name} at ${this.contact.phoneNumber}?`,
+        okButtonText: 'Call',
+        cancelButtonText: 'Cancel'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && this.contact?.phoneNumber) {
+        window.open(`tel:${this.contact.phoneNumber}`, '_blank');
+      }
+    });
+  }
+
+  public onEmailClick(): void {
+    if (!this.contact?.email) return;
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Send Email',
+        message: `Do you want to send an email to ${this.contact.name} at ${this.contact.email}?`,
+        okButtonText: 'Open Email',
+        cancelButtonText: 'Cancel'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && this.contact?.email) {
+        window.open(`mailto:${this.contact.email}`, '_blank');
+      }
+    });
+  }
+
+  private getAppUrl(app: string): string {
+    const appUrls: { [key: string]: string } = {
+      'Skype': 'skype:',
+      'WhatsApp': 'https://wa.me/',
+      'Telegram': 'tg://',
+      'Slack': 'slack://',
+      'Teams': 'msteams:/',
+      'Zoom': 'zoommtg://'
+    };
+
+    return appUrls[app] || '';
   }
 
   private openDeleteConfirmationDialog(): void {

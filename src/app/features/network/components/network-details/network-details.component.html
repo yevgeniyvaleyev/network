@@ -12,7 +12,7 @@
         </div>
 
         @if (contact.phoneNumber) {
-        <div class="detail-item">
+        <div class="detail-item clickable" (click)="onPhoneClick()">
           <label>
             <mat-icon>phone</mat-icon>
             Phone Number
@@ -50,7 +50,7 @@
         }
 
         @if (contact.preferredCommunicationChannel) {
-        <div class="detail-item">
+        <div class="detail-item clickable" (click)="onCommunicationMethodClick()">
           <label>
             <mat-icon>chat</mat-icon>
             Preferred Communication Channel
@@ -60,7 +60,7 @@
         }
 
         @if (contact.email) {
-        <div class="detail-item">
+        <div class="detail-item clickable" (click)="onEmailClick()">
           <label>
             <mat-icon>email</mat-icon>
             Email
@@ -82,6 +82,8 @@
   }
 
   @else {
-  <div class="loading">Loading...</div>
+  <div class="spinner-container">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
   }
 </app-layout>
