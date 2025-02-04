@@ -24,9 +24,9 @@
         <div class="detail-item">
           <label>
             <mat-icon>update</mat-icon>
-            Last Connect
+            Connection Status
           </label>
-          <span>{{ contact.lastConnect | date }}</span>
+          <app-reconnection-status [networkContact]="contact"></app-reconnection-status>
         </div>
 
         @if (contact.jobTitle) {

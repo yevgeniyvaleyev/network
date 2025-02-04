@@ -9,7 +9,9 @@
     <a mat-list-item [routerLink]="['/network/view', contact.id]">
       <mat-icon matListItemIcon>person</mat-icon>
       <div matListItemTitle>{{ contact.name }}</div>
-      <div matListItemLine>Last connect: {{ contact.lastConnect | date }}</div>
+      <div matListItemLine>
+        <app-reconnection-status [networkContact]="contact"></app-reconnection-status>
+      </div>
       <mat-icon matListItemMeta>chevron_right</mat-icon>
     </a>
     }

@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { AppLayoutTab } from '../../../../core/layout/app-layout/app-layout.types';
 import { AppMainLayoutComponent } from '../../../../core/layout/app-main-layout/app-main-layout.component';
 import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-contacts.service';
+import { ReconnectionStatusComponent } from '../../../../shared/components/reconnection-status/reconnection-status.component';
 
 @Component({
   selector: 'app-network-list',
@@ -20,7 +21,8 @@ import { NetworkContact, NetworkContactsService } from '../../../../shared/servi
     RouterModule,
     MatProgressSpinnerModule,
     MatListModule,
-    AppMainLayoutComponent
+    AppMainLayoutComponent,
+    ReconnectionStatusComponent
   ],
   templateUrl: './network-list.component.html',
   styleUrls: ['./network-list.component.scss']

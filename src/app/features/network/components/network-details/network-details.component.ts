@@ -10,6 +10,7 @@ import { AppLayoutComponent } from '../../../../core/layout/app-layout/app-layou
 import { AppLayoutTab } from '../../../../core/layout/app-layout/app-layout.types';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-contacts.service';
+import { ReconnectionStatusComponent } from '../../../../shared/components/reconnection-status/reconnection-status.component';
 
 @Component({
   selector: 'app-network-details',
@@ -21,7 +22,8 @@ import { NetworkContact, NetworkContactsService } from '../../../../shared/servi
     RouterModule,
     MatCardModule,
     AppLayoutComponent,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    ReconnectionStatusComponent
   ],
   templateUrl: './network-details.component.html',
   styleUrls: ['./network-details.component.scss']
