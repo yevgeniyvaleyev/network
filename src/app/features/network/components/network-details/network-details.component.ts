@@ -11,6 +11,7 @@ import { AppLayoutTab } from '../../../../core/layout/app-layout/app-layout.type
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-contacts.service';
 import { ReconnectionStatusComponent } from '../../../../shared/components/reconnection-status/reconnection-status.component';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-network-details',
@@ -21,9 +22,11 @@ import { ReconnectionStatusComponent } from '../../../../shared/components/recon
     MatIconModule,
     RouterModule,
     MatCardModule,
+    MatListModule,
     AppLayoutComponent,
     MatProgressSpinnerModule,
-    ReconnectionStatusComponent
+    ReconnectionStatusComponent,
+    ConfirmationDialogComponent
   ],
   templateUrl: './network-details.component.html',
   styleUrls: ['./network-details.component.scss']
