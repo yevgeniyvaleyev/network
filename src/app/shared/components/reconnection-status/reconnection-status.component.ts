@@ -26,11 +26,11 @@ export class ReconnectionStatusComponent {
     const daysToNextConnect = Math.ceil((nextConnect.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 
     if (daysToNextConnect < 0) {
-      return `Last connect: ${lastConnect.toLocaleDateString()}, overdue ${Math.abs(daysToNextConnect)} days`;
+      return `Last: ${lastConnect.toLocaleDateString()}, overdue ${Math.abs(daysToNextConnect)} days`;
     } else if (daysToNextConnect === 0) {
-      return `Last connect: ${lastConnect.toLocaleDateString()}, reconnect today`;
+      return `Last: ${lastConnect.toLocaleDateString()}, reconnect today`;
     } else {
-      return `Last connect: ${lastConnect.toLocaleDateString()}, ${daysToNextConnect} days until next`;
+      return `Last: ${lastConnect.toLocaleDateString()}, ${daysToNextConnect} days until next`;
     }
   });
 }
