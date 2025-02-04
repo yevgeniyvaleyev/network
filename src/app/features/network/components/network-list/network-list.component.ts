@@ -8,7 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
 import { AppLayoutTab } from '../../../../core/layout/app-layout/app-layout.types';
 import { AppMainLayoutComponent } from '../../../../core/layout/app-main-layout/app-main-layout.component';
-import { NetworkContactsService } from '../../../../shared/services/network-contacts.service';
+import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-contacts.service';
 
 @Component({
   selector: 'app-network-list',
@@ -28,6 +28,4 @@ import { NetworkContactsService } from '../../../../shared/services/network-cont
 export class NetworkListComponent {
   private networkContactsService = inject(NetworkContactsService);
   public contacts = toSignal(this.networkContactsService.getContacts());
-
-
 }

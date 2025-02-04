@@ -1,0 +1,12 @@
+<app-main-layout title="Settings">
+  <mat-nav-list>
+    @for (item of navigationItems; track item.path) {
+    <a mat-list-item [routerLink]="item.path" routerLinkActive="active">
+      <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+      <span>{{ item.label }}</span>
+    </a>
+    }
+  </mat-nav-list>
+
+  <router-outlet></router-outlet>
+</app-main-layout>

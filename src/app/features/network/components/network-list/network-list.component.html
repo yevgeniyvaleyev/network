@@ -4,13 +4,16 @@
     <mat-spinner diameter="40"></mat-spinner>
   </div>
   } @else {
-  <mat-list>
+  <mat-nav-list>
     @for (contact of contacts(); track contact.id) {
     <a mat-list-item [routerLink]="['/network/view', contact.id]">
-      {{ contact.name }}
+      <mat-icon matListItemIcon>person</mat-icon>
+      <div matListItemTitle>{{ contact.name }}</div>
+      <div matListItemLine>Last connect: {{ contact.lastConnect | date }}</div>
+      <mat-icon matListItemMeta>chevron_right</mat-icon>
     </a>
     }
-  </mat-list>
+  </mat-nav-list>
   }
 
   <button mat-fab color="primary" class="create-button" routerLink="/network/create">

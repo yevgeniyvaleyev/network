@@ -1,0 +1,13 @@
+:host {
+  display: block;
+}
+
+mat-nav-list {
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 8px 0;
+}
+
+.active {
+  background: rgba(0, 0, 0, 0.04);
+}

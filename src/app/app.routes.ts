@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
-import { AuthGuardService } from './core/services/auth.guard.service';
 import { LoginComponent } from './core/components/login/login.component';
 import { PendingAccessComponent } from './core/layout/pending-access/pending-access.component';
-import { AppLayoutComponent } from './core/layout/app-layout/app-layout.component';
+import { AuthGuardService } from './core/services/auth.guard.service';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 
 export const routes: Routes = [
@@ -25,6 +24,10 @@ export const routes: Routes = [
       {
         path: 'network',
         loadChildren: () => import('./features/network/network.module').then(m => m.NetworkModule)
+      },
+      {
+        path: 'settings',
+        loadChildren: () => import('./features/settings/settings.module').then(m => m.SettingsModule)
       },
       {
         path: '',

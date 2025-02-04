@@ -22,6 +22,10 @@ export class AppMainLayoutComponent {
     {
       routerPath: '/dashboard',
       icon: 'dashboard'
+    },
+    {
+      routerPath: '/settings',
+      icon: 'settings',
     }
   ]
 
