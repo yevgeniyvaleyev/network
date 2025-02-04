@@ -8,6 +8,7 @@ import { AppLayoutComponent } from '../../../../core/layout/app-layout/app-layou
 import { AppLayoutTab } from '../../../../core/layout/app-layout/app-layout.types';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-network-details',
@@ -17,8 +18,8 @@ import { ConfirmationDialogComponent } from '../../../../shared/components/confi
     MatButtonModule,
     MatIconModule,
     RouterModule,
-    AppLayoutComponent,
-    ConfirmationDialogComponent
+    MatCardModule,
+    AppLayoutComponent
   ],
   templateUrl: './network-details.component.html',
   styleUrls: ['./network-details.component.scss']
@@ -33,12 +34,16 @@ export class NetworkDetailsComponent implements OnInit {
 
   public tabsConfig: AppLayoutTab[] = [
     {
-      alias: 'edit',
-      icon: 'edit'
+      alias: 'reconnect',
+      icon: 'check_circle'
     },
     {
       alias: 'delete',
       icon: 'delete'
+    },
+    {
+      alias: 'edit',
+      icon: 'edit'
     }
   ]
 
@@ -65,14 +70,18 @@ export class NetworkDetailsComponent implements OnInit {
       this.router.navigate(['/network/edit', this.contact?.id]);
     } else if (alias === 'delete') {
       this.openDeleteConfirmationDialog();
+    } else if (alias === 'reconnect') {
+      this.openReconnectConfirmationDialog();
     }
   }
 
-  public openDeleteConfirmationDialog(): void {
+  private openDeleteConfirmationDialog(): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
-        title: 'Delete Network Contact',
-        message: 'Are you sure you want to delete this network contact?'
+        title: 'Delete Contact',
+        message: 'Are you sure you want to delete this contact?',
+        okButtonText: 'Delete',
+        cancelButtonText: 'Cancel'
       }
     });
 
@@ -83,7 +92,42 @@ export class NetworkDetailsComponent implements OnInit {
     });
   }
 
-  public onDeleteConfirm(): void {
+  private openReconnectConfirmationDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Mark as Reconnected',
+        message: 'Do you want to mark this contact as reconnected today?',
+        okButtonText: 'Yes',
+        cancelButtonText: 'No'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.onReconnectConfirm();
+      }
+    });
+  }
+
+  private onReconnectConfirm(): void {
+    if (this.contact) {
+      const updatedContact: Partial<NetworkContact> = {
+        ...this.contact,
+        lastConnect: new Date()
+      };
+
+      console.log(1)
+      this.networkContactsService.updateContact(this.contact!.id, updatedContact).subscribe(() => {
+        console.log(2)
+        // Refresh the contact data
+        this.networkContactsService.getContactById(this.contact!.id).subscribe(contact => {
+          this.contact = contact;
+        });
+      });
+    }
+  }
+
+  private onDeleteConfirm(): void {
     if (this.contact) {
       this.networkContactsService.deleteContact(this.contact.id).subscribe(() => {
         this.router.navigate(['/network/list']);

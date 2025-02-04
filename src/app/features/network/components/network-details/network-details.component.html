@@ -1,80 +1,84 @@
 <app-layout title="Contact Details" parentPath="/network" [config]="tabsConfig" (tabClick)="onTabClick($event)">
   @if (contact) {
-  <div class="details-container">
-    <div class="detail-item">
-      <label>
-        <mat-icon>person</mat-icon>
-        Name
-      </label>
-      <span>{{ contact.name }}</span>
-    </div>
+  <mat-card>
+    <mat-card-content>
+      <div class="details-container">
+        <div class="detail-item">
+          <label>
+            <mat-icon>person</mat-icon>
+            Name
+          </label>
+          <span>{{ contact.name }}</span>
+        </div>
 
-    @if (contact.phoneNumber) {
-    <div class="detail-item">
-      <label>
-        <mat-icon>phone</mat-icon>
-        Phone Number
-      </label>
-      <span>{{ contact.phoneNumber }}</span>
-    </div>
-    }
+        @if (contact.phoneNumber) {
+        <div class="detail-item">
+          <label>
+            <mat-icon>phone</mat-icon>
+            Phone Number
+          </label>
+          <span>{{ contact.phoneNumber }}</span>
+        </div>
+        }
 
-    <div class="detail-item">
-      <label>
-        <mat-icon>update</mat-icon>
-        Last Connect
-      </label>
-      <span>{{ contact.lastConnect | date }}</span>
-    </div>
+        <div class="detail-item">
+          <label>
+            <mat-icon>update</mat-icon>
+            Last Connect
+          </label>
+          <span>{{ contact.lastConnect | date }}</span>
+        </div>
 
-    @if (contact.jobTitle) {
-    <div class="detail-item">
-      <label>
-        <mat-icon>work</mat-icon>
-        Job Title
-      </label>
-      <span>{{ contact.jobTitle }}</span>
-    </div>
-    }
+        @if (contact.jobTitle) {
+        <div class="detail-item">
+          <label>
+            <mat-icon>work</mat-icon>
+            Job Title
+          </label>
+          <span>{{ contact.jobTitle }}</span>
+        </div>
+        }
 
-    @if (contact.workedAt) {
-    <div class="detail-item">
-      <label>
-        <mat-icon>business</mat-icon>
-        Worked At
-      </label>
-      <span>{{ contact.workedAt }}</span>
-    </div>
-    }
+        @if (contact.workedAt) {
+        <div class="detail-item">
+          <label>
+            <mat-icon>business</mat-icon>
+            Worked At
+          </label>
+          <span>{{ contact.workedAt }}</span>
+        </div>
+        }
 
-    @if (contact.preferredCommunicationChannel) {
-    <div class="detail-item">
-      <label>
-        <mat-icon>chat</mat-icon>
-        Preferred Communication Channel
-      </label>
-      <span>{{ contact.preferredCommunicationChannel }}</span>
-    </div>
-    }
+        @if (contact.preferredCommunicationChannel) {
+        <div class="detail-item">
+          <label>
+            <mat-icon>chat</mat-icon>
+            Preferred Communication Channel
+          </label>
+          <span>{{ contact.preferredCommunicationChannel }}</span>
+        </div>
+        }
 
-    @if (contact.email) {
-    <div class="detail-item">
-      <label>
-        <mat-icon>email</mat-icon>
-        Email
-      </label>
-      <span>{{ contact.email }}</span>
-    </div>
-    }
+        @if (contact.email) {
+        <div class="detail-item">
+          <label>
+            <mat-icon>email</mat-icon>
+            Email
+          </label>
+          <span>{{ contact.email }}</span>
+        </div>
+        }
 
-    <div class="detail-item">
-      <label>
-        <mat-icon>schedule</mat-icon>
-        Reconnection Frequency
-      </label>
-      <span>{{ contact.reconnectionFrequency }} days</span>
-    </div>
-  </div>
+        <div class="detail-item">
+          <label>
+            <mat-icon>schedule</mat-icon>
+            Reconnection Frequency
+          </label>
+          <span>{{ contact.reconnectionFrequency }} days</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
   }
 
   @else {

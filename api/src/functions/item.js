@@ -30,10 +30,19 @@ app.http("item", {
       }
 
       try {
-        const networkItem = await db.collection("network-list").findOne({
-          id,
-          userId: currentUser.name
-        });
+        const networkItem = await db.collection("network-list").findOne(
+          {
+            id,
+            userId: currentUser.name
+          },
+          {
+            projection: {
+              _id: 0,
+              createdAt: 0,
+              updatedAt: 0
+            }
+          }
+        )
 
         if (!networkItem) {
           return {
@@ -116,7 +125,7 @@ app.http("item", {
           body: JSON.stringify(result.value)
         };
       } catch (error) {
-        context.log.error('Error updating network item:', error);
+        context.error('Error updating network item:', error);
 
         return {
           status: 500,

@@ -1,0 +1,22 @@
+mat-card {
+  margin: 0;
+  background-color: #f5f5f5;
+}
+
+a[mat-list-item] {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+}
+
+[matListItemTitle] {
+  font-weight: 500;
+}
+
+[matListItemLine] {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+}
