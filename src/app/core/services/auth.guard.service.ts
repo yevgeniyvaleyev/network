@@ -1,24 +1,25 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, map, tap } from 'rxjs';
-import { AuthService } from './auth.service';
+import { AuthStore } from '../../store/auth.store';
+import { effect } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuardService {
-  private authService = inject(AuthService);
+  private authStore = inject(AuthStore);
   private router = inject(Router);
 
-  public canActivate(): Observable<boolean> {
-    // TODO: change to signal store
-    return this.authService.getCurrentUser().pipe(
-      tap(({ authenticated, hasAccess }) => {
-        if (!authenticated) this.router.navigate(['/login']);
-        if (!hasAccess && authenticated)
-          this.router.navigate(['/pending-access']);
-      }),
-      map(({ hasAccess }) => hasAccess),
-    );
+
+  public async canActivate(): Promise<boolean> {
+    await this.authStore.loadCurrentUser();
+
+    if (!this.authStore.isAuthenticated()) {
+      this.router.navigate(['/login']);
+    } else if (!this.authStore.hasAccess() && this.authStore.isAuthenticated()) {
+      this.router.navigate(['/pending-access']);
+    }
+
+    return this.authStore.hasAccess();
   }
 }

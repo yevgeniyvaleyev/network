@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { map } from 'rxjs';
 import { NoAccessScreenComponent } from '../no-access-screen/no-access-screen.component';
-import { AuthService } from '../../services/auth.service';
+import { AuthStore } from '../../../store/auth.store';
+import { computed } from '@angular/core';
 
 @Component({
   selector: 'app-pending-access',
@@ -20,13 +19,11 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './pending-access.component.scss',
 })
 export class PendingAccessComponent {
-  private authService = inject(AuthService);
+  private authStore = inject(AuthStore);
 
-  public userName = toSignal(
-    this.authService.getCurrentUser().pipe(map((data) => data.name)),
-  );
+  readonly userName = computed(() => this.authStore.currentUser()?.name);
 
   logout(): void {
-    this.authService.navigateToLogout();
+    this.authStore.navigateToLogout();
   }
 }

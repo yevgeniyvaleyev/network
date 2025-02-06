@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { AuthService } from '../../services/auth.service';
 import { NoAccessScreenComponent } from '../../layout/no-access-screen/no-access-screen.component';
+import { AuthStore } from '../../../store/auth.store';
 
 @Component({
   selector: 'app-login',
@@ -15,12 +15,12 @@ import { NoAccessScreenComponent } from '../../layout/no-access-screen/no-access
     NoAccessScreenComponent,
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  private authService = inject(AuthService);
+  private authStore = inject(AuthStore);
 
   public login() {
-    this.authService.navigateToLogin();
+    this.authStore.navigateToLogin();
   }
 }
