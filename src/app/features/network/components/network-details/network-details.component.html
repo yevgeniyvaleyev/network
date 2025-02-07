@@ -1,21 +1,21 @@
 <app-layout title="Contact Details" parentPath="/network" [config]="tabsConfig" (tabClick)="onTabClick($event)">
-  @if (contact) {
+  @if (contact()) {
   <mat-card>
     <mat-card-content>
       <mat-nav-list>
         <mat-list-item>
           <mat-icon matListItemIcon>person</mat-icon>
           <div matListItemTitle>Name</div>
-          <div matListItemLine>{{ contact.name }}</div>
+          <div matListItemLine>{{ contact()?.name }}</div>
         </mat-list-item>
 
-        @if (contact.phoneNumber) {
+        @if (contact()?.phoneNumber) {
         <mat-list-item>
           <mat-icon matListItemIcon>phone</mat-icon>
           <div matListItemTitle>Phone Number</div>
           <div matListItemLine>
             <button mat-button color="primary" (click)="onPhoneClick()">
-              {{ contact.phoneNumber }}
+              {{ contact()?.phoneNumber }}
             </button>
           </div>
         </mat-list-item>
@@ -25,45 +25,45 @@
           <mat-icon matListItemIcon>update</mat-icon>
           <div matListItemTitle>Connection Status</div>
           <div matListItemLine>
-            <app-reconnection-status [networkContact]="contact"></app-reconnection-status>
+            <app-reconnection-status [networkContact]="contact()!"></app-reconnection-status>
           </div>
         </mat-list-item>
 
-        @if (contact.jobTitle) {
+        @if (contact()?.jobTitle) {
         <mat-list-item>
           <mat-icon matListItemIcon>work</mat-icon>
           <div matListItemTitle>Job Title</div>
-          <div matListItemLine>{{ contact.jobTitle }}</div>
+          <div matListItemLine>{{ contact()?.jobTitle }}</div>
         </mat-list-item>
         }
 
-        @if (contact.workedAt) {
+        @if (contact()?.workedAt) {
         <mat-list-item>
           <mat-icon matListItemIcon>business</mat-icon>
           <div matListItemTitle>Worked At</div>
-          <div matListItemLine>{{ contact.workedAt }}</div>
+          <div matListItemLine>{{ contact()?.workedAt }}</div>
         </mat-list-item>
         }
 
-        @if (contact.preferredCommunicationChannel) {
+        @if (contact()?.preferredCommunicationChannel) {
         <mat-list-item>
           <mat-icon matListItemIcon>chat</mat-icon>
           <div matListItemTitle>Preferred Communication Channel</div>
           <div matListItemLine>
             <button mat-button color="primary" (click)="onCommunicationMethodClick()">
-              {{ contact.preferredCommunicationChannel }}
+              {{ contact()?.preferredCommunicationChannel }}
             </button>
           </div>
         </mat-list-item>
         }
 
-        @if (contact.email) {
+        @if (contact()?.email) {
         <mat-list-item>
           <mat-icon matListItemIcon>email</mat-icon>
           <div matListItemTitle>Email</div>
           <div matListItemLine>
             <button mat-button color="primary" (click)="onEmailClick()">
-              {{ contact.email }}
+              {{ contact()?.email }}
             </button>
           </div>
         </mat-list-item>
@@ -72,16 +72,22 @@
         <mat-list-item>
           <mat-icon matListItemIcon>schedule</mat-icon>
           <div matListItemTitle>Reconnection Frequency</div>
-          <div matListItemLine>{{ contact.reconnectionFrequency }} days</div>
+          <div matListItemLine>{{ contact()?.reconnectionFrequency }} days</div>
         </mat-list-item>
       </mat-nav-list>
     </mat-card-content>
   </mat-card>
-  }
-
-  @else {
+  } @else if (loading()) {
   <div class="spinner-container">
     <mat-spinner diameter="40"></mat-spinner>
   </div>
+  } @else if (error()) {
+  <mat-card>
+    {{ error() }}
+  </mat-card>
+  } @else {
+  <mat-card>
+    Contact not found.
+  </mat-card>
   }
 </app-layout>

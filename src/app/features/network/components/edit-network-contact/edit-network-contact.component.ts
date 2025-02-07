@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, computed, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -12,6 +12,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-contacts.service';
 import { AppLayoutTab } from '../../../../core/layout/app-layout/app-layout.types';
 import { AppLayoutComponent } from '../../../../core/layout/app-layout/app-layout.component';
+import { NetworkStore } from 'app/store/network.store';
 
 @Component({
   selector: 'app-edit-network-contact',
@@ -33,9 +34,9 @@ import { AppLayoutComponent } from '../../../../core/layout/app-layout/app-layou
 })
 export class EditNetworkContactComponent implements OnInit {
   private fb = inject(FormBuilder);
-  private networkContactsService = inject(NetworkContactsService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private networkStore = inject(NetworkStore);
 
   public form: FormGroup = this.fb.group({
     name: ['', Validators.required],
@@ -46,6 +47,12 @@ export class EditNetworkContactComponent implements OnInit {
     preferredCommunicationChannel: [''],
     email: ['', Validators.email],
     reconnectionFrequency: [30, [Validators.required, Validators.min(1)]]
+  });
+
+  readonly selectedContact = computed(() => {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) return null;
+    return this.networkStore.contacts().find(c => c.id === id);
   });
 
   public tabsConfig: AppLayoutTab[] = [
@@ -79,34 +86,29 @@ export class EditNetworkContactComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.contactId = this.route.snapshot.paramMap.get('id') || undefined;
+    this.contactId = this.route.snapshot.paramMap.get('id') || '';
     this.parentPath = `/network/view/${this.contactId}`;
-    if (this.contactId) {
-      this.networkContactsService.getContactById(this.contactId).subscribe({
-        next: (contact) => {
-          this.form.patchValue({
-            ...contact,
-            lastConnect: new Date(contact.lastConnect)
-          });
-        },
-        error: (error) => {
-          console.error('Error fetching network contact:', error);
-        }
+    const contact = this.networkStore.getContact(this.contactId);
+
+    if (contact) {
+      this.form.patchValue({
+        ...contact,
+        lastConnect: new Date(contact.lastConnect)
       });
+    } else {
+      console.error('Error fetching network contact.');
     }
   }
 
-  public onSubmit(): void {
+  public async onSubmit(): Promise<void> {
     if (this.form.valid && this.contactId) {
-      this.networkContactsService.updateContact(this.contactId, this.form.value)
-        .subscribe({
-          next: () => {
-            this.router.navigate(['/network/view', this.contactId]);
-          },
-          error: (error) => {
-            console.error('Error updating network contact:', error);
-          }
-        });
+
+      try {
+        await this.networkStore.updateContact(this.contactId, this.form.value);
+        this.router.navigate(['/network/view', this.contactId]);
+      } catch (error) {
+        console.error('Error updating network contact.');
+      }
     }
   }
 

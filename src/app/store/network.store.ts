@@ -5,14 +5,14 @@ import { firstValueFrom } from 'rxjs';
 
 interface NetworkState {
   contacts: NetworkContact[];
-  selectedContact: NetworkContact | null;
+  // selectedContact: NetworkContact | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: NetworkState = {
   contacts: [],
-  selectedContact: null,
+  // selectedContact: null,
   loading: false,
   error: null,
 };
@@ -22,7 +22,7 @@ export const NetworkStore = signalStore(
   withState<NetworkState>(initialState),
   withComputed((store) => ({
     contacts: computed(() => store.contacts()),
-    selectedContact: computed(() => store.selectedContact()),
+    // selectedContact: computed(() => store.selectedContact()),
     hasContacts: computed(() => store.contacts().length > 0),
     loading: computed(() => store.loading()),
     error: computed(() => store.error()),
@@ -44,7 +44,7 @@ export const NetworkStore = signalStore(
         }
       },
 
-      async getContact(id: string) {
+      getContact(id: string): NetworkContact | undefined {
         return store.contacts().find(c => c.id === id);
       },
 
@@ -74,7 +74,7 @@ export const NetworkStore = signalStore(
           const currentContacts = store.contacts();
           patchState(store, {
             contacts: currentContacts.map(c => c.id === id ? updatedContact : c),
-            selectedContact: updatedContact,
+            // selectedContact: updatedContact,
             loading: false,
           });
           return updatedContact;
@@ -94,7 +94,7 @@ export const NetworkStore = signalStore(
           const currentContacts = store.contacts();
           patchState(store, {
             contacts: currentContacts.filter(c => c.id !== id),
-            selectedContact: store.selectedContact()?.id === id ? null : store.selectedContact(),
+            // selectedContact: store.selectedContact()?.id === id ? null : store.selectedContact(),
             loading: false,
           });
         } catch (error) {
@@ -104,10 +104,6 @@ export const NetworkStore = signalStore(
           });
           throw error;
         }
-      },
-
-      clearSelectedContact() {
-        patchState(store, { selectedContact: null });
       },
 
       clearError() {

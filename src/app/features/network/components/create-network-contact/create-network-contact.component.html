@@ -1,5 +1,10 @@
 <app-layout [title]="'Create Contact'" [config]="tabsConfig" parentPath="/network" (tabClick)="onTabClick($event)">
 
+  @if(error()) {
+  <mat-card>
+    {{ error() }}
+  </mat-card>
+  }
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
     <mat-form-field>
       <mat-label>Name</mat-label>
