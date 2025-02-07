@@ -17,7 +17,7 @@
     },
     {
       "name": "assets",
-      "installMode": "lazy",
+      "installMode": "prefetch",
       "updateMode": "prefetch",
       "resources": {
         "files": [
@@ -32,10 +32,10 @@
       "name": "api-cache",
       "urls": ["/api/**"],
       "cacheConfig": {
-        "strategy": "freshness",
+        "strategy": "performance",
         "maxSize": 100,
-        "maxAge": "3d",
-        "timeout": "10s"
+        "maxAge": "1d",
+        "timeout": "5s"
       }
     }
   ]

@@ -13,9 +13,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAnimationsAsync(),
     importProvidersFrom(
-      ServiceWorkerModule.register('service-worker.js', {
+      ServiceWorkerModule.register('ngsw-worker.js', {
         enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+        registrationStrategy: 'registerImmediately'
       })
     )
   ],
