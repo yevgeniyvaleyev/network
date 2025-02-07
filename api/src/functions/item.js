@@ -2,6 +2,12 @@ const { app } = require("@azure/functions");
 const { getCurrentUser } = require("../auth/auth");
 const { getDatabase } = require("../db/db");
 
+const projection = {
+  _id: 0,
+  createdAt: 0,
+  updatedAt: 0
+}
+
 app.http("item", {
   methods: ["POST", "GET", "PUT", "DELETE"],
   authLevel: "anonymous",
@@ -36,11 +42,7 @@ app.http("item", {
             userId: currentUser.name
           },
           {
-            projection: {
-              _id: 0,
-              createdAt: 0,
-              updatedAt: 0
-            }
+            projection
           }
         )
 
@@ -104,7 +106,10 @@ app.http("item", {
         const result = await db.collection("network-list").findOneAndUpdate(
           { id, userId: currentUser.name },
           { $set: { ...updateData, updatedAt: new Date() } },
-          { returnDocument: 'after' }
+          {
+            returnDocument: 'after',
+            projection
+          }
         );
 
         if (!result) {
@@ -122,7 +127,7 @@ app.http("item", {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(result.value)
+          body: JSON.stringify(result)
         };
       } catch (error) {
         context.error('Error updating network item:', error);
