@@ -19,15 +19,11 @@ export class AuthService {
     return this.http.get<CurrentUser>(this.currentUser);
   }
 
-  public hasAccess(): Observable<boolean> {
-    return this.getCurrentUser().pipe(map((user) => !!user.hasAccess));
-  }
-
-  public navigateToLogout(): void {
+  public logout(): void {
     window.location.href = '/.auth/logout';
   }
 
-  public navigateToLogin(): void {
+  public login(): void {
     window.location.href = '/.auth/login/github';
   }
 }

@@ -3,8 +3,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { NoAccessScreenComponent } from '../no-access-screen/no-access-screen.component';
-import { AuthStore } from '../../../store/auth.store';
+import { AuthStore } from '../../store/auth.store';
 import { computed } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-pending-access',
@@ -20,10 +21,11 @@ import { computed } from '@angular/core';
 })
 export class PendingAccessComponent {
   private authStore = inject(AuthStore);
+  private authService = inject(AuthService);
 
   readonly userName = computed(() => this.authStore.currentUser()?.name);
 
   logout(): void {
-    this.authStore.navigateToLogout();
+    this.authService.logout();
   }
 }

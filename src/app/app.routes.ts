@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './core/components/login/login.component';
 import { PendingAccessComponent } from './core/layout/pending-access/pending-access.component';
-import { AuthGuardService } from './core/services/auth.guard.service';
+import { AuthGuardService } from './core/guards/auth.guard.service';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 
 export const routes: Routes = [

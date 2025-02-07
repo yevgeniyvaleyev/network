@@ -1,7 +1,10 @@
-import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
+import { patchState, signalStore, withComputed, withHooks, withMethods, withState } from '@ngrx/signals';
 import { computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { firstValueFrom } from 'rxjs';
 
 export interface CurrentUser {
   hasAccess: boolean;
@@ -27,14 +30,17 @@ export const AuthStore = signalStore(
   withComputed((store) => ({
     isAuthenticated: computed(() => !!store.currentUser()?.authenticated),
     hasAccess: computed(() => !!store.currentUser()?.hasAccess),
+    currentUser: computed(() => store.currentUser()),
   })),
   withMethods((store) => {
-    const http = inject(HttpClient);
+    const authService = inject(AuthService);
+
     return {
-      async loadCurrentUser() {
+      async loadUser() {
         try {
           patchState(store, { loading: true, error: null });
-          const user = await http.get<CurrentUser>('/api/current-user').toPromise();
+          const user = await firstValueFrom(authService.getCurrentUser());
+          console.log(user);
           patchState(store, { currentUser: user, loading: false });
         } catch (error) {
           patchState(store, {
@@ -43,14 +49,7 @@ export const AuthStore = signalStore(
           });
         }
       },
-
-      navigateToLogout() {
-        window.location.href = '/.auth/logout';
-      },
-
-      navigateToLogin() {
-        window.location.href = '/.auth/login/github';
-      },
     };
-  })
+  },
+  )
 );

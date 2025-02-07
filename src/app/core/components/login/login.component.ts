@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { NoAccessScreenComponent } from '../../layout/no-access-screen/no-access-screen.component';
-import { AuthStore } from '../../../store/auth.store';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +18,9 @@ import { AuthStore } from '../../../store/auth.store';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  private authStore = inject(AuthStore);
+  private authService = inject(AuthService);
 
   public login() {
-    this.authStore.navigateToLogin();
+    this.authService.login();
   }
 }
