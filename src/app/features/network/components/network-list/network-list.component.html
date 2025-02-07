@@ -1,5 +1,5 @@
 <app-main-layout title="Network List">
-  @if (!contacts()) {
+  @if (loading()) {
   <div class="spinner-container">
     <mat-spinner diameter="40"></mat-spinner>
   </div>

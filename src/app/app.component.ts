@@ -5,7 +5,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { PwaUpdateService } from './core/services/pwa-update.service';
+import { PwaUpdateService } from 'core/services/pwa-update.service';
+import { NetworkStore } from './store/network.store';
 
 @Component({
   selector: 'app-root',
@@ -24,8 +25,10 @@ import { PwaUpdateService } from './core/services/pwa-update.service';
 export class AppComponent {
   title = 'my-network-app';
   private pwaUpdateService = inject(PwaUpdateService);
+  private networkStore = inject(NetworkStore);
 
   constructor() {
     this.pwaUpdateService.checkForUpdate();
+    this.networkStore.loadContacts();
   }
 }

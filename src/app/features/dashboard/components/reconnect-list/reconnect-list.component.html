@@ -3,28 +3,26 @@
     <mat-card-title>Contacts to reconnect</mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    @if (loading()) {
+    <div class="spinner-container">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+    } @else {
     <mat-nav-list>
-      @for (contact of contacts; track contact.id) {
+      @for (contact of contacts(); track contact.id) {
       <a mat-list-item [routerLink]="['/network/view', contact.id]">
-        <mat-icon [color]="getIconColor(contact.daysOverdue)" matListItemIcon>
-          {{ getIcon(contact.daysOverdue) }}
-        </mat-icon>
+        <mat-icon matListItemIcon>person</mat-icon>
         <div matListItemTitle>{{ contact.name }}</div>
         <div matListItemLine>
-          @if (contact.daysOverdue === 0) {
-            Reconnect today
-          } @else {
-            Overdue {{ contact.daysOverdue }} days
-          }
+          <app-reconnection-status [networkContact]="contact"></app-reconnection-status>
         </div>
       </a>
-      }
-
-      @if (contacts.length === 0) {
+      } @empty {
       <mat-list-item>
-        <div matListItemTitle>No contacts to reconnect</div>
+        <div matListItemTitle>No contacts need reconnecting</div>
       </mat-list-item>
       }
     </mat-nav-list>
+    }
   </mat-card-content>
 </mat-card>
