@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { NoAccessScreenComponent } from '../../layout/no-access-screen/no-access-screen.component';
-import { AuthService } from '../../services/auth.service';
+import { NoAccessScreenComponent } from 'core/layout/no-access-screen/no-access-screen.component';
+import { AuthService } from 'core/services/auth.service';
 
 @Component({
   selector: 'app-login',
