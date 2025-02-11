@@ -26,22 +26,5 @@
         ]
       }
     }
-  ],
-  "dataGroups": [
-    {
-      "name": "api-get-cache",
-      "urls": ["/api/**"],
-      "cacheConfig": {
-        "strategy": "performance",
-        "maxSize": 100,
-        "maxAge": "1d",
-        "timeout": "5s"
-      },
-      "cacheQueryOptions": {
-        "ignoreSearch": false
-      },
-      "version": 1,
-      "method": "GET"
-    }
   ]
 }
