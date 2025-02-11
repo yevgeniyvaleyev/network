@@ -9,10 +9,12 @@ declare const self: ServiceWorkerGlobalScope;
 // Precache all assets listed in the manifest
 precacheAndRoute(self.__WB_MANIFEST);
 
-// Cache API requests
+// Cache GET API requests
 registerRoute(
-  ({ url }) => url.pathname.startsWith('/api/'),
+  ({ url, request }) => {
+    return url.pathname.startsWith('/api/') && request.method === 'GET';
+  },
   new StaleWhileRevalidate({
-    cacheName: 'api-cache'
+    cacheName: 'api-get-cache'
   })
 );
