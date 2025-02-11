@@ -5,10 +5,12 @@
         <mat-icon class="account-icon">account_circle</mat-icon>
         <div class="user-name">{{ userName() }}</div>
       </div>
+    </mat-card-content>
+    <mat-card-actions>
       <button mat-raised-button color="warn" (click)="logout()">
         <mat-icon>logout</mat-icon>
         Logout
       </button>
-    </mat-card-content>
+    </mat-card-actions>
   </mat-card>
 </app-layout>
