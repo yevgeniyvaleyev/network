@@ -1,9 +1,11 @@
+@import 'configuration/variables';
+
 :host {
   display: block;
 }
 
 mat-nav-list {
-  background-color: #f5f5f5;
+  background-color: $light-gray;
   margin: 0;
   padding: 8px 0;
 }

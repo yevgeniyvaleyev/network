@@ -1,5 +1,7 @@
+@import 'configuration/variables';
+
 mat-card {
-  background-color: #f5f5f5;
+  background-color: $light-gray;
 }
 
 .account-info {
