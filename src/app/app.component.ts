@@ -1,12 +1,11 @@
-import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterOutlet } from '@angular/router';
 import { PwaUpdateService } from 'core/services/pwa-update.service';
-import { NetworkStore } from './store/network.store';
 
 @Component({
   selector: 'app-root',
@@ -19,16 +18,12 @@ import { NetworkStore } from './store/network.store';
     MatIconModule,
     MatSnackBarModule,
   ],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  template: '<router-outlet />',
 })
 export class AppComponent {
-  title = 'my-network-app';
   private pwaUpdateService = inject(PwaUpdateService);
-  private networkStore = inject(NetworkStore);
 
   constructor() {
     this.pwaUpdateService.checkForUpdate();
-    this.networkStore.loadContacts();
   }
 }

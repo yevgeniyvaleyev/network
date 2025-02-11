@@ -3,6 +3,7 @@ import { LoginComponent } from './core/components/login/login.component';
 import { PendingAccessComponent } from './core/layout/pending-access/pending-access.component';
 import { AuthGuardService } from './core/guards/auth.guard.service';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { AuthorizedComponent } from './authorized.component';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,7 @@ export const routes: Routes = [
   {
     path: '',
     canActivate: [AuthGuardService],
+    component: AuthorizedComponent,
     children: [
       {
         path: 'dashboard',
