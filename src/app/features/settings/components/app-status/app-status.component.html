@@ -3,9 +3,12 @@
     <div class="status-section">
       <h3>Version Status</h3>
       <p class="status-text">
-        {{(updateAvailable$ | async) ? 'New version available' : 'App is up to date'}}
+        {{updateAvailable() ? 'New version available' : 'App is up to date'}}
       </p>
-      <button mat-raised-button [color]="(updateAvailable$ | async) ? 'warn' : 'basic'" (click)="updateApp()">
+      <button mat-raised-button 
+             [color]="updateAvailable() ? 'warn' : 'basic'"
+             [disabled]="!updateAvailable()"
+             (click)="updateApp()">
         <mat-icon>system_update</mat-icon>
         Update App
       </button>

@@ -1,7 +1,7 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwUpdate } from '@angular/service-worker';
-import { BehaviorSubject, interval } from 'rxjs';
+import { interval } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +9,7 @@ import { BehaviorSubject, interval } from 'rxjs';
 export class PwaUpdateService {
   private swUpdate = inject(SwUpdate);
   private snackBar = inject(MatSnackBar);
-  private updateAvailable = new BehaviorSubject<boolean>(false);
-
-  readonly updateAvailable$ = this.updateAvailable.asObservable();
+  readonly updateAvailable = signal(false);
 
   constructor() {
     this.initializeUpdateChecks();
@@ -39,14 +37,14 @@ export class PwaUpdateService {
         console.log('Version update event:', event);
         if (event.type === 'VERSION_DETECTED') {
           console.log('New version detected');
-          this.updateAvailable.next(true);
+          this.updateAvailable.set(true);
         } else if (event.type === 'VERSION_READY') {
           console.log('New version ready');
-          this.updateAvailable.next(true);
+          this.updateAvailable.set(true);
           this.showUpdateSnackbar();
         } else if (event.type === 'VERSION_INSTALLATION_FAILED') {
           console.error('Failed to install app version:', event.error);
-          this.updateAvailable.next(false);
+          this.updateAvailable.set(false);
         }
       });
 
@@ -106,7 +104,7 @@ export class PwaUpdateService {
         registrations.map(registration => registration.unregister())
       );
 
-      this.updateAvailable.next(false);
+      this.updateAvailable.set(false);
       this.showSnackbar('New version is ready', 'Refresh');
     } catch (error) {
       console.error('Error clearing cache:', error);

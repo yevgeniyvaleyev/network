@@ -19,7 +19,7 @@ import { PwaUpdateService } from 'core/services/pwa-update.service';
 })
 export class AppStatusComponent {
   private pwaUpdateService = inject(PwaUpdateService);
-  readonly updateAvailable$ = this.pwaUpdateService.updateAvailable$;
+  readonly updateAvailable = this.pwaUpdateService.updateAvailable;
 
   async updateApp(): Promise<void> {
     await this.pwaUpdateService.activateUpdate();
