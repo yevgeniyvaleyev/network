@@ -80,7 +80,7 @@ export class PwaUpdateService {
       );
 
       this.updateAvailable.next(false);
-      this.showSnackbar('Cache cleared successfully', 'Refresh');
+      this.showSnackbar('New version is ready', 'Refresh');
     } catch (error) {
       console.error('Error clearing cache:', error);
       this.showSnackbar('Failed to clear cache', 'Close');
