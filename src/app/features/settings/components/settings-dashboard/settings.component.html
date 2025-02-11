@@ -8,18 +8,5 @@
     }
   </mat-nav-list>
 
-  <div class="extra-controls">
-    <h2>App Status</h2>
-    <div class="app-status-container">
-      <p class="status-text">
-        {{(updateAvailable$ | async) ? 'New version available' : 'App is up to date'}}
-      </p>
-      <button mat-raised-button [color]="(updateAvailable$ | async) ? 'warn' : 'basic'" (click)="updateApp()">
-        <mat-icon>system_update</mat-icon>
-        Update App
-      </button>
-    </div>
-  </div>
-
   <router-outlet></router-outlet>
 </app-main-layout>

@@ -40,6 +40,11 @@ export class SettingsComponent {
       path: '/settings/account',
       icon: 'account_circle',
       label: 'Account'
+    },
+    {
+      path: '/settings/app-status',
+      icon: 'system_update',
+      label: 'App Status'
     }
   ];
 

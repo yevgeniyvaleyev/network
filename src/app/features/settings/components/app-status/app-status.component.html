@@ -1,0 +1,20 @@
+<app-layout title="App Status" parentPath="/settings">
+  <div class="app-status-container">
+    <div class="status-section">
+      <h3>Version Status</h3>
+      <p class="status-text">
+        {{(updateAvailable$ | async) ? 'New version available' : 'App is up to date'}}
+      </p>
+      <button mat-raised-button [color]="(updateAvailable$ | async) ? 'warn' : 'basic'" (click)="updateApp()">
+        <mat-icon>system_update</mat-icon>
+        Update App
+      </button>
+    </div>
+
+    <div class="status-section">
+      <h3>About</h3>
+      <p>This app is designed to help you manage and maintain your professional network effectively.</p>
+      <p>Regular updates ensure you have access to the latest features and improvements.</p>
+    </div>
+  </div>
+</app-layout>

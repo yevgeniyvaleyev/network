@@ -1,0 +1,23 @@
+.app-status-container {
+  padding: 16px;
+
+  .status-section {
+    margin-bottom: 32px;
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+
+    .status-text {
+      margin-bottom: 16px;
+    }
+
+    p {
+      color: rgba(0, 0, 0, 0.87);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+  }
+}
