@@ -14,4 +14,32 @@ mat-nav-list {
 
 .extra-controls {
   margin-top: 16px;
+
+  h2 {
+    margin: 0 16px;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+
+}
+
+
+
+.app-status-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  gap: 16px;
+
+  .status-text {
+    margin: 0;
+    flex: 1;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  button {
+    white-space: nowrap;
+  }
 }

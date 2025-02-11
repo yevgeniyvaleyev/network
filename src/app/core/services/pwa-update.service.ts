@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
-import { filter } from 'rxjs';
+import { BehaviorSubject, filter } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
@@ -9,6 +9,38 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class PwaUpdateService {
   private swUpdate = inject(SwUpdate);
   private snackBar = inject(MatSnackBar);
+  private updateAvailable = new BehaviorSubject<boolean>(false);
+
+  readonly updateAvailable$ = this.updateAvailable.asObservable();
+
+  constructor() {
+    this.initializeUpdateChecks();
+  }
+
+  private initializeUpdateChecks(): void {
+    if (!this.swUpdate.isEnabled) {
+      console.warn('Service Worker is not enabled');
+      return;
+    }
+
+    // Check for updates every 6 hours
+    setInterval(() => {
+      this.checkForUpdate();
+    }, 6 * 60 * 60 * 1000);
+
+    // Initial check
+    this.checkForUpdate();
+
+    // Subscribe to version updates
+    this.swUpdate.versionUpdates
+      .pipe(
+        filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY')
+      )
+      .subscribe(() => {
+        this.updateAvailable.next(true);
+        this.showUpdateSnackbar();
+      });
+  }
 
   public checkForUpdate(): void {
     if (!this.swUpdate.isEnabled) {
@@ -16,12 +48,12 @@ export class PwaUpdateService {
       return;
     }
 
-    this.swUpdate.versionUpdates
-      .pipe(
-        filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY')
-      )
-      .subscribe(() => {
-        this.showUpdateSnackbar();
+    this.swUpdate.checkForUpdate()
+      .then(() => {
+        console.log('Checking for updates...');
+      })
+      .catch(err => {
+        console.error('Error checking for updates:', err);
       });
   }
 
@@ -47,6 +79,7 @@ export class PwaUpdateService {
         registrations.map(registration => registration.unregister())
       );
 
+      this.updateAvailable.next(false);
       this.showSnackbar('Cache cleared successfully', 'Refresh');
     } catch (error) {
       console.error('Error clearing cache:', error);

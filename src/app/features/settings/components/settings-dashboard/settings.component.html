@@ -10,10 +10,16 @@
 
 
   <div class="extra-controls">
-    <button mat-raised-button color="warn" (click)="clearAppCache()">
-      <mat-icon>delete_sweep</mat-icon>
-      Clear App Cache
-    </button>
+    <h2>App Status</h2>
+    <div class="app-status-container">
+      <p class="status-text">
+        {{(updateAvailable$ | async) ? 'Install new version' : 'No updates available'}}
+      </p>
+      <button mat-raised-button color="warn" (click)="clearAppCache()">
+        <mat-icon>system_update</mat-icon>
+        Update App
+      </button>
+    </div>
   </div>
 
   <router-outlet></router-outlet>
