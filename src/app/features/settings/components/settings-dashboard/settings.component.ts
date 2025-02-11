@@ -43,7 +43,7 @@ export class SettingsComponent {
     }
   ];
 
-  async clearAppCache(): Promise<void> {
-    await this.pwaUpdateService.clearCache();
+  async updateApp(): Promise<void> {
+    await this.pwaUpdateService.activateUpdate();
   }
 }

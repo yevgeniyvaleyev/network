@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
-import { BehaviorSubject, filter } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SwUpdate } from '@angular/service-worker';
+import { BehaviorSubject, interval } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,23 +23,38 @@ export class PwaUpdateService {
       return;
     }
 
-    // Check for updates every 6 hours
-    setInterval(() => {
-      this.checkForUpdate();
-    }, 6 * 60 * 60 * 1000);
+    // Check for updates every minute
+    interval(60 * 1000)
+      .subscribe(() => {
+        console.log('Checking for updates...');
+        this.checkForUpdate();
+      });
 
     // Initial check
     this.checkForUpdate();
 
     // Subscribe to version updates
     this.swUpdate.versionUpdates
-      .pipe(
-        filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY')
-      )
-      .subscribe(() => {
-        this.updateAvailable.next(true);
-        this.showUpdateSnackbar();
+      .subscribe(event => {
+        console.log('Version update event:', event);
+        if (event.type === 'VERSION_DETECTED') {
+          console.log('New version detected');
+          this.updateAvailable.next(true);
+        } else if (event.type === 'VERSION_READY') {
+          console.log('New version ready');
+          this.updateAvailable.next(true);
+          this.showUpdateSnackbar();
+        } else if (event.type === 'VERSION_INSTALLATION_FAILED') {
+          console.error('Failed to install app version:', event.error);
+          this.updateAvailable.next(false);
+        }
       });
+
+    // Handle unrecoverable state
+    this.swUpdate.unrecoverable.subscribe(event => {
+      console.error('SW unrecoverable state:', event.reason);
+      this.showSnackbar('An error occurred. Please reload the app.', 'Reload');
+    });
   }
 
   public checkForUpdate(): void {
@@ -50,11 +65,23 @@ export class PwaUpdateService {
 
     this.swUpdate.checkForUpdate()
       .then(() => {
-        console.log('Checking for updates...');
+        console.log('Finished checking for updates');
       })
       .catch(err => {
         console.error('Error checking for updates:', err);
       });
+  }
+
+  public async activateUpdate(): Promise<void> {
+    if (!this.swUpdate.isEnabled) return;
+
+    try {
+      await this.swUpdate.activateUpdate();
+      this.showSnackbar('New version is ready', 'Refresh');
+    } catch (err) {
+      console.error('Error activating update:', err);
+      this.showSnackbar('Error activating update', 'Close');
+    }
   }
 
   public async clearCache(): Promise<void> {
@@ -102,7 +129,7 @@ export class PwaUpdateService {
       }
     );
 
-    if (action === 'Update now' || action === 'Refresh') {
+    if (action === 'Update now' || action === 'Refresh' || action === 'Reload') {
       snackBar.onAction().subscribe(() => {
         window.location.reload();
       });
