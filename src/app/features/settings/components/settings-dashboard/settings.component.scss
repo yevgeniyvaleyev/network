@@ -1,47 +1,5 @@
 @import 'configuration/variables';
 
-:host {
-  display: block;
-}
-
-mat-nav-list {
+mat-card {
   background-color: $light-gray;
-  margin: 0;
-  padding: 8px 0;
-}
-
-.active {
-  background: rgba(0, 0, 0, 0.04);
-}
-
-.extra-controls {
-  margin-top: 16px;
-
-  h2 {
-    margin: 0 16px;
-    font-weight: 500;
-    font-size: 1rem;
-  }
-
-
-}
-
-
-
-.app-status-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  gap: 16px;
-
-  .status-text {
-    margin: 0;
-    flex: 1;
-    color: rgba(0, 0, 0, 0.87);
-  }
-
-  button {
-    white-space: nowrap;
-  }
 }
