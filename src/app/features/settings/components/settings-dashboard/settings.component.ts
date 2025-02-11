@@ -33,7 +33,7 @@ interface SettingsNavItem {
 })
 export class SettingsComponent {
   private pwaUpdateService = inject(PwaUpdateService);
-  readonly updateAvailable$ = this.pwaUpdateService.updateAvailable$;
+  readonly updateAvailable = this.pwaUpdateService.updateAvailable;
 
   navigationItems: SettingsNavItem[] = [
     {
