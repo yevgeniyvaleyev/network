@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { AppLayoutComponent } from 'app/core/layout/app-layout/app-layout.component';
 import { PwaUpdateService } from 'core/services/pwa-update.service';
@@ -12,6 +13,7 @@ import { PwaUpdateService } from 'core/services/pwa-update.service';
     CommonModule,
     MatButtonModule,
     MatIconModule,
+    MatCardModule,
     AppLayoutComponent
   ],
   templateUrl: './app-status.component.html',

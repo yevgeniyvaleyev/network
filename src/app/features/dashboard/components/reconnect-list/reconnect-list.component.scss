@@ -5,6 +5,14 @@ mat-card {
   background-color: $light-gray;
 }
 
+mat-card-content {
+  padding: 0;
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
 a[mat-list-item] {
   text-decoration: none;
   color: inherit;

@@ -1,23 +1,31 @@
 <app-layout title="App Status" parentPath="/settings">
-  <div class="app-status-container">
-    <div class="status-section">
-      <h3>Version Status</h3>
-      <p class="status-text">
-        {{updateAvailable() ? 'New version available' : 'App is up to date'}}
-      </p>
-      <button mat-raised-button 
-             [color]="updateAvailable() ? 'warn' : 'basic'"
-             [disabled]="!updateAvailable()"
-             (click)="updateApp()">
-        <mat-icon>system_update</mat-icon>
-        Update App
-      </button>
-    </div>
 
-    <div class="status-section">
-      <h3>About</h3>
-      <p>This app is designed to help you manage and maintain your professional network effectively.</p>
-      <p>Regular updates ensure you have access to the latest features and improvements.</p>
-    </div>
-  </div>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Version Status</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>{{updateAvailable() ? 'New version available' : 'App is up to date'}}</mat-card-content>
+    <mat-card-footer>
+      <mat-card-actions>
+        <button mat-raised-button [color]="updateAvailable() ? 'warn' : 'basic'" [disabled]="!updateAvailable()"
+          (click)="updateApp()">
+          <mat-icon>system_update</mat-icon>
+          Update App
+        </button>
+      </mat-card-actions>
+    </mat-card-footer>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>About</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>This app is designed to help you manage and maintain your professional network effectively.
+        Regular updates ensure you have access to the latest features and improvements.</p>
+    </mat-card-content>
+  </mat-card>
+
+
+
 </app-layout>
