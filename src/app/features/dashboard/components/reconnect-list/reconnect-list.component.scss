@@ -7,15 +7,26 @@ mat-card {
 
 mat-card-content {
   padding: 0;
+  min-height: 100px;
+  position: relative;
 
   &:last-child {
     padding-bottom: 0;
   }
 }
 
+.spinner-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 a[mat-list-item] {
   text-decoration: none;
   color: inherit;
+  height: auto;
+  padding: 16px;
 
   &:hover {
     background: rgba(0, 0, 0, 0.04);
