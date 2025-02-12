@@ -12,11 +12,12 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     provideAnimationsAsync(),
-    // importProvidersFrom(
-    //   ServiceWorkerModule.register('ngsw-worker.js', {
-    //     enabled: !isDevMode(),
-    //     registrationStrategy: 'registerImmediately'
-    //   })
-    // )
+    importProvidersFrom(
+      ServiceWorkerModule.register('ngsw-worker.js', {
+        // enabled: !isDevMode(),
+        enabled: false,
+        registrationStrategy: 'registerImmediately'
+      })
+    )
   ],
 };
