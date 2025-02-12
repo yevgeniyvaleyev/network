@@ -33,17 +33,20 @@ interface SettingsNavItem {
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent {
-
-
   navigationItems: SettingsNavItem[] = [
     {
-      path: '/settings/account',
+      path: 'account',
       icon: 'account_circle',
-      label: 'Account'
+      label: 'Account Settings'
     },
     {
-      path: '/settings/app-status',
-      icon: 'system_update',
+      path: 'import',
+      icon: 'upload_file',
+      label: 'Import Data'
+    },
+    {
+      path: 'app-status',
+      icon: 'info',
       label: 'App Status'
     }
   ];

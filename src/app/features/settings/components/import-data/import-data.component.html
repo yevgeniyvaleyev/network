@@ -1,0 +1,48 @@
+<app-layout title="Import Data" parentPath="/settings">
+  <mat-card>
+    @if (error()) {
+    <mat-card-content class="error-message">
+      {{ error() }}
+    </mat-card-content>
+    }
+    <mat-card-content>
+      <div class="import-container">
+        <h2>Import Network Contacts</h2>
+        <p class="description">
+          Upload a CSV file containing your network contacts. The file must follow this structure:
+        </p>
+        <div class="csv-format">
+          <h3>Required CSV Format</h3>
+          <code>name,jobTitle,workedAt,phoneNumber,preferredCommunicationChannel,email,communicationLanguage,reconnectionFrequency,lastConnect</code>
+
+          <div class="field-descriptions">
+            <h4>Field Descriptions:</h4>
+            <ul>
+              <li><strong>name</strong> - Full name of the contact (required)</li>
+              <li><strong>jobTitle</strong> - Contact's job title</li>
+              <li><strong>workedAt</strong> - Company or organization</li>
+              <li><strong>phoneNumber</strong> - Contact's phone number</li>
+              <li><strong>preferredCommunicationChannel</strong> - Preferred way to communicate</li>
+              <li><strong>email</strong> - Contact's email address</li>
+              <li><strong>communicationLanguage</strong> - Preferred language for communication</li>
+              <li><strong>reconnectionFrequency</strong> - Days between reconnections (number)</li>
+              <li><strong>lastConnect</strong> - Date of last connection (YYYY-MM-DD format)</li>
+            </ul>
+          </div>
+
+          <div class="example">
+            <h4>Example:</h4>
+            <code>John Doe,Software Engineer,Tech Corp,+1234567890,email,john&#64;example.com,english,30,2024-02-12</code>
+          </div>
+        </div>
+
+        <input type="file" #fileInput style="display: none" accept=".csv" (change)="onFileSelected($event)" />
+        <button mat-raised-button color="primary" (click)="fileInput.click()">
+          <mat-icon>upload_file</mat-icon>
+          Select CSV File
+        </button>
+        <p class="hint-text">Only CSV files are supported</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</app-layout>

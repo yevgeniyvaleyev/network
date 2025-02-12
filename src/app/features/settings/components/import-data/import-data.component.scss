@@ -1,0 +1,96 @@
+@import 'configuration/variables';
+
+mat-card {
+  margin: 0;
+  background-color: $light-gray;
+}
+
+.import-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+
+  h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  .description {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  .csv-format {
+    background-color: white;
+    border-radius: 4px;
+    padding: 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    h3 {
+      margin: 0 0 16px 0;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    h4 {
+      margin: 24px 0 12px 0;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    code {
+      display: block;
+      padding: 12px;
+      background-color: $light-gray;
+      border-radius: 4px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .field-descriptions {
+      ul {
+        margin: 0;
+        padding-left: 24px;
+
+        li {
+          margin-bottom: 8px;
+          line-height: 1.5;
+
+          strong {
+            color: rgba(0, 0, 0, 0.87);
+          }
+        }
+      }
+    }
+
+    .example {
+      margin-top: 24px;
+    }
+  }
+
+  button {
+    align-self: center;
+    min-width: 200px;
+
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+
+  .hint-text {
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0;
+    text-align: center;
+  }
+}
+
+.error-message {
+  color: $error-color;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: rgba($error-color, 0.1);
+  border-radius: 4px;
+}

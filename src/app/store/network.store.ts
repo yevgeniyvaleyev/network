@@ -5,14 +5,12 @@ import { firstValueFrom } from 'rxjs';
 
 interface NetworkState {
   contacts: NetworkContact[];
-  // selectedContact: NetworkContact | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: NetworkState = {
   contacts: [],
-  // selectedContact: null,
   loading: false,
   error: null,
 };
@@ -22,7 +20,6 @@ export const NetworkStore = signalStore(
   withState<NetworkState>(initialState),
   withComputed((store) => ({
     contacts: computed(() => store.contacts()),
-    // selectedContact: computed(() => store.selectedContact()),
     hasContacts: computed(() => store.contacts().length > 0),
     loading: computed(() => store.loading()),
     error: computed(() => store.error()),
