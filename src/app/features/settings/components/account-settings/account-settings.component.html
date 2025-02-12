@@ -5,7 +5,7 @@
         <mat-icon class="user-icon">account_circle</mat-icon>
         <div class="user-details">
           <h2>{{ userName() }}</h2>
-          @if (userLanguages()?.length) {
+          @if (userLanguages()) {
           <div class="languages">
             <h3>Languages:</h3>
             <mat-chip-set>
