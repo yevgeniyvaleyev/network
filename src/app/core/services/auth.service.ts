@@ -14,16 +14,19 @@ export interface CurrentUser {
 export class AuthService {
   private http = inject(HttpClient);
   private currentUser = '/api/current-user';
+  private readonly baseUrl = window.location.origin;
 
   public getCurrentUser(): Observable<CurrentUser> {
     return this.http.get<CurrentUser>(this.currentUser);
   }
 
   public logout(): void {
-    window.location.href = '/.auth/logout';
+    const logoutUrl = new URL('/.auth/logout', this.baseUrl);
+    window.location.href = logoutUrl.toString();
   }
 
   public login(): void {
-    window.location.href = '/.auth/login/github';
+    const loginUrl = new URL('/.auth/login/github', this.baseUrl);
+    window.location.href = loginUrl.toString();
   }
 }
