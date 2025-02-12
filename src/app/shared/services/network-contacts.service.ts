@@ -10,6 +10,7 @@ export interface NetworkContact {
   jobTitle: string;
   workedAt: string;
   preferredCommunicationChannel: string;
+  communicationLanguage: string;
   email: string;
   reconnectionFrequency: number;
 }

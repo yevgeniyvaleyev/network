@@ -57,6 +57,14 @@
         </mat-list-item>
         }
 
+        @if (contact()?.communicationLanguage) {
+        <mat-list-item>
+          <mat-icon matListItemIcon>translate</mat-icon>
+          <div matListItemTitle>Communication Language</div>
+          <div matListItemLine>{{ contact()?.communicationLanguage }}</div>
+        </mat-list-item>
+        }
+
         @if (contact()?.email) {
         <mat-list-item>
           <mat-icon matListItemIcon>email</mat-icon>

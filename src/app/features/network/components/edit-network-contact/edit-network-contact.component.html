@@ -1,4 +1,9 @@
-<app-layout [config]="tabsConfig" title="Edit Contact" [parentPath]="parentPath" (tabClick)="onTabClick($event)">
+<app-layout [title]="'Edit Contact'" [config]="tabsConfig" parentPath="parentPath" (tabClick)="onTabClick($event)">
+  @if(error()) {
+  <mat-card>
+    {{ error() }}
+  </mat-card>
+  }
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
     <mat-form-field>
       <mat-label>Name</mat-label>
@@ -32,6 +37,15 @@
       <mat-select formControlName="preferredCommunicationChannel">
         @for (channel of communicationChannels; track channel) {
         <mat-option [value]="channel">{{channel}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Communication Language</mat-label>
+      <mat-select formControlName="communicationLanguage">
+        @for (language of communicationLanguages(); track language) {
+        <mat-option [value]="language">{{language}}</mat-option>
         }
       </mat-select>
     </mat-form-field>

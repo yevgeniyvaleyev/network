@@ -43,6 +43,15 @@
     </mat-form-field>
 
     <mat-form-field>
+      <mat-label>Communication Language</mat-label>
+      <mat-select formControlName="communicationLanguage">
+        @for (language of communicationLanguages(); track language) {
+        <mat-option [value]="language">{{language}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
       <mat-label>Email</mat-label>
       <input matInput type="email" formControlName="email">
       @if (form.get('email')?.errors?.['email']) {
@@ -54,7 +63,6 @@
       <mat-label>Reconnection Frequency (days)</mat-label>
       <input matInput type="number" formControlName="reconnectionFrequency" required min="1">
     </mat-form-field>
-
 
   </form>
 </app-layout>

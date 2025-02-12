@@ -5,15 +5,15 @@ async function getCurrentUser(req, context) {
   let user = clientPrincipalHeader ? decodeUser(clientPrincipalHeader) : null;
 
   const db = await getDatabase(context);
-  const allowedUsers = (await db.collection("users").find({}).toArray()).map(
-    ({ name }) => name,
-  );
+  const userProfile = (await db.collection("users").find({}).toArray()).find(
+    u => u.name === user?.userDetails);
 
   return {
     authenticated: !!clientPrincipalHeader,
     hasAccess:
-      !!clientPrincipalHeader && allowedUsers.includes(user?.userDetails),
+      !!clientPrincipalHeader && userProfile,
     name: user?.userDetails,
+    languages: userProfile?.languages,
   };
 }
 

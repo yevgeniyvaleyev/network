@@ -6,6 +6,7 @@ export interface CurrentUser {
   hasAccess: boolean;
   authenticated: boolean;
   name: string;
+  languages: string[];
 }
 
 @Injectable({

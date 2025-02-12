@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { NetworkContact, NetworkContactsService } from '../../../../shared/services/network-contacts.service';
-import { AppLayoutTab } from '../../../../core/layout/app-layout/app-layout.types';
-import { AppLayoutComponent } from '../../../../core/layout/app-layout/app-layout.component';
+import { AuthStore } from 'app/core/store/auth.store';
 import { NetworkStore } from 'app/store/network.store';
+import { AppLayoutComponent } from 'core/layout/app-layout/app-layout.component';
+import { AppLayoutTab } from 'core/layout/app-layout/app-layout.types';
 
 @Component({
   selector: 'app-edit-network-contact',
@@ -23,11 +23,12 @@ import { NetworkStore } from 'app/store/network.store';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    RouterModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    RouterModule,
-    AppLayoutComponent
+    AppLayoutComponent,
+    MatCardModule
   ],
   templateUrl: './edit-network-contact.component.html',
   styleUrls: ['./edit-network-contact.component.scss']
@@ -37,6 +38,10 @@ export class EditNetworkContactComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private networkStore = inject(NetworkStore);
+  private authStore = inject(AuthStore);
+
+  public error = signal<string | null>(null);
+  public communicationLanguages = computed(() => this.authStore.currentUser()?.languages || ['english']);
 
   public form: FormGroup = this.fb.group({
     name: ['', Validators.required],
@@ -45,6 +50,7 @@ export class EditNetworkContactComponent implements OnInit {
     jobTitle: [''],
     workedAt: [''],
     preferredCommunicationChannel: [''],
+    communicationLanguage: [this.communicationLanguages()[0]],
     email: ['', Validators.email],
     reconnectionFrequency: [30, [Validators.required, Validators.min(1)]]
   });
@@ -96,7 +102,7 @@ export class EditNetworkContactComponent implements OnInit {
         lastConnect: new Date(contact.lastConnect)
       });
     } else {
-      console.error('Error fetching network contact.');
+      this.error.set('Error fetching network contact.');
     }
   }
 
@@ -107,7 +113,7 @@ export class EditNetworkContactComponent implements OnInit {
         await this.networkStore.updateContact(this.contactId, this.form.value);
         this.router.navigate(['/network/view', this.contactId]);
       } catch (error) {
-        console.error('Error updating network contact.');
+        this.error.set('Error updating network contact.');
       }
     }
   }

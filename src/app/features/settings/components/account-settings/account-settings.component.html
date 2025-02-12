@@ -1,9 +1,21 @@
 <app-layout title="Account Settings" parentPath="/settings">
   <mat-card>
     <mat-card-content>
-      <div class="account-info">
-        <mat-icon class="account-icon">account_circle</mat-icon>
-        <div class="user-name">{{ userName() }}</div>
+      <div class="user-info">
+        <mat-icon class="user-icon">account_circle</mat-icon>
+        <div class="user-details">
+          <h2>{{ userName() }}</h2>
+          @if (userLanguages()?.length) {
+          <div class="languages">
+            <h3>Languages:</h3>
+            <mat-chip-set>
+              @for (language of userLanguages(); track language) {
+              <mat-chip>{{ language }}</mat-chip>
+              }
+            </mat-chip-set>
+          </div>
+          }
+        </div>
       </div>
     </mat-card-content>
     <mat-card-actions>
