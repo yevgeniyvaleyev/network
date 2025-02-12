@@ -46,8 +46,10 @@ mat-card {
       background-color: $light-gray;
       border-radius: 4px;
       font-family: monospace;
-      white-space: pre-wrap;
-      word-break: break-all;
+      white-space: pre;
+      overflow-x: auto;
+      font-size: 14px;
+      line-height: 1.5;
     }
 
     .field-descriptions {
@@ -68,6 +70,11 @@ mat-card {
 
     .example {
       margin-top: 24px;
+
+      .hint-text {
+        margin: 8px 0;
+        font-style: italic;
+      }
     }
   }
 
