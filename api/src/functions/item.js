@@ -5,6 +5,7 @@ const { getDatabase } = require("../db/db");
 const projection = {
   _id: 0,
   createdAt: 0,
+  userId: 0,
   updatedAt: 0
 }
 

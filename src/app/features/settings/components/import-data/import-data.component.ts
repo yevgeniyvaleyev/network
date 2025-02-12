@@ -4,6 +4,7 @@ import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppLayoutComponent } from 'core/layout/app-layout/app-layout.component';
 
 @Component({
@@ -21,8 +22,11 @@ import { AppLayoutComponent } from 'core/layout/app-layout/app-layout.component'
 })
 export class ImportDataComponent {
   public error = signal<string | null>(null);
+  public success = signal<string | null>(null);
+  public isUploading = signal(false);
   private readonly allowedFileType = 'text/csv';
   private readonly http = inject(HttpClient);
+  private readonly snackBar = inject(MatSnackBar);
 
   onFileSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
@@ -37,6 +41,9 @@ export class ImportDataComponent {
     }
 
     this.error.set(null);
+    this.success.set(null);
+    this.isUploading.set(true);
+
     const reader = new FileReader();
     reader.onload = () => {
       const csvContent = reader.result as string;
@@ -46,14 +53,22 @@ export class ImportDataComponent {
   }
 
   private uploadCsv(csvContent: string): void {
-    this.http.post(`/import-contacts`, csvContent).subscribe({
+    this.http.post('/api/upload', csvContent).subscribe({
       next: (response: any) => {
         console.log('Import successful:', response);
-        // TODO: Show success message
+        this.isUploading.set(false);
+        const message = `Successfully imported: ${response.created} created, ${response.updated} updated`;
+        this.success.set(message);
+        this.snackBar.open(message, 'Close', { duration: 5000 });
+        
+        if (response.errors?.length > 0) {
+          this.error.set(`Some records had errors:\n${response.errors.join('\n')}`);
+        }
       },
       error: (error) => {
         console.error('Import failed:', error);
-        this.error.set(error.error || 'Failed to import contacts');
+        this.isUploading.set(false);
+        this.error.set(error.error?.error || error.error || 'Failed to import contacts');
       }
     });
   }

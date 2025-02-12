@@ -5,6 +5,11 @@
       {{ error() }}
     </mat-card-content>
     }
+    @if (success()) {
+    <mat-card-content class="success-message">
+      {{ success() }}
+    </mat-card-content>
+    }
     <mat-card-content>
       <div class="import-container">
         <h2>Import Network Contacts</h2>
@@ -26,20 +31,20 @@
               <li><strong>email</strong> - Contact's email address</li>
               <li><strong>communicationLanguage</strong> - Preferred language for communication</li>
               <li><strong>reconnectionFrequency</strong> - Days between reconnections (number)</li>
-              <li><strong>lastConnect</strong> - Date of last connection (YYYY-MM-DD format)</li>
+              <li><strong>lastConnect</strong> - Date of last connection (DD/MM/YYYY format)</li>
             </ul>
           </div>
 
           <div class="example">
             <h4>Example:</h4>
-            <code>John Doe,Software Engineer,Tech Corp,+1234567890,email,john&#64;example.com,english,30,2024-02-12</code>
+            <code>John Doe,Software Engineer,Tech Corp,+1234567890,email,john&#64;example.com,english,30,12/02/2024</code>
           </div>
         </div>
 
         <input type="file" #fileInput style="display: none" accept=".csv" (change)="onFileSelected($event)" />
-        <button mat-raised-button color="primary" (click)="fileInput.click()">
-          <mat-icon>upload_file</mat-icon>
-          Select CSV File
+        <button mat-raised-button color="primary" (click)="fileInput.click()" [disabled]="isUploading()">
+          <mat-icon>{{ isUploading() ? 'hourglass_empty' : 'upload_file' }}</mat-icon>
+          {{ isUploading() ? 'Uploading...' : 'Select CSV File' }}
         </button>
         <p class="hint-text">Only CSV files are supported</p>
       </div>

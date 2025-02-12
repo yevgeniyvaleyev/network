@@ -2,6 +2,13 @@ const { app } = require("@azure/functions");
 const { getCurrentUser } = require("../auth/auth");
 const { getDatabase } = require("../db/db");
 
+const projection = {
+  _id: 0,
+  createdAt: 0,
+  userId: 0,
+  updatedAt: 0
+}
+
 app.http("items", {
   methods: ["GET", "POST"],
   authLevel: "anonymous",
@@ -16,7 +23,7 @@ app.http("items", {
     const networkList = (
       await db
         .collection("network-list")
-        .find({ userId: currentUser.name })
+        .find({ userId: currentUser.name }, { projection })
         .toArray()
     );
 

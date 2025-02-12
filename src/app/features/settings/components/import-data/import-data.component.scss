@@ -94,3 +94,11 @@ mat-card {
   background-color: rgba($error-color, 0.1);
   border-radius: 4px;
 }
+
+.success-message {
+  color: $success-color;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: rgba($success-color, 0.1);
+  border-radius: 4px;
+}
