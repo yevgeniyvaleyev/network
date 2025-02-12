@@ -7,14 +7,6 @@ import { AuthorizedComponent } from './authorized.component';
 
 export const routes: Routes = [
   {
-    path: '.auth/login/github',
-    children: []
-  },
-  {
-    path: '.auth/logout',
-    children: []
-  },
-  {
     path: 'login',
     component: LoginComponent
   },

@@ -17,7 +17,7 @@
     },
     {
       "name": "assets",
-      "installMode": "prefetch",
+      "installMode": "lazy",
       "updateMode": "prefetch",
       "resources": {
         "files": [
@@ -33,14 +33,14 @@
       "urls": [
         "/api/**"
       ],
+      "excludeUrls": [
+        "/.auth/**"
+      ],
       "cacheConfig": {
         "strategy": "freshness",
         "maxSize": 100,
-        "maxAge": "1d",
-        "timeout": "5s"
-      },
-      "cacheQueryOptions": {
-        "ignoreSearch": false
+        "maxAge": "3d",
+        "timeout": "10s"
       },
       "version": 1,
       "method": "GET"
