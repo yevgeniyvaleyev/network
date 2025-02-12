@@ -1,6 +1,13 @@
 {
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
+  "navigationUrls": [
+    "/**",
+    "!/**/*.*",
+    "!/**/*__*",
+    "!/**/*__*/**",
+    "!/.auth/**"
+  ],
   "assetGroups": [
     {
       "name": "app",
@@ -12,7 +19,8 @@
           "/manifest.webmanifest",
           "/*.css",
           "/*.js"
-        ]
+        ],
+        "urls": []
       }
     },
     {
@@ -32,9 +40,6 @@
       "name": "api-get-cache",
       "urls": [
         "/api/**"
-      ],
-      "excludeUrls": [
-        "/.auth/**"
       ],
       "cacheConfig": {
         "strategy": "freshness",

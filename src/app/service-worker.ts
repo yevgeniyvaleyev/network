@@ -12,10 +12,7 @@ precacheAndRoute(self.__WB_MANIFEST);
 // Cache GET API requests
 registerRoute(
   ({ url, request }) => {
-    // Only match /api/ paths that are not auth-related
-    return url.pathname.startsWith('/api/') && 
-           !url.pathname.startsWith('/.auth/') && 
-           request.method === 'GET';
+    return url.pathname.startsWith('/api/') && request.method === 'GET';
   },
   new StaleWhileRevalidate({
     cacheName: 'api-get-cache'
