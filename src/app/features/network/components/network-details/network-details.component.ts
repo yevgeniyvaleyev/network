@@ -51,27 +51,11 @@ export class NetworkDetailsComponent {
       alias: 'reconnect',
       icon: 'check_circle'
     },
-    {
-      alias: 'delete',
-      icon: 'delete'
-    },
-    {
-      alias: 'edit',
-      icon: 'edit'
-    }
   ];
 
   public onTabClick(alias: string): void {
-    switch (alias) {
-      case 'edit':
-        this.router.navigate(['/network/edit', this.contact()?.id]);
-        break;
-      case 'delete':
-        this.openDeleteConfirmationDialog();
-        break;
-      case 'reconnect':
-        this.openReconnectConfirmationDialog();
-        break;
+    if (alias === 'reconnect') {
+      this.openReconnectConfirmationDialog();
     }
   }
 
@@ -148,7 +132,7 @@ export class NetworkDetailsComponent {
     return appUrls[app] || '';
   }
 
-  private openDeleteConfirmationDialog(): void {
+  public openDeleteConfirmationDialog(): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
         title: 'Delete Contact',

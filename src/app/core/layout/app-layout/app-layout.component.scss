@@ -96,6 +96,10 @@ mat-sidenav-content {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 20px;
+
+  &.no-footer {
+    bottom: 0;
+  }
 }
 
 .bottom-nav {

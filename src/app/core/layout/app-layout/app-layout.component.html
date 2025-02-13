@@ -8,7 +8,7 @@
     <span class="toolbar-title">{{ title }}</span>
   </mat-toolbar>
 
-  <div class="content-container">
+  <div class="content-container" [class.no-footer]="!config?.length">
     <ng-content />
   </div>
 
