@@ -34,21 +34,5 @@
         ]
       }
     }
-  ],
-  "dataGroups": [
-    {
-      "name": "api-get-cache",
-      "urls": [
-        "/api/**"
-      ],
-      "cacheConfig": {
-        "strategy": "freshness",
-        "maxSize": 100,
-        "maxAge": "3d",
-        "timeout": "10s"
-      },
-      "version": 1,
-      "method": "GET"
-    }
   ]
 }
