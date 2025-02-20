@@ -1,5 +1,5 @@
 const { app } = require("@azure/functions");
-const { getCurrentUser } = require("../auth/auth");
+const { getCurrentUser, getAuthenticationResponse } = require("../auth/auth");
 const { getDatabase } = require("../db/db");
 const { parse } = require("csv-parse/sync");
 const { v4: uuidv4 } = require("uuid");
@@ -135,13 +135,7 @@ app.http("upload", {
     const currentUser = await getCurrentUser(request, context);
 
     if (!currentUser.hasAccess) {
-      return {
-        status: 401,
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ error: "Unauthorized" })
-      };
+      return getAuthenticationResponse(currentUser);
     }
 
     const db = await getDatabase(context);

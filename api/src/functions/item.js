@@ -1,5 +1,5 @@
 const { app } = require("@azure/functions");
-const { getCurrentUser } = require("../auth/auth");
+const { getCurrentUser, getAuthenticationResponse } = require("../auth/auth");
 const { getDatabase } = require("../db/db");
 
 const projection = {
