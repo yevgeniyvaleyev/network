@@ -19,7 +19,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="warn" (click)="logout()">
+      <button mat-raised-button color="warn" (click)="logout()" [disabled]="!isOnline()">
         <mat-icon>logout</mat-icon>
         Logout
       </button>

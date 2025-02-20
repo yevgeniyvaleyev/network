@@ -8,6 +8,7 @@ import { AppLayoutComponent } from 'core/layout/app-layout/app-layout.component'
 import { computed } from '@angular/core';
 import { AuthService } from 'core/services/auth.service';
 import { AuthStore } from 'core/store/auth.store';
+import { AppStore } from 'app/core/store/app.store';
 
 @Component({
   selector: 'app-account-settings',
@@ -26,7 +27,9 @@ import { AuthStore } from 'core/store/auth.store';
 export class AccountSettingsComponent {
   private authStore = inject(AuthStore);
   private authService = inject(AuthService);
+  private appStore = inject(AppStore);
 
+  readonly isOnline = this.appStore.isOnline;
   readonly userName = computed(() => this.authStore.currentUser()?.name);
   readonly userLanguages = computed(() => this.authStore.currentUser()?.languages || []);
 

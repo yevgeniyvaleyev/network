@@ -8,6 +8,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
 import { NetworkStore } from 'app/store/network.store';
+import { AppStore } from 'app/core/store/app.store';
 import { AppMainLayoutComponent } from 'core/layout/app-main-layout/app-main-layout.component';
 import { ReconnectionStatusComponent } from 'shared/components/reconnection-status/reconnection-status.component';
 
@@ -31,7 +32,13 @@ import { ReconnectionStatusComponent } from 'shared/components/reconnection-stat
 })
 export class NetworkListComponent {
   private networkStore = inject(NetworkStore);
+  private appStore = inject(AppStore);
 
   public contacts = this.networkStore.contacts;
   public loading = this.networkStore.loading;
+  public isOnline = this.appStore.isOnline;
+
+  constructor() {
+    this.networkStore.loadContacts();
+  }
 }

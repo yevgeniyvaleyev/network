@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,6 +13,7 @@ import { NetworkContact } from 'shared/services/network-contacts.service';
 import { ReconnectionStatusComponent } from 'shared/components/reconnection-status/reconnection-status.component';
 import { MatListModule } from '@angular/material/list';
 import { NetworkStore } from 'app/store/network.store';
+import { AppStore } from 'app/core/store/app.store';
 
 @Component({
   selector: 'app-network-details',
@@ -37,6 +38,9 @@ export class NetworkDetailsComponent {
   private networkStore = inject(NetworkStore);
   private router = inject(Router);
   private dialog = inject(MatDialog);
+  private appStore = inject(AppStore);
+
+  public isOnline = this.appStore.isOnline;
 
   readonly loading = this.networkStore.loading;
   readonly error = signal<string | null>(null);
@@ -46,10 +50,17 @@ export class NetworkDetailsComponent {
     return this.networkStore.contacts().find(c => c.id === id);
   });
 
+  constructor() {
+    effect(() => {
+      this.tabsConfig[0].disabled = !this.isOnline()
+    })
+  }
+
   public tabsConfig: AppLayoutTab[] = [
     {
       alias: 'reconnect',
-      icon: 'check_circle'
+      icon: 'check_circle',
+      disabled: false
     },
   ];
 
@@ -133,6 +144,7 @@ export class NetworkDetailsComponent {
   }
 
   public openDeleteConfirmationDialog(): void {
+    if (!this.isOnline()) return;
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: {
         title: 'Delete Contact',

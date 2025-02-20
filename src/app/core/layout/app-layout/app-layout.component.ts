@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AppLayoutTab } from './app-layout.types';
 import { MatTabsModule } from '@angular/material/tabs';
+import { AppStore } from 'app/core/store/app.store';
 
 @Component({
   selector: 'app-layout',
@@ -24,12 +25,15 @@ import { MatTabsModule } from '@angular/material/tabs';
 })
 export class AppLayoutComponent {
   public router = inject(Router);
+  private appStore = inject(AppStore);
 
 
   @Input() title?: string;
   @Input() parentPath?: string;
   @Input() config?: AppLayoutTab[];
   @Output() tabClick = new EventEmitter<string>();
+
+  public isOnline = this.appStore.isOnline;
 
   goBack(): void {
     if (this.parentPath) {

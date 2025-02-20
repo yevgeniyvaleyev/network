@@ -44,7 +44,8 @@ Mike Johnson,UX Designer,Design Studio,,slack,mike&#64;example.com,english,60,15
         </div>
 
         <input type="file" #fileInput style="display: none" accept=".csv" (change)="onFileSelected($event)" />
-        <button mat-raised-button color="primary" (click)="fileInput.click()" [disabled]="isUploading()">
+        <button mat-raised-button [disabled]="!isOnline()" color="primary" (click)="fileInput.click()"
+          [disabled]="isUploading()">
           <mat-icon>{{ isUploading() ? 'hourglass_empty' : 'upload_file' }}</mat-icon>
           {{ isUploading() ? 'Uploading...' : 'Select CSV File' }}
         </button>

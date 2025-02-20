@@ -2,6 +2,11 @@
   flex: 1 1 auto;
 }
 
+.offline-icon {
+  margin-left: 8px;
+  color: #f44336; // Material Design red
+}
+
 .app-container {
   display: flex;
   flex-direction: column;
@@ -96,9 +101,11 @@ mat-sidenav-content {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 20px;
+  height: calc(100vh - var(--toolbar-height));
 
   &.no-footer {
     bottom: 0;
+    height: calc(100vh - var(--toolbar-height));
   }
 }
 

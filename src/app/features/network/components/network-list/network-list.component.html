@@ -22,7 +22,7 @@
   </mat-card>
   }
 
-  <button mat-fab color="primary" class="create-button" routerLink="/network/create">
+  <button mat-fab color="primary" [routerLink]="['/network/create']" [disabled]="!isOnline()" class="create-button">
     <mat-icon>add</mat-icon>
   </button>
 </app-main-layout>

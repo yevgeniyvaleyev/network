@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AppStore } from 'app/core/store/app.store';
 import { AppLayoutComponent } from 'core/layout/app-layout/app-layout.component';
 
 @Component({
@@ -21,12 +22,16 @@ import { AppLayoutComponent } from 'core/layout/app-layout/app-layout.component'
   styleUrls: ['./import-data.component.scss']
 })
 export class ImportDataComponent {
+  
+  private readonly http = inject(HttpClient);
+  private readonly snackBar = inject(MatSnackBar);
+  private appStore = inject(AppStore);
+
+  public isOnline = this.appStore.isOnline;
   public error = signal<string | null>(null);
   public success = signal<string | null>(null);
   public isUploading = signal(false);
   private readonly allowedFileType = 'text/csv';
-  private readonly http = inject(HttpClient);
-  private readonly snackBar = inject(MatSnackBar);
 
   onFileSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
