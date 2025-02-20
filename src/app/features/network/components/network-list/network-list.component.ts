@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCard, MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
 import { NetworkStore } from 'app/store/network.store';
@@ -22,7 +23,8 @@ import { ReconnectionStatusComponent } from 'shared/components/reconnection-stat
     MatListModule,
     MatCardModule,
     AppMainLayoutComponent,
-    ReconnectionStatusComponent
+    ReconnectionStatusComponent,
+    MatProgressBarModule,
   ],
   templateUrl: './network-list.component.html',
   styleUrls: ['./network-list.component.scss']

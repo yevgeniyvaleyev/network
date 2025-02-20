@@ -1,11 +1,14 @@
 <app-main-layout title="Network List">
-  @if (loading()) {
+  @if (loading() && !contacts()) {
   <div class="spinner-container">
     <mat-spinner diameter="40"></mat-spinner>
   </div>
   } @else {
   <mat-card>
     <mat-nav-list>
+      @if (loading() && contacts()) {
+      <mat-progress-bar mode="indeterminate" class="loading-bar"></mat-progress-bar>
+      }
       @for (contact of contacts(); track contact.id) {
       <a mat-list-item [routerLink]="['/network/view', contact.id]">
         <mat-icon matListItemIcon>person</mat-icon>

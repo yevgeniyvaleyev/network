@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
 import { ReconnectionStatusComponent } from 'shared/components/reconnection-status/reconnection-status.component';
 import { NetworkStore } from 'app/store/network.store';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-reconnect-list',
@@ -20,7 +21,8 @@ import { NetworkStore } from 'app/store/network.store';
     MatIconModule,
     RouterModule,
     ReconnectionStatusComponent,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatProgressBarModule
   ],
   templateUrl: './reconnect-list.component.html',
   styleUrls: ['./reconnect-list.component.scss']
