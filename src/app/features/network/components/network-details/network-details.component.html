@@ -29,12 +29,6 @@
           </div>
         </mat-list-item>
 
-        <mat-list-item>
-          <mat-icon matListItemIcon>calendar_today</mat-icon>
-          <div matListItemTitle>Last Contact</div>
-          <div matListItemLine>{{ contact()?.lastContactDate | date }}</div>
-        </mat-list-item>
-
         @if (contact()?.jobTitle) {
         <mat-list-item>
           <mat-icon matListItemIcon>work</mat-icon>
