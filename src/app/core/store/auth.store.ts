@@ -2,6 +2,7 @@ import { computed, inject } from '@angular/core';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 export interface CurrentUser {
   hasAccess: boolean;
@@ -22,6 +23,8 @@ const initialState: AuthState = {
   error: null,
 };
 
+const STORAGE_KEY = 'auth_user';
+
 export const AuthStore = signalStore(
   { providedIn: 'root' },
   withState<AuthState>(initialState),
@@ -30,24 +33,45 @@ export const AuthStore = signalStore(
     hasAccess: computed(() => !!store.currentUser()?.hasAccess),
     currentUser: computed(() => store.currentUser()),
   })),
-  withMethods((store) => {
-    const authService = inject(AuthService);
+  withMethods((store, authService = inject(AuthService), router = inject(Router)) => ({
+    async loadUser() {
+      // First try to get user from local storage
+      const storedUser = localStorage.getItem(STORAGE_KEY);
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        patchState(store, { currentUser: user, loading: false });
+        return;
+      }
 
-    return {
-      async loadUser() {
-        try {
-          patchState(store, { loading: true, error: null });
-          const user = await firstValueFrom(authService.getCurrentUser());
-          console.log(user);
-          patchState(store, { currentUser: user, loading: false });
-        } catch (error) {
-          patchState(store, {
-            error: 'Failed to load user data',
-            loading: false,
-          });
-        }
-      },
-    };
-  },
-  )
+      // If no stored user, load from server
+      patchState(store, { loading: true });
+      try {
+        const user = await firstValueFrom(authService.getCurrentUser());
+        // Store user in local storage
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+        patchState(store, { currentUser: user, loading: false });
+      } catch (error: any) {
+        patchState(store, { error: error?.message, loading: false });
+        this.handleAuthError(error);
+      }
+    },
+
+    handleAuthError(error: any) {
+      if (error.status === 401) {
+        // Unauthorized - clear storage and redirect to login
+        localStorage.removeItem(STORAGE_KEY);
+        patchState(store, { currentUser: null });
+        authService.login();
+      } else if (error.status === 403) {
+        // Forbidden - user is authenticated but doesn't have access
+        router.navigate(['/pending']);
+      }
+    },
+
+    logout() {
+      localStorage.removeItem(STORAGE_KEY);
+      patchState(store, { currentUser: null });
+      authService.logout();
+    }
+  }))
 );
