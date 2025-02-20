@@ -2,6 +2,7 @@ import { patchState, signalStore, withComputed, withHooks, withMethods, withStat
 import { computed, inject } from '@angular/core';
 import { NetworkContact, NetworkContactsService } from 'shared/services/network-contacts.service';
 import { firstValueFrom } from 'rxjs';
+import { AppStore } from 'app/core/store/app.store';
 
 interface NetworkState {
   contacts: NetworkContact[];
@@ -28,19 +29,27 @@ export const NetworkStore = signalStore(
   })),
   withMethods((store) => {
     const networkService = inject(NetworkContactsService);
+    const appStore = inject(AppStore);
 
     return {
       async loadContacts() {
         const storedContacts = localStorage.getItem(STORAGE_KEY);
         if (storedContacts) {
           const contacts = JSON.parse(storedContacts);
-          patchState(store, { contacts, loading: true });
+          patchState(store, { contacts });
+
+        }
+
+        if (appStore.isOnline()) {
+          patchState(store, { loading: true });
+          appStore.setBackgroundSync(true);
         }
 
         try {
           const contacts = await firstValueFrom(networkService.getContacts());
           localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
           patchState(store, { contacts, loading: false });
+          appStore.setBackgroundSync(false);
         } catch (error) {
           patchState(store, {
             error: 'Failed to load contacts',

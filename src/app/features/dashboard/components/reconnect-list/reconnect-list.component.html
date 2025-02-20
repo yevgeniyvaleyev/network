@@ -3,16 +3,14 @@
     <mat-card-title>Contacts to reconnect</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    @if (loading() && !contacts()) {
+    @if (loading() && !reconnectContacts()) {
     <div class="spinner-container">
       <mat-spinner diameter="40"></mat-spinner>
     </div>
     } @else {
+
     <mat-nav-list>
-      @if (loading() && contacts()) {
-      <mat-progress-bar mode="indeterminate" class="loading-bar"></mat-progress-bar>
-      }
-      @for (contact of contacts(); track contact.id) {
+      @for (contact of reconnectContacts(); track contact.id) {
       <a mat-list-item [routerLink]="['/network/view', contact.id]">
         <mat-icon matListItemIcon>person</mat-icon>
         <div matListItemTitle>{{ contact.name }}</div>

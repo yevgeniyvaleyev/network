@@ -6,16 +6,19 @@ import { map } from 'rxjs/operators';
 
 interface AppState {
   isOnline: boolean;
+  isBackgroundSync: boolean;
 }
 
 const initialState: AppState = {
-  isOnline: navigator.onLine
+  isOnline: navigator.onLine,
+  isBackgroundSync: false
 };
 
 export const AppStore = signalStore(
   { providedIn: 'root' },
   withState<AppState>(initialState),
   withComputed((store) => ({
+    isBackgroundSync: computed(() => store.isBackgroundSync()),
     isOnline: computed(() => store.isOnline()),
   })),
   withMethods((store) => {
@@ -30,8 +33,8 @@ export const AppStore = signalStore(
     });
 
     return {
-      setOnlineStatus(isOnline: boolean) {
-        patchState(store, { isOnline });
+      setBackgroundSync(isBackgroundSync: boolean) {
+        patchState(store, { isBackgroundSync });
       }
     };
   })

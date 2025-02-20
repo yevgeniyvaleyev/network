@@ -22,7 +22,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     RouterModule,
     ReconnectionStatusComponent,
     MatProgressSpinnerModule,
-    MatProgressBarModule
   ],
   templateUrl: './reconnect-list.component.html',
   styleUrls: ['./reconnect-list.component.scss']
@@ -31,7 +30,7 @@ export class ReconnectListComponent {
   private networkStore = inject(NetworkStore);
 
   readonly loading = this.networkStore.loading;
-  readonly contacts = computed(() => {
+  readonly reconnectContacts = computed(() => {
     const allContacts = this.networkStore.contacts();
     return allContacts.filter(contact => {
       const lastConnect = new Date(contact.lastConnect);

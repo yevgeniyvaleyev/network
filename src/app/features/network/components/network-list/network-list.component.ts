@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCard, MatCardModule } from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
-import { NetworkStore } from 'app/store/network.store';
 import { AppStore } from 'app/core/store/app.store';
+import { NetworkStore } from 'app/store/network.store';
 import { AppMainLayoutComponent } from 'core/layout/app-main-layout/app-main-layout.component';
 import { ReconnectionStatusComponent } from 'shared/components/reconnection-status/reconnection-status.component';
 
@@ -25,7 +24,6 @@ import { ReconnectionStatusComponent } from 'shared/components/reconnection-stat
     MatCardModule,
     AppMainLayoutComponent,
     ReconnectionStatusComponent,
-    MatProgressBarModule,
   ],
   templateUrl: './network-list.component.html',
   styleUrls: ['./network-list.component.scss']
@@ -37,8 +35,4 @@ export class NetworkListComponent {
   public contacts = this.networkStore.contacts;
   public loading = this.networkStore.loading;
   public isOnline = this.appStore.isOnline;
-
-  constructor() {
-    this.networkStore.loadContacts();
-  }
 }

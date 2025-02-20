@@ -5,15 +5,18 @@
       <mat-icon>arrow_back</mat-icon>
     </button>
     }
-    
+
     @if (title) {
     <span class="toolbar-title">{{ title }}</span>
     }
     <span class="spacer"></span>
     @if(!isOnline()) {
-      <mat-icon class="offline-icon">cloud_off</mat-icon>
-      }
+    <mat-icon class="offline-icon">cloud_off</mat-icon>
+    }
   </mat-toolbar>
+  @if(isBackgroundSync()) {
+  <mat-progress-bar mode="indeterminate" class="loading-bar"></mat-progress-bar>
+  }
 
   <div class="content-container" [class.no-footer]="!config?.length">
     <ng-content />
