@@ -6,7 +6,8 @@
     "start": "ng serve",
     "emulate": "swa start http://localhost:4200 --api-location ./api",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "start:server:static": "http-server dist/my-network-app/browser -p 4200",
+    "watch:build:prod": "ng build --watch --configuration production",
     "test": "ng test"
   },
   "private": true,
@@ -36,6 +37,7 @@
     "@angular/compiler-cli": "^18.0.0",
     "@types/jasmine": "~5.1.0",
     "canvas": "^3.1.0",
+    "http-server": "^14.1.1",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
