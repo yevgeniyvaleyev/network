@@ -15,6 +15,8 @@ const initialState: NetworkState = {
   error: null,
 };
 
+const STORAGE_KEY = 'network_contacts';
+
 export const NetworkStore = signalStore(
   { providedIn: 'root' },
   withState<NetworkState>(initialState),
@@ -29,9 +31,15 @@ export const NetworkStore = signalStore(
 
     return {
       async loadContacts() {
+        const storedContacts = localStorage.getItem(STORAGE_KEY);
+        if (storedContacts) {
+          const contacts = JSON.parse(storedContacts);
+          patchState(store, { contacts, loading: true });
+        }
+
         try {
-          patchState(store, { loading: true, error: null });
           const contacts = await firstValueFrom(networkService.getContacts());
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
           patchState(store, { contacts, loading: false });
         } catch (error) {
           patchState(store, {
@@ -49,18 +57,16 @@ export const NetworkStore = signalStore(
         try {
           patchState(store, { loading: true, error: null });
           const newContact = await firstValueFrom(networkService.createContact(contact));
-          const currentContacts = store.contacts();
-          patchState(store, {
-            contacts: [...currentContacts, newContact],
-            loading: false,
-          });
+          const contacts = [...store.contacts(), newContact];
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
+          patchState(store, { contacts, loading: false });
           return newContact;
         } catch (error) {
           patchState(store, {
             error: 'Failed to create contact',
             loading: false,
           });
-          throw error;
+          return null;
         }
       },
 
@@ -68,19 +74,16 @@ export const NetworkStore = signalStore(
         try {
           patchState(store, { loading: true, error: null });
           const updatedContact = await firstValueFrom(networkService.updateContact(id, contact));
-          const currentContacts = store.contacts();
-          patchState(store, {
-            contacts: currentContacts.map(c => c.id === id ? updatedContact : c),
-            // selectedContact: updatedContact,
-            loading: false,
-          });
-          return updatedContact;
+          const contacts = store.contacts().map(c =>
+            c.id === id ? { ...c, ...updatedContact } : c
+          );
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
+          patchState(store, { contacts, loading: false });
         } catch (error) {
           patchState(store, {
             error: 'Failed to update contact',
             loading: false,
           });
-          throw error;
         }
       },
 
@@ -88,18 +91,14 @@ export const NetworkStore = signalStore(
         try {
           patchState(store, { loading: true, error: null });
           await firstValueFrom(networkService.deleteContact(id));
-          const currentContacts = store.contacts();
-          patchState(store, {
-            contacts: currentContacts.filter(c => c.id !== id),
-            // selectedContact: store.selectedContact()?.id === id ? null : store.selectedContact(),
-            loading: false,
-          });
+          const contacts = store.contacts().filter(c => c.id !== id);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
+          patchState(store, { contacts, loading: false });
         } catch (error) {
           patchState(store, {
             error: 'Failed to delete contact',
             loading: false,
           });
-          throw error;
         }
       },
 
