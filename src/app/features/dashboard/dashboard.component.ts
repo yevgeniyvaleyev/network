@@ -16,15 +16,17 @@ export class DashboardComponent {
   private networkStore = inject(NetworkStore);
 
   readonly loading = this.networkStore.loading;
-  
+
+  private sortedAllContacts = computed(() => {
+    return [...this.networkStore.contacts()].sort((a, b) => this.sortByLatestConnected(a, b));
+  });
+
   private allReconnectContacts = computed(() => {
-    const allContacts = this.networkStore.contacts();
-    return this.getReconnectContacts(allContacts);
+    return this.getReconnectContacts(this.sortedAllContacts());
   });
 
   readonly connectedContacts = computed(() => {
-    const allContacts = this.networkStore.contacts();
-    return this.getConnectedContacts(allContacts);
+    return this.getConnectedContacts(this.sortedAllContacts());
   });
 
   readonly plannedReconnectContacts = computed(() => {
@@ -42,6 +44,10 @@ export class DashboardComponent {
   readonly reconnectContacts = computed(() => {
     return this.allReconnectContacts().filter(contact => !contact.isInviteSent && !contact.plannedReconnectionDate && !this.isMeetingToday(contact));
   });
+
+  private sortByLatestConnected(a: NetworkContact, b: NetworkContact): number {
+    return new Date(b.lastConnect).valueOf() - new Date(a.lastConnect).valueOf();
+  }
 
   private isMeetingToday(contact: NetworkContact): boolean {
     return contact.plannedReconnectionDate?.valueOf() === new Date().valueOf();
