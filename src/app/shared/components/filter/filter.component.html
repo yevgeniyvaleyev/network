@@ -1,0 +1,11 @@
+<mat-form-field appearance="outline" class="filter-field">
+  <mat-label>Search</mat-label>
+  <input matInput [formControl]="searchControl" placeholder="Type to search...">
+  @if (searchControl.value) {
+    <button matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
+      <mat-icon>close</mat-icon>
+    </button>
+  } @else {
+    <mat-icon matSuffix>search</mat-icon>
+  }
+</mat-form-field>

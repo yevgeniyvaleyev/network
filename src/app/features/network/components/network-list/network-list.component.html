@@ -1,21 +1,24 @@
 <app-main-layout title="Network List">
-  @if (loading() && !contacts()?.length) {
+  @if (loading() && !contacts()) {
   <div class="spinner-container">
     <mat-spinner diameter="40"></mat-spinner>
   </div>
   } @else {
   <mat-card>
-    <mat-nav-list>
-      @for (contact of contacts(); track contact.id) {
-      <a mat-list-item [routerLink]="['/network/view', contact.id]">
-        <mat-icon matListItemIcon>person</mat-icon>
-        <div matListItemTitle>{{ contact.name }}</div>
-        <div matListItemLine>
-          <app-reconnection-status [networkContact]="contact"></app-reconnection-status>
-        </div>
-      </a>
-      }
-    </mat-nav-list>
+    <mat-card-content>
+      <app-filter (search)="onSearch($event)"></app-filter>
+      <mat-nav-list>
+        @for (contact of filteredContacts(); track contact.id) {
+        <a mat-list-item [routerLink]="['/network/view', contact.id]">
+          <mat-icon matListItemIcon>person</mat-icon>
+          <div matListItemTitle>{{ contact.name }}</div>
+          <div matListItemLine>
+            <app-reconnection-status [networkContact]="contact"></app-reconnection-status>
+          </div>
+        </a>
+        }
+      </mat-nav-list>
+    </mat-card-content>
   </mat-card>
   }
 
