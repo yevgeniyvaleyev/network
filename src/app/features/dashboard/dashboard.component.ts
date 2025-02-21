@@ -50,7 +50,7 @@ export class DashboardComponent {
   }
 
   private isMeetingToday(contact: NetworkContact): boolean {
-    return contact.plannedReconnectionDate?.valueOf() === new Date().valueOf();
+    return contact.plannedReconnectionDate?.toDateString() === new Date().toDateString();
   }
 
   private getReconnectContacts(allContacts: NetworkContact[]): NetworkContact[] {
