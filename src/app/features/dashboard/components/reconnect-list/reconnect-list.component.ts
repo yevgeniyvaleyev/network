@@ -38,12 +38,4 @@ export class ReconnectListComponent {
       return daysElapsed >= contact.reconnectionFrequency;
     });
   });
-
-  getIcon(daysOverdue: number): string {
-    return daysOverdue >= 7 ? 'warning' : 'person';
-  }
-
-  getIconColor(daysOverdue: number): string {
-    return daysOverdue >= 7 ? 'warn' : 'primary';
-  }
 }
