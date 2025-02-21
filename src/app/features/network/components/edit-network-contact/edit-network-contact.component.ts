@@ -8,6 +8,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthStore } from 'app/core/store/auth.store';
 import { NetworkStore } from 'app/store/network.store';
@@ -27,6 +28,7 @@ import { AppLayoutTab } from 'core/layout/app-layout/app-layout.types';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatSlideToggleModule,
     AppLayoutComponent,
     MatCardModule
   ],
@@ -53,7 +55,8 @@ export class EditNetworkContactComponent implements OnInit {
     communicationLanguage: [this.communicationLanguages()[0]],
     email: ['', Validators.email],
     reconnectionFrequency: [30, [Validators.required, Validators.min(1)]],
-    plannedReconnectionDate: [null]
+    plannedReconnectionDate: [null],
+    isApproached: [false]
   });
 
   readonly selectedContact = computed(() => {
