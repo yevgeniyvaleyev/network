@@ -1,29 +1,32 @@
 <mat-card>
-  @if (title()) {
   <mat-card-header>
-    <mat-card-title>{{ title() }}</mat-card-title>
+    <mat-card-title>
+      @if (icon()) {
+        <mat-icon>{{ icon() }}</mat-icon>
+      }
+      {{ title() }}
+    </mat-card-title>
   </mat-card-header>
-  }
   <mat-card-content>
     @if (isLoading() && !contacts()) {
-    <div class="spinner-container">
-      <mat-spinner diameter="40"></mat-spinner>
-    </div>
+      <div class="spinner-container">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
     } @else {
 
     <mat-nav-list>
       @for (contact of contacts(); track contact.id) {
-      <a mat-list-item [routerLink]="['/network/view', contact.id]">
-        <mat-icon matListItemIcon>person</mat-icon>
-        <div matListItemTitle>{{ contact.name }}</div>
+        <a mat-list-item [routerLink]="['/network/view', contact.id]">
+          <mat-icon matListItemIcon>person</mat-icon>
+          <div matListItemTitle>{{ contact.name }}</div>
         <div matListItemLine>
           <app-reconnection-status [networkContact]="contact"></app-reconnection-status>
         </div>
-      </a>
+        </a>
       } @empty {
-      <mat-list-item>
-        <div matListItemTitle>Empty list</div>
-      </mat-list-item>
+        <mat-list-item>
+          <div matListItemTitle>Empty list</div>
+        </mat-list-item>
       }
     </mat-nav-list>
     }

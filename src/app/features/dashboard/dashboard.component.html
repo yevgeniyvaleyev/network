@@ -1,8 +1,12 @@
 <app-main-layout title="Dashboard">
-    <app-contacts-list [isLoading]="loading()" [contacts]="plannedToReconnectToday()" [title]="'Today'" />
-    <app-contacts-list [isLoading]="loading()" [contacts]="plannedReconnectContacts()" [title]="'Planned meetings'" />
-    <app-contacts-list [isLoading]="loading()" [contacts]="approacedReconnectContacts()"
-        [title]="'Approached contacts'" />
-    <app-contacts-list [isLoading]="loading()" [contacts]="reconnectContacts()" [title]="'Contacts to reconnect'" />
-    <app-contacts-list [isLoading]="loading()" [contacts]="connectedContacts()" [title]="'Connected contacts'" />
+    <app-contacts-list [isLoading]="loading()" [contacts]="plannedToReconnectToday()" [title]="'Today'"
+        [icon]="'today'" />
+    <app-contacts-list [isLoading]="loading()" [contacts]="reconnectContacts()" [title]="'Contacts to reconnect'"
+        [icon]="'schedule'" />
+    <app-contacts-list [isLoading]="loading()" [contacts]="plannedReconnectContacts()" [title]="'Planned meetings'"
+        [icon]="'event'" />
+    <app-contacts-list [isLoading]="loading()" [contacts]="approacedReconnectContacts()" [title]="'Approached contacts'"
+        [icon]="'mail'" />
+    <app-contacts-list [isLoading]="loading()" [contacts]="connectedContacts()" [title]="'Connected contacts'"
+        [icon]="'check_circle'" />
 </app-main-layout>

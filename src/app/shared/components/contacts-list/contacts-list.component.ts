@@ -16,6 +16,7 @@ import { ReconnectionStatusComponent } from 'shared/components/reconnection-stat
   imports: [
     CommonModule,
     MatCardModule,
+    MatIconModule,
     MatListModule,
     MatButtonModule,
     MatIconModule,
@@ -31,4 +32,5 @@ export class ContactsListComponent {
   title = input<string>('');
   contacts = input.required<NetworkContact[]>();
   isLoading = input(false);
+  icon = input('');
 }
