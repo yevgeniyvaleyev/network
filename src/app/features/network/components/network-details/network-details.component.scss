@@ -147,9 +147,13 @@ mat-nav-list {
 }
 
 .success-text {
-  color: #4caf50;
+  color: $success-color;
 }
 
 .warning-text {
-  color: #ff9800;
+  color: $warning-color;
+}
+
+.info-text {
+  color: $info-color
 }

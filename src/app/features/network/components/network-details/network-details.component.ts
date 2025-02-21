@@ -50,6 +50,17 @@ export class NetworkDetailsComponent {
     return this.networkStore.contacts().find(c => c.id === id);
   });
 
+  public isOverdue = computed(() => {
+    const contact = this.contact();
+    if (!contact) return false;
+
+    const lastConnect = new Date(contact.lastConnect);
+    const today = new Date();
+    const daysSinceLastConnect = Math.floor((today.getTime() - lastConnect.getTime()) / (1000 * 60 * 60 * 24));
+    
+    return daysSinceLastConnect > contact.reconnectionFrequency;
+  });
+
   constructor() {
     effect(() => {
       this.tabsConfig[0].disabled = !this.isOnline()

@@ -46,11 +46,14 @@
           <mat-icon matListItemIcon>check_circle</mat-icon>
           <div matListItemTitle>Contact Status</div>
           <div matListItemLine>
-            @if (contact()?.isApproached) {
-            <span class="success-text">Approached</span>
-            }
-            @else {
-            <span class="warning-text">Not Approached</span>
+            @if (!isOverdue()) {
+              <span class="success-text">Good</span>
+            } @else {
+              @if (contact()?.isApproached) {
+                <span class="info-text">Overdue - Approached</span>
+              } @else {
+                <span class="warning-text">Overdue - Not Approached</span>
+              }
             }
           </div>
         </mat-list-item>
