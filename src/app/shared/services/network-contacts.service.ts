@@ -5,16 +5,16 @@ import { Observable } from 'rxjs';
 export interface NetworkContact {
   id: string;
   name: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   lastConnect: Date;
-  jobTitle: string;
-  workedAt: string;
-  preferredCommunicationChannel: string;
-  communicationLanguage: string;
-  email: string;
+  jobTitle?: string;
+  workedAt?: string;
+  preferredCommunicationChannel?: string;
+  communicationLanguage?: string;
+  email?: string;
   reconnectionFrequency: number;
   plannedReconnectionDate?: Date;
-  isApproached: boolean;
+  isInviteSent: boolean;
 }
 
 @Injectable({

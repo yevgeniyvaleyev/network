@@ -82,7 +82,15 @@ export const NetworkStore = signalStore(
       async updateContact(id: string, contact: Partial<NetworkContact>) {
         try {
           patchState(store, { loading: true, error: null });
+          if (contact.lastConnect === new Date()) {
+            contact.isInviteSent = false;
+            contact.plannedReconnectionDate = undefined;
+          }
+          if (contact.plannedReconnectionDate) {
+            contact.isInviteSent = false;
+          }
           const updatedContact = await firstValueFrom(networkService.updateContact(id, contact));
+
           const contacts = store.contacts().map(c =>
             c.id === id ? { ...c, ...updatedContact } : c
           );

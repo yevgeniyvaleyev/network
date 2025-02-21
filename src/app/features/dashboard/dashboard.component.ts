@@ -16,31 +16,48 @@ export class DashboardComponent {
   private networkStore = inject(NetworkStore);
 
   readonly loading = this.networkStore.loading;
+  
   private allReconnectContacts = computed(() => {
     const allContacts = this.networkStore.contacts();
     return this.getReconnectContacts(allContacts);
   });
 
+  readonly connectedContacts = computed(() => {
+    const allContacts = this.networkStore.contacts();
+    return this.getConnectedContacts(allContacts);
+  });
+
   readonly plannedReconnectContacts = computed(() => {
-    return this.allReconnectContacts().filter(contact => contact.plannedReconnectionDate);
+    return this.allReconnectContacts().filter(contact => !contact.isInviteSent && contact.plannedReconnectionDate && !this.isMeetingToday(contact));
   });
 
   readonly plannedToReconnectToday = computed(() => {
-    return this.plannedReconnectContacts().filter(contact => contact.plannedReconnectionDate!.valueOf() === new Date().valueOf());
+    return this.plannedReconnectContacts().filter(contact => this.isMeetingToday(contact));
   });
 
   readonly approacedReconnectContacts = computed(() => {
-    return this.allReconnectContacts().filter(contact => contact.isApproached);
+    return this.allReconnectContacts().filter(contact => contact.isInviteSent);
   });
 
   readonly reconnectContacts = computed(() => {
-    return this.allReconnectContacts().filter(contact => !contact.isApproached && !contact.plannedReconnectionDate);
+    return this.allReconnectContacts().filter(contact => !contact.isInviteSent && !contact.plannedReconnectionDate && !this.isMeetingToday(contact));
   });
+
+  private isMeetingToday(contact: NetworkContact): boolean {
+    return contact.plannedReconnectionDate?.valueOf() === new Date().valueOf();
+  }
 
   private getReconnectContacts(allContacts: NetworkContact[]): NetworkContact[] {
     return allContacts.filter(contact => {
       const daysElapsed = this.daysElapsed(contact);
       return daysElapsed >= contact.reconnectionFrequency;
+    });
+  }
+
+  private getConnectedContacts(allContacts: NetworkContact[]): NetworkContact[] {
+    return allContacts.filter(contact => {
+      const daysElapsed = this.daysElapsed(contact);
+      return daysElapsed < contact.reconnectionFrequency;
     });
   }
 

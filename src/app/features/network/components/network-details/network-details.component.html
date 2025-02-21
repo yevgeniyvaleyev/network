@@ -47,13 +47,13 @@
           <div matListItemTitle>Contact Status</div>
           <div matListItemLine>
             @if (!isOverdue()) {
-              <span class="success-text">Good</span>
+            <span class="success-text">Good</span>
             } @else {
-              @if (contact()?.isApproached) {
-                <span class="info-text">Overdue - Approached</span>
-              } @else {
-                <span class="warning-text">Overdue - Not Approached</span>
-              }
+            @if (contact()?.isInviteSent) {
+            <span class="info-text">Overdue - Approached</span>
+            } @else {
+            <span class="warning-text">Overdue - Not Approached</span>
+            }
             }
           </div>
         </mat-list-item>
