@@ -51,7 +51,8 @@ export class CreateNetworkContactComponent {
     preferredCommunicationChannel: [''],
     communicationLanguage: [this.communicationLanguages()[0]], // Default to first available language
     email: ['', Validators.email],
-    reconnectionFrequency: [30, [Validators.required, Validators.min(1)]]
+    reconnectionFrequency: [30, [Validators.required, Validators.min(1)]],
+    plannedReconnectionDate: [null]
   });
 
   public tabsConfig: AppLayoutTab[] = [

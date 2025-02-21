@@ -16,10 +16,17 @@
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Last Connect</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="lastConnect" required>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
+      <mat-label>Last Contact Date</mat-label>
+      <input matInput [matDatepicker]="lastContactPicker" formControlName="lastConnect">
+      <mat-datepicker-toggle matIconSuffix [for]="lastContactPicker"></mat-datepicker-toggle>
+      <mat-datepicker #lastContactPicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Planned Reconnection Date</mat-label>
+      <input matInput [matDatepicker]="plannedReconnectionPicker" formControlName="plannedReconnectionDate">
+      <mat-datepicker-toggle matIconSuffix [for]="plannedReconnectionPicker"></mat-datepicker-toggle>
+      <mat-datepicker #plannedReconnectionPicker></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field>

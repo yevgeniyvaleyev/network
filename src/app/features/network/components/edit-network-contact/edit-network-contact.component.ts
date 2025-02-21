@@ -52,7 +52,8 @@ export class EditNetworkContactComponent implements OnInit {
     preferredCommunicationChannel: [''],
     communicationLanguage: [this.communicationLanguages()[0]],
     email: ['', Validators.email],
-    reconnectionFrequency: [30, [Validators.required, Validators.min(1)]]
+    reconnectionFrequency: [30, [Validators.required, Validators.min(1)]],
+    plannedReconnectionDate: [null]
   });
 
   readonly selectedContact = computed(() => {

@@ -37,8 +37,8 @@ export const AuthStore = signalStore(
     async loadUser() {
       // First try to get user from local storage
       const storedUser = localStorage.getItem(STORAGE_KEY);
-      if (storedUser) {
-        const user = JSON.parse(storedUser);
+      let user = storedUser ? JSON.parse(storedUser) : null;
+      if (user?.hasAccess) {
         patchState(store, { currentUser: user, loading: false });
         return;
       }
@@ -46,7 +46,7 @@ export const AuthStore = signalStore(
       // If no stored user, load from server
       patchState(store, { loading: true });
       try {
-        const user = await firstValueFrom(authService.getCurrentUser());
+        user = await firstValueFrom(authService.getCurrentUser());
         // Store user in local storage
         localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
         patchState(store, { currentUser: user, loading: false });

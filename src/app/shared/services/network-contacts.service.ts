@@ -13,6 +13,7 @@ export interface NetworkContact {
   communicationLanguage: string;
   email: string;
   reconnectionFrequency: number;
+  plannedReconnectionDate?: Date;
 }
 
 @Injectable({

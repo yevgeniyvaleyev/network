@@ -29,6 +29,20 @@
           </div>
         </mat-list-item>
 
+        <mat-list-item>
+          <mat-icon matListItemIcon>event</mat-icon>
+          <div matListItemTitle>Planned Reconnection</div>
+          <div matListItemLine>
+            @if (contact()?.plannedReconnectionDate) {
+            {{ contact()?.plannedReconnectionDate | date }}
+            }
+            @else {
+            <span>-</span>
+            }
+          </div>
+        </mat-list-item>
+
+
         @if (contact()?.jobTitle) {
         <mat-list-item>
           <mat-icon matListItemIcon>work</mat-icon>
