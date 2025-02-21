@@ -1,16 +1,18 @@
 <mat-card>
+  @if (title()) {
   <mat-card-header>
-    <mat-card-title>Contacts to reconnect</mat-card-title>
+    <mat-card-title>{{ title() }}</mat-card-title>
   </mat-card-header>
+  }
   <mat-card-content>
-    @if (loading() && !reconnectContacts()) {
+    @if (isLoading() && !contacts()) {
     <div class="spinner-container">
       <mat-spinner diameter="40"></mat-spinner>
     </div>
     } @else {
 
     <mat-nav-list>
-      @for (contact of reconnectContacts(); track contact.id) {
+      @for (contact of contacts(); track contact.id) {
       <a mat-list-item [routerLink]="['/network/view', contact.id]">
         <mat-icon matListItemIcon>person</mat-icon>
         <div matListItemTitle>{{ contact.name }}</div>
@@ -20,7 +22,7 @@
       </a>
       } @empty {
       <mat-list-item>
-        <div matListItemTitle>No contacts need reconnecting</div>
+        <div matListItemTitle>Empty list</div>
       </mat-list-item>
       }
     </mat-nav-list>

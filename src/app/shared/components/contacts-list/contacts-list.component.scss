@@ -1,6 +1,10 @@
 @import 'configuration/variables';
 @import 'configuration/mixins';
 
+:host {
+  display: block;
+}
+
 mat-card {
   margin: 0;
   background-color: $light-gray;
