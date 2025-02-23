@@ -18,7 +18,7 @@ export class DashboardComponent {
   readonly loading = this.networkStore.loading;
 
   private sortedAllContacts = computed(() => {
-    return [...this.networkStore.contacts()].sort((a, b) => this.sortByLatestConnected(a, b));
+    return this.networkStore.contacts().sort((a, b) => this.sortByOverdueValue(a, b));
   });
 
   private allReconnectContacts = computed(() => {
@@ -34,7 +34,7 @@ export class DashboardComponent {
   });
 
   readonly plannedToReconnectToday = computed(() => {
-    return this.plannedReconnectContacts().filter(contact => this.isMeetingToday(contact));
+    return this.allReconnectContacts().filter(contact => this.isMeetingToday(contact));
   });
 
   readonly approacedReconnectContacts = computed(() => {
@@ -45,12 +45,12 @@ export class DashboardComponent {
     return this.allReconnectContacts().filter(contact => !contact.isInviteSent && !contact.plannedReconnectionDate && !this.isMeetingToday(contact));
   });
 
-  private sortByLatestConnected(a: NetworkContact, b: NetworkContact): number {
-    return new Date(b.lastConnect).valueOf() - new Date(a.lastConnect).valueOf();
+  private sortByOverdueValue(a: NetworkContact, b: NetworkContact): number {
+    return this.daysElapsed(b) - this.daysElapsed(a);
   }
 
   private isMeetingToday(contact: NetworkContact): boolean {
-    return contact.plannedReconnectionDate?.toDateString() === new Date().toDateString();
+    return !!contact.plannedReconnectionDate && contact.plannedReconnectionDate.valueOf() <= new Date().valueOf();
   }
 
   private getReconnectContacts(allContacts: NetworkContact[]): NetworkContact[] {
@@ -68,7 +68,7 @@ export class DashboardComponent {
   }
 
   private daysElapsed(contact: NetworkContact) {
-    const lastConnect = new Date(contact.lastConnect);
+    const lastConnect = contact.lastConnect;
     const daysElapsed = Math.floor((new Date().getTime() - lastConnect.getTime()) / (1000 * 60 * 60 * 24));
     return daysElapsed;
   }

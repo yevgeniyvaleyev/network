@@ -16,6 +16,12 @@ const initialState: NetworkState = {
   error: null,
 };
 
+const normalizeContact = (contact: NetworkContact): NetworkContact => ({
+  ...contact,
+  lastConnect: new Date(contact.lastConnect),
+  plannedReconnectionDate: contact.plannedReconnectionDate ? new Date(contact.plannedReconnectionDate) : undefined,
+})
+
 const STORAGE_KEY = 'network_contacts';
 
 export const NetworkStore = signalStore(
@@ -36,7 +42,7 @@ export const NetworkStore = signalStore(
         const storedContacts = localStorage.getItem(STORAGE_KEY);
         if (storedContacts) {
           const contacts = JSON.parse(storedContacts);
-          patchState(store, { contacts });
+          patchState(store, { contacts: contacts.map(normalizeContact) });
 
         }
 
@@ -48,7 +54,7 @@ export const NetworkStore = signalStore(
         try {
           const contacts = await firstValueFrom(networkService.getContacts());
           localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
-          patchState(store, { contacts, loading: false });
+          patchState(store, { contacts: contacts.map(normalizeContact), loading: false });
           appStore.setBackgroundSync(false);
         } catch (error) {
           patchState(store, {
@@ -65,7 +71,7 @@ export const NetworkStore = signalStore(
       async createContact(contact: NetworkContact) {
         try {
           patchState(store, { loading: true, error: null });
-          const newContact = await firstValueFrom(networkService.createContact(contact));
+          const newContact = normalizeContact(await firstValueFrom(networkService.createContact(contact)));
           const contacts = [...store.contacts(), newContact];
           localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
           patchState(store, { contacts, loading: false });
@@ -89,7 +95,7 @@ export const NetworkStore = signalStore(
           if (contact.plannedReconnectionDate) {
             contact.isInviteSent = false;
           }
-          const updatedContact = await firstValueFrom(networkService.updateContact(id, contact));
+          const updatedContact = normalizeContact(await firstValueFrom(networkService.updateContact(id, contact)));
 
           const contacts = store.contacts().map(c =>
             c.id === id ? { ...c, ...updatedContact } : c
