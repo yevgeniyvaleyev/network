@@ -20,16 +20,25 @@ export class ReconnectionStatusComponent {
 
     const now = new Date();
     const lastConnect = this.contact()!.lastConnect;
+    const plannedReconnectionDate = this.contact()?.plannedReconnectionDate;
     lastConnect.setDate(lastConnect.getDate() + this.contact()!.reconnectionFrequency);
 
     const daysToNextConnect = Math.ceil((lastConnect.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 
-    if (daysToNextConnect < 0) {
-      return `Last: ${lastConnect.toLocaleDateString()}, overdue ${Math.abs(daysToNextConnect)} days | ${daysToNextConnect}`;
-    } else if (daysToNextConnect === 0) {
-      return `Last: ${lastConnect.toLocaleDateString()}, reconnect today | ${daysToNextConnect}`;
-    } else {
-      return `Last: ${lastConnect.toLocaleDateString()}, ${daysToNextConnect} days until next | ${daysToNextConnect}`;
+    let statusString = '';
+
+    if (plannedReconnectionDate) {
+      statusString = `Next: ${plannedReconnectionDate.toLocaleDateString()}, `;
     }
+
+    if (daysToNextConnect < 0) {
+      statusString += `overdue ${Math.abs(daysToNextConnect)} days`;
+    } else if (daysToNextConnect === 0) {
+      statusString += `reconnect today`;
+    } else {
+      statusString += `${daysToNextConnect} days until next`;
+    }
+
+    return statusString;
   });
 }
