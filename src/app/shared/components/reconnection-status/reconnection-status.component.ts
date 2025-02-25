@@ -21,6 +21,7 @@ export class ReconnectionStatusComponent {
     const now = new Date();
     const lastConnect = this.contact()!.lastConnect;
     const plannedReconnectionDate = this.contact()?.plannedReconnectionDate;
+    const plannedReconnectionTime = this.contact()?.plannedReconnectionTime;
     lastConnect.setDate(lastConnect.getDate() + this.contact()!.reconnectionFrequency);
 
     const daysToNextConnect = Math.ceil((lastConnect.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
@@ -28,7 +29,11 @@ export class ReconnectionStatusComponent {
     let statusString = '';
 
     if (plannedReconnectionDate) {
-      statusString = `Next: ${plannedReconnectionDate.toLocaleDateString()}, `;
+      const dayOfTheWeekName = plannedReconnectionDate.toLocaleDateString('en-US', { weekday: 'long' });
+      const nameOfTheMonth = plannedReconnectionDate.toLocaleDateString('en-US', { month: 'short' });
+      statusString = `Meeting: ${nameOfTheMonth} ${plannedReconnectionDate.getDate()}, ${dayOfTheWeekName}`;
+      statusString = plannedReconnectionTime ? `${statusString} at ${plannedReconnectionTime}` : statusString;
+      return statusString;
     }
 
     if (daysToNextConnect < 0) {

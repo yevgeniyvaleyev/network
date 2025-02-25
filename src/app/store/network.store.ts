@@ -91,6 +91,7 @@ export const NetworkStore = signalStore(
           if (contact.lastConnect === new Date()) {
             contact.isInviteSent = false;
             contact.plannedReconnectionDate = undefined;
+            contact.plannedReconnectionTime = undefined;
           }
           if (contact.plannedReconnectionDate) {
             contact.isInviteSent = false;

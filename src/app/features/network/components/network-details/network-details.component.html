@@ -34,10 +34,13 @@
           <div matListItemTitle>Planned Reconnection</div>
           <div matListItemLine>
             @if (contact()?.plannedReconnectionDate) {
-            {{ contact()?.plannedReconnectionDate | date }}
+              {{ contact()?.plannedReconnectionDate | date }}
+              @if (contact()?.plannedReconnectionTime) {
+                at {{ contact()?.plannedReconnectionTime }}
+              }
             }
             @else {
-            <span>-</span>
+              <span>-</span>
             }
           </div>
         </mat-list-item>

@@ -14,6 +14,7 @@ export interface NetworkContact {
   email?: string;
   reconnectionFrequency: number;
   plannedReconnectionDate?: Date;
+  plannedReconnectionTime?: string;
   isInviteSent: boolean;
   notes?: string;
 }
