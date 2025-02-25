@@ -56,7 +56,8 @@ export class EditNetworkContactComponent implements OnInit {
     email: ['', Validators.email],
     reconnectionFrequency: [30, [Validators.required, Validators.min(1)]],
     plannedReconnectionDate: [null],
-    isInviteSent: [false]
+    isInviteSent: [false],
+    notes: ['']
   });
 
   readonly selectedContact = computed(() => {

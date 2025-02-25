@@ -106,6 +106,14 @@
         </mat-list-item>
         }
 
+        @if (contact()?.notes) {
+        <mat-list-item>
+          <mat-icon matListItemIcon>notes</mat-icon>
+          <div matListItemTitle>Notes</div>
+          <div matListItemLine>{{ contact()?.notes }}</div>
+        </mat-list-item>
+        }
+
         <mat-list-item>
           <mat-icon matListItemIcon>schedule</mat-icon>
           <div matListItemTitle>Reconnection Frequency</div>

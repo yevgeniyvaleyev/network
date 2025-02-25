@@ -15,6 +15,7 @@ export interface NetworkContact {
   reconnectionFrequency: number;
   plannedReconnectionDate?: Date;
   isInviteSent: boolean;
+  notes?: string;
 }
 
 @Injectable({
