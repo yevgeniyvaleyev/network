@@ -13,10 +13,15 @@ export interface NetworkContact {
   communicationLanguage?: string;
   email?: string;
   reconnectionFrequency: number;
-  plannedReconnectionDate?: Date;
-  plannedReconnectionTime?: string;
+  plannedReconnectionDate?: Date | null;
+  plannedReconnectionTime?: string | null;
   isInviteSent: boolean;
   notes?: string;
+}
+
+export interface ResponseNetworkContact extends Omit<NetworkContact, 'lastConnect' | 'plannedReconnectionDate'> {
+  lastConnect: string;
+  plannedReconnectionDate?: string;
 }
 
 @Injectable({
@@ -27,20 +32,20 @@ export class NetworkContactsService {
   private contactsUrl = '/api/items';
   private contactUrl = '/api/item';
 
-  public getContacts(): Observable<NetworkContact[]> {
-    return this.http.get<NetworkContact[]>(this.contactsUrl);
+  public getContacts(): Observable<ResponseNetworkContact[]> {
+    return this.http.get<ResponseNetworkContact[]>(this.contactsUrl);
   }
 
-  public getContactById(id: string): Observable<NetworkContact> {
-    return this.http.get<NetworkContact>(`${this.contactUrl}/${id}`);
+  public getContactById(id: string): Observable<ResponseNetworkContact> {
+    return this.http.get<ResponseNetworkContact>(`${this.contactUrl}/${id}`);
   }
 
-  public createContact(contact: NetworkContact): Observable<NetworkContact> {
-    return this.http.post<NetworkContact>(this.contactUrl, contact);
+  public createContact(contact: NetworkContact): Observable<ResponseNetworkContact> {
+    return this.http.post<ResponseNetworkContact>(this.contactUrl, contact);
   }
 
-  public updateContact(id: string, contact: Partial<NetworkContact>): Observable<NetworkContact> {
-    return this.http.put<NetworkContact>(`${this.contactUrl}/${id}`, contact);
+  public updateContact(id: string, contact: Partial<NetworkContact>): Observable<ResponseNetworkContact> {
+    return this.http.put<ResponseNetworkContact>(`${this.contactUrl}/${id}`, contact);
   }
 
   public deleteContact(id: string): Observable<any> {

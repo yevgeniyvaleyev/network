@@ -152,8 +152,13 @@ app.http("item", {
         jobTitle,
         workedAt,
         preferredCommunicationChannel,
+        communicationLanguage,
         email,
-        reconnectionFrequency
+        reconnectionFrequency,
+        plannedReconnectionDate,
+        plannedReconnectionTime,
+        isInviteSent,
+        notes,
       } = await request.json();
 
       // Validate required fields
@@ -174,8 +179,13 @@ app.http("item", {
         lastConnect: new Date(lastConnect),
         jobTitle,
         workedAt,
+        communicationLanguage,
         preferredCommunicationChannel,
         email,
+        plannedReconnectionDate,
+        plannedReconnectionTime,
+        isInviteSent,
+        notes,
         reconnectionFrequency: Number(reconnectionFrequency),
         userId: currentUser.name,
         createdAt: new Date()

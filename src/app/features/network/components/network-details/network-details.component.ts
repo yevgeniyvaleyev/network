@@ -41,14 +41,10 @@ export class NetworkDetailsComponent {
   private appStore = inject(AppStore);
 
   public isOnline = this.appStore.isOnline;
+  public contact = signal<NetworkContact | undefined>(undefined);
 
   readonly loading = this.networkStore.loading;
   readonly error = signal<string | null>(null);
-  readonly contact = computed(() => {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id) return null;
-    return this.networkStore.contacts().find(c => c.id === id);
-  });
 
   public isOverdue = computed(() => {
     const contact = this.contact();
@@ -57,14 +53,17 @@ export class NetworkDetailsComponent {
     const lastConnect = new Date(contact.lastConnect);
     const today = new Date();
     const daysSinceLastConnect = Math.floor((today.getTime() - lastConnect.getTime()) / (1000 * 60 * 60 * 24));
-    
+
     return daysSinceLastConnect > contact.reconnectionFrequency;
   });
 
   constructor() {
     effect(() => {
       this.tabsConfig[0].disabled = !this.isOnline()
-    })
+    });
+
+    const id = this.route.snapshot.paramMap.get('id');
+    this.contact.set(!!id ? this.networkStore.getContact(id) : undefined);
   }
 
   public tabsConfig: AppLayoutTab[] = [
@@ -195,10 +194,11 @@ export class NetworkDetailsComponent {
 
     try {
       this.error.set(null);
-      await this.networkStore.updateContact(contact.id, {
+      const updatedContact = await this.networkStore.updateContact(contact.id, {
         ...contact,
         lastConnect: new Date()
       });
+      this.contact.set(updatedContact);
     } catch (_) {
       this.error.set('Failed to update contact');
     }

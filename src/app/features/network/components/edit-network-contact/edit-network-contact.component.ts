@@ -54,17 +54,11 @@ export class EditNetworkContactComponent implements OnInit {
     preferredCommunicationChannel: [''],
     communicationLanguage: [this.communicationLanguages()[0]],
     email: ['', Validators.email],
-    reconnectionFrequency: [30, [Validators.required, Validators.min(1)]],
+    reconnectionFrequency: [120, [Validators.required, Validators.min(1)]],
     plannedReconnectionDate: [null],
     plannedReconnectionTime: [''],
     isInviteSent: [false],
     notes: ['']
-  });
-
-  readonly selectedContact = computed(() => {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id) return null;
-    return this.networkStore.contacts().find(c => c.id === id);
   });
 
   public tabsConfig: AppLayoutTab[] = [
@@ -102,10 +96,11 @@ export class EditNetworkContactComponent implements OnInit {
     this.parentPath = `/network/view/${this.contactId}`;
     const contact = this.networkStore.getContact(this.contactId);
 
+    console.log('---.', contact?.lastConnect);
     if (contact) {
       this.form.patchValue({
         ...contact,
-        lastConnect: new Date(contact.lastConnect)
+        lastConnect: contact.lastConnect
       });
     } else {
       this.error.set('Error fetching network contact.');

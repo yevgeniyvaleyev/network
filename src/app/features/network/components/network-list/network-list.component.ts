@@ -37,17 +37,21 @@ export class NetworkListComponent {
   public contacts = this.networkStore.contacts;
   public loading = this.networkStore.loading;
   public isOnline = this.appStore.isOnline;
-  
+
   private searchTerm = signal('');
-  
+
+  constructor() {
+    console.log('---||', this.networkStore.getContact('stepansuvorov')?.lastConnect);
+  }
+
   public filteredContacts = computed(() => {
     const contacts = this.contacts();
     const term = this.searchTerm().toLowerCase();
-    
+
     if (!term) return contacts;
-    
-    return contacts?.filter(contact => 
-      contact.name.toLowerCase().includes(term) || 
+
+    return contacts?.filter(contact =>
+      contact.name.toLowerCase().includes(term) ||
       contact.jobTitle?.toLowerCase().includes(term) ||
       contact.workedAt?.toLowerCase().includes(term)
     );
