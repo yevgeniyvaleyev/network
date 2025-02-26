@@ -19,7 +19,7 @@ export class ReconnectionStatusComponent {
     if (!this.contact()) return '';
 
     const now = new Date();
-    const lastConnect = this.contact()!.lastConnect;
+    const lastConnect = new Date(this.contact()!.lastConnect);
     const plannedReconnectionDate = this.contact()?.plannedReconnectionDate;
     const plannedReconnectionTime = this.contact()?.plannedReconnectionTime;
     lastConnect.setDate(lastConnect.getDate() + this.contact()!.reconnectionFrequency);
