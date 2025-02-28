@@ -16,15 +16,18 @@ sizes.forEach(size => {
   const ctx = canvas.getContext('2d');
 
   // Background
-  ctx.fillStyle = '#3f51b5';
+  const gradient = ctx.createLinearGradient(0, 0, size, size);
+  gradient.addColorStop(0, '#1a237e');  // Darker blue
+  gradient.addColorStop(1, '#5c6bc0');  // Lighter blue
+  ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, size, size);
 
   // Letter N
   ctx.fillStyle = '#ffffff';
-  ctx.font = `bold ${size * 0.6}px Arial`;
+  ctx.font = `bold ${size * 0.6}px Georgia`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('N', size/2, size/2);
+  ctx.fillText('N', size / 2, size / 2);
 
   // Save the image
   const buffer = canvas.toBuffer('image/png');
