@@ -26,7 +26,7 @@ export class DashboardComponent {
   });
 
   readonly plannedReconnectContacts = computed(() => {
-    return this.networkStore.contactsToReconnect().filter(contact => !contact.isInviteSent && contact.plannedReconnectionDate && !this.networkUtils.isMeetingTodayOrPassed(contact)).sort((a, b) => this.networkUtils.sortPlannedReconnectValue(a, b));
+    return this.networkStore.contacts().filter(contact => !contact.isInviteSent && contact.plannedReconnectionDate && !this.networkUtils.isMeetingTodayOrPassed(contact)).sort((a, b) => this.networkUtils.sortPlannedReconnectValue(a, b));
   });
 
   readonly reconnectContacts = computed(() => {

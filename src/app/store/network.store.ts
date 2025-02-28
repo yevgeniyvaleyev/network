@@ -71,9 +71,7 @@ export const NetworkStore = signalStore(
       },
 
       getContact(id: string): NetworkContact | undefined {
-        const f = store.contacts().find(c => c.id === id);
-        console.log('--->', f?.lastConnect);
-        return f;
+        return store.contacts().find(c => c.id === id);
       },
 
       async createContact(contact: NetworkContact) {
@@ -100,14 +98,12 @@ export const NetworkStore = signalStore(
             contact.isInviteSent = false;
             contact.plannedReconnectionDate = null;
             contact.plannedReconnectionTime = null;
-
+            contact.planningStatus = null;
           }
           if (contact.plannedReconnectionDate) {
             contact.isInviteSent = false;
           }
-          console.log('---', contact);
           const updatedContact = normalizeContact(await firstValueFrom(networkService.updateContact(id, contact)));
-          console.log('---', updatedContact);
           const contacts = store.contacts().map(c =>
             c.id === id ? { ...c, ...updatedContact } : c
           );
@@ -139,11 +135,11 @@ export const NetworkStore = signalStore(
       },
 
       getContactsMeetingToday(): Signal<NetworkContact[]> {
-        return computed(() => store.contactsToReconnect().filter((contact) => networkUtils.isMeetingTodayOrPassed(contact)));
+        return computed(() => store.contacts().filter((contact) => networkUtils.isMeetingTodayOrPassed(contact)));
       },
 
       getContactsWithRequestedMeeting() {
-        return computed(() => store.contactsToReconnect().filter((contact) => contact.isInviteSent));
+        return computed(() => store.contacts().filter((contact) => contact.isInviteSent));
       },
 
       clearError() {
