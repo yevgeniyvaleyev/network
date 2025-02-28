@@ -34,13 +34,13 @@
           <div matListItemTitle>Planned Reconnection</div>
           <div matListItemLine>
             @if (contact()?.plannedReconnectionDate) {
-              {{ contact()?.plannedReconnectionDate | date }}
-              @if (contact()?.plannedReconnectionTime) {
-                at {{ contact()?.plannedReconnectionTime }}
-              }
+            {{ contact()?.plannedReconnectionDate | date }}
+            @if (contact()?.plannedReconnectionTime) {
+            at {{ contact()?.plannedReconnectionTime }}
+            }
             }
             @else {
-              <span>-</span>
+            <span>-</span>
             }
           </div>
         </mat-list-item>
@@ -52,10 +52,14 @@
             @if (!isOverdue()) {
             <span class="success-text">Good</span>
             } @else {
-            @if (contact()?.isInviteSent) {
-            <span class="info-text">Overdue - Approached</span>
+            @if (contact()?.planningStatus === 'invited') {
+            <span class="info-text">Invited</span>
+            } @else if (contact()?.planningStatus === 'processing') {
+            <span class="warning-text">Processing</span>
+            } @else if (contact()?.planningStatus === 'planned') {
+            <span class="success-text">Planned</span>
             } @else {
-            <span class="warning-text">Overdue - Not Approached</span>
+            <span class="success-text">Not Planned</span>
             }
             }
           </div>

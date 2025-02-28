@@ -19,17 +19,25 @@ export class DashboardComponent {
 
   readonly loading = this.networkStore.loading;
   readonly contactsMeetingToday = this.networkStore.getContactsMeetingToday();
-  readonly contactsWithRequestedMeeting = this.networkStore.getContactsWithRequestedMeeting();
+  readonly invitedContacts = this.networkStore.getInvitedContacts;
 
   readonly connectedContacts = computed(() => {
     return this.networkStore.connectedContacts();
   });
 
   readonly plannedReconnectContacts = computed(() => {
-    return this.networkStore.contacts().filter(contact => !contact.isInviteSent && contact.plannedReconnectionDate && !this.networkUtils.isMeetingTodayOrPassed(contact)).sort((a, b) => this.networkUtils.sortPlannedReconnectValue(a, b));
+    return this.networkStore.plannedReconnectContacts().filter(contact => !this.networkUtils.isMeetingTodayOrPassed(contact)).sort((a, b) => this.networkUtils.sortPlannedReconnectValue(a, b));
+  });
+
+  readonly processingContacts = computed(() => {
+    return this.networkStore.processingContacts().filter(contact => !this.networkUtils.isMeetingTodayOrPassed(contact)).sort((a, b) => this.networkUtils.sortPlannedReconnectValue(a, b));
   });
 
   readonly reconnectContacts = computed(() => {
-    return this.networkStore.contactsToReconnect().filter(contact => !contact.isInviteSent && !contact.plannedReconnectionDate && !this.networkUtils.isMeetingTodayOrPassed(contact)).sort((a, b) => this.networkUtils.sortByOverdueValue(a, b));
+    return this.networkStore.contactsToReconnect().filter(contact => !this.isInviteSent(contact) && !contact.plannedReconnectionDate && !this.networkUtils.isMeetingTodayOrPassed(contact)).sort((a, b) => this.networkUtils.sortByOverdueValue(a, b));
   });
+
+  private isInviteSent(contact: NetworkContact) {
+    return contact.planningStatus === 'invited';
+  }
 }

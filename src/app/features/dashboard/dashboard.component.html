@@ -4,8 +4,10 @@
         [icon]="'schedule'" />
     <app-contacts-list [isLoading]="loading()" [contacts]="plannedReconnectContacts()" [title]="'Planned meetings'"
         [icon]="'event'" />
-    <app-contacts-list [isLoading]="loading()" [contacts]="contactsWithRequestedMeeting()"
-        [title]="'Approached contacts'" [icon]="'mail'" />
+    <app-contacts-list [isLoading]="loading()" [contacts]="processingContacts()" [title]="'Processing meetings'"
+        [icon]="'event'" />
+    <app-contacts-list [isLoading]="loading()" [contacts]="invitedContacts()" [title]="'Invited contacts'"
+        [icon]="'mail'" />
     <app-contacts-list [isLoading]="loading()" [contacts]="connectedContacts()" [title]="'Connected contacts'"
         [icon]="'check_circle'" />
 </app-main-layout>

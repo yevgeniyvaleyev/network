@@ -14,6 +14,7 @@ import { AuthStore } from 'app/core/store/auth.store';
 import { NetworkStore } from 'app/store/network.store';
 import { AppLayoutComponent } from 'core/layout/app-layout/app-layout.component';
 import { AppLayoutTab } from 'core/layout/app-layout/app-layout.types';
+import { PlanningStatus } from 'app/shared/services/network-contacts.service';
 
 @Component({
   selector: 'app-create-network-contact',
@@ -43,6 +44,7 @@ export class CreateNetworkContactComponent {
 
   public error = signal<string | null>(null);
   public communicationLanguages = computed(() => this.authStore.currentUser()?.languages || ['english']);
+  public planningStatuses: PlanningStatus[] = ['planned', 'processing', 'invited', 'not planned'];
 
   public form: FormGroup = this.fb.group({
     name: ['', Validators.required],
@@ -51,13 +53,13 @@ export class CreateNetworkContactComponent {
     jobTitle: [''],
     workedAt: [''],
     preferredCommunicationChannel: [''],
-    communicationLanguage: [this.communicationLanguages()[0]], // Default to first available language
+    communicationLanguage: [this.communicationLanguages()[0]],
     email: ['', Validators.email],
     reconnectionFrequency: [120, [Validators.required, Validators.min(1)]],
     plannedReconnectionDate: [null],
     plannedReconnectionTime: [''],
-    isInviteSent: [false],
-    notes: ['']
+    notes: [''],
+    planningStatus: ['not planned' as PlanningStatus]
   });
 
   public tabsConfig: AppLayoutTab[] = [
@@ -83,7 +85,41 @@ export class CreateNetworkContactComponent {
   constructor() {
     this.form.statusChanges.subscribe(() => {
       this.tabsConfig[0].disabled = !this.form.valid;
-    })
+    });
+
+    this.setupStatusSubscriptions();
+  }
+
+  private setupStatusSubscriptions() {
+    this.form.get('plannedReconnectionDate')?.valueChanges.subscribe(date => {
+      this.updatePlanningStatus();
+    });
+
+    this.form.get('plannedReconnectionTime')?.valueChanges.subscribe(time => {
+      this.updatePlanningStatus();
+    });
+
+    this.form.get('planningStatus')?.valueChanges.subscribe(status => {
+      if (status === 'processing') {
+        this.form.patchValue({ plannedReconnectionTime: null });
+      } else if (status === 'invited') {
+        this.form.patchValue({
+          plannedReconnectionTime: null,
+          plannedReconnectionDate: null
+        });
+      }
+    });
+  }
+
+  private updatePlanningStatus() {
+    const date = this.form.get('plannedReconnectionDate')?.value;
+    const time = this.form.get('plannedReconnectionTime')?.value;
+
+    if (date && time) {
+      this.form.patchValue({ planningStatus: 'planned' }, { emitEvent: false });
+    } else if (date) {
+      this.form.patchValue({ planningStatus: 'processing' }, { emitEvent: false });
+    }
   }
 
   public async onSubmit(): Promise<void> {

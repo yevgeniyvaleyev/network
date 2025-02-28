@@ -20,6 +20,7 @@ const initialState: NetworkState = {
 const normalizeContact = (contact: ResponseNetworkContact): NetworkContact => ({
   ...contact,
   lastConnect: new Date(Date.parse(contact.lastConnect)),
+  planningStatus: !contact.planningStatus && (contact as any)?.isInviteSent ? 'invited' : contact.planningStatus,
   plannedReconnectionDate: contact.plannedReconnectionDate ? new Date(Date.parse(contact.plannedReconnectionDate)) : undefined,
 })
 
@@ -36,6 +37,9 @@ export const NetworkStore = signalStore(
       hasContacts: computed(() => store.contacts().length > 0),
       loading: computed(() => store.loading()),
       error: computed(() => store.error()),
+      getInvitedContacts: computed(() => store.contacts().filter((contact) => contact.planningStatus === 'invited')),
+      processingContacts: computed(() => store.contacts().filter((contact) => contact.planningStatus === 'processing' || (contact.plannedReconnectionDate && !contact.plannedReconnectionTime))),
+      plannedReconnectContacts: computed(() => store.contacts().filter((contact) => contact.planningStatus === 'planned' || (contact.plannedReconnectionDate && contact.plannedReconnectionTime))),
     }
   }),
   withMethods((store) => {
@@ -95,14 +99,11 @@ export const NetworkStore = signalStore(
         try {
           patchState(store, { loading: true, error: null });
           if (isSameDate(contact?.lastConnect, new Date())) {
-            contact.isInviteSent = false;
             contact.plannedReconnectionDate = null;
             contact.plannedReconnectionTime = null;
-            contact.planningStatus = null;
+            contact.planningStatus = 'not planned';
           }
-          if (contact.plannedReconnectionDate) {
-            contact.isInviteSent = false;
-          }
+
           const updatedContact = normalizeContact(await firstValueFrom(networkService.updateContact(id, contact)));
           const contacts = store.contacts().map(c =>
             c.id === id ? { ...c, ...updatedContact } : c
@@ -136,10 +137,6 @@ export const NetworkStore = signalStore(
 
       getContactsMeetingToday(): Signal<NetworkContact[]> {
         return computed(() => store.contacts().filter((contact) => networkUtils.isMeetingTodayOrPassed(contact)));
-      },
-
-      getContactsWithRequestedMeeting() {
-        return computed(() => store.contacts().filter((contact) => contact.isInviteSent));
       },
 
       clearError() {

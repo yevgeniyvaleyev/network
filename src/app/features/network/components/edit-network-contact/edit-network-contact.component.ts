@@ -14,6 +14,7 @@ import { AuthStore } from 'app/core/store/auth.store';
 import { NetworkStore } from 'app/store/network.store';
 import { AppLayoutComponent } from 'core/layout/app-layout/app-layout.component';
 import { AppLayoutTab } from 'core/layout/app-layout/app-layout.types';
+import { PlanningStatus } from 'app/shared/services/network-contacts.service';
 
 @Component({
   selector: 'app-edit-network-contact',
@@ -44,6 +45,10 @@ export class EditNetworkContactComponent implements OnInit {
 
   public error = signal<string | null>(null);
   public communicationLanguages = computed(() => this.authStore.currentUser()?.languages || ['english']);
+  public planningStatuses: PlanningStatus[] = ['planned', 'processing', 'invited', 'not planned'];
+
+  private contactId = '';
+  public parentPath = '';
 
   public form: FormGroup = this.fb.group({
     name: ['', Validators.required],
@@ -57,8 +62,8 @@ export class EditNetworkContactComponent implements OnInit {
     reconnectionFrequency: [120, [Validators.required, Validators.min(1)]],
     plannedReconnectionDate: [null],
     plannedReconnectionTime: [''],
-    isInviteSent: [false],
-    notes: ['']
+    notes: [''],
+    planningStatus: ['not planned' as PlanningStatus]
   });
 
   public tabsConfig: AppLayoutTab[] = [
@@ -81,10 +86,6 @@ export class EditNetworkContactComponent implements OnInit {
     'Telegram'
   ];
 
-  public parentPath?: string;
-
-  private contactId?: string;
-
   constructor() {
     this.form.statusChanges.subscribe(() => {
       this.tabsConfig[0].disabled = !this.form.valid;
@@ -96,14 +97,47 @@ export class EditNetworkContactComponent implements OnInit {
     this.parentPath = `/network/view/${this.contactId}`;
     const contact = this.networkStore.getContact(this.contactId);
 
-    console.log('---.', contact?.lastConnect);
     if (contact) {
       this.form.patchValue({
         ...contact,
         lastConnect: contact.lastConnect
       });
+
+      this.setupStatusSubscriptions();
     } else {
-      this.error.set('Error fetching network contact.');
+      this.error.set('Contact not found');
+    }
+  }
+
+  private setupStatusSubscriptions() {
+    this.form.get('plannedReconnectionDate')?.valueChanges.subscribe(date => {
+      this.updatePlanningStatus();
+    });
+
+    this.form.get('plannedReconnectionTime')?.valueChanges.subscribe(time => {
+      this.updatePlanningStatus();
+    });
+
+    this.form.get('planningStatus')?.valueChanges.subscribe(status => {
+      if (status === 'processing') {
+        this.form.patchValue({ plannedReconnectionTime: null });
+      } else if (status === 'invited') {
+        this.form.patchValue({
+          plannedReconnectionTime: null,
+          plannedReconnectionDate: null
+        });
+      }
+    });
+  }
+
+  private updatePlanningStatus() {
+    const date = this.form.get('plannedReconnectionDate')?.value;
+    const time = this.form.get('plannedReconnectionTime')?.value;
+
+    if (date && time) {
+      this.form.patchValue({ planningStatus: 'planned' }, { emitEvent: false });
+    } else if (date) {
+      this.form.patchValue({ planningStatus: 'processing' }, { emitEvent: false });
     }
   }
 

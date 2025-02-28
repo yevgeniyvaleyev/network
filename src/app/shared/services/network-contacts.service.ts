@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
+export type PlanningStatus = 'planned' | 'processing' | 'invited' | 'not planned';
 export interface NetworkContact {
   id: string;
   name: string;
@@ -15,8 +16,7 @@ export interface NetworkContact {
   reconnectionFrequency: number;
   plannedReconnectionDate?: Date | null;
   plannedReconnectionTime?: string | null;
-  isInviteSent: boolean;
-  planningStatus?: 'planned' | 'processing' | 'invited' | null;
+  planningStatus?: PlanningStatus;
   notes?: string;
 }
 

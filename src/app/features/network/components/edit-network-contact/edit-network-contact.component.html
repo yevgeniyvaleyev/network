@@ -35,6 +35,15 @@
     </mat-form-field>
 
     <mat-form-field>
+      <mat-label>Planning Status</mat-label>
+      <mat-select formControlName="planningStatus">
+        @for (status of planningStatuses; track status) {
+          <mat-option [value]="status">{{ status | titlecase }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
       <mat-label>Job Title</mat-label>
       <input matInput formControlName="jobTitle">
     </mat-form-field>
@@ -80,9 +89,6 @@
       <input matInput type="number" formControlName="reconnectionFrequency" required min="1">
     </mat-form-field>
 
-    <mat-slide-toggle formControlName="isInviteSent" class=" full-width margin-bottom">
-      Contact is approached
-    </mat-slide-toggle>
 
   </form>
 </app-layout>
