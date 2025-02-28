@@ -16,6 +16,7 @@ export interface NetworkContact {
   plannedReconnectionDate?: Date | null;
   plannedReconnectionTime?: string | null;
   isInviteSent: boolean;
+  planningStatus?: 'planned' | 'processing' | 'invited' | null;
   notes?: string;
 }
 
