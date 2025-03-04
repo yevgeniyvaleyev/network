@@ -60,7 +60,6 @@ export class ImportDataComponent {
   private uploadCsv(csvContent: string): void {
     this.http.post('/api/upload', csvContent).subscribe({
       next: (response: any) => {
-        console.log('Import successful:', response);
         this.isUploading.set(false);
         const message = `Successfully imported: ${response.created} created, ${response.updated} updated`;
         this.success.set(message);

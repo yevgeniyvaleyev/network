@@ -1,4 +1,4 @@
-<app-layout [title]="'Edit Contact'" [config]="tabsConfig" [parentPath]="parentPath" (tabClick)="onTabClick($event)">
+<app-layout [title]="'Edit Contact'" [config]="tabsConfig" [parentPath]="parentPath()" (tabClick)="onTabClick($event)">
   @if(error()) {
   <mat-card>
     {{ error() }}

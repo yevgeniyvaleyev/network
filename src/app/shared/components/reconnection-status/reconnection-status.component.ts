@@ -1,4 +1,4 @@
-import { Component, Input, computed, signal } from '@angular/core';
+import { Component, input, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NetworkContact } from '../../services/network-contacts.service';
 
@@ -9,20 +9,17 @@ import { NetworkContact } from '../../services/network-contacts.service';
   template: `{{ statusText() }}`
 })
 export class ReconnectionStatusComponent {
-  private contact = signal<NetworkContact | undefined>(undefined);
-
-  @Input({ required: true }) set networkContact(value: NetworkContact) {
-    this.contact.set(value);
-  }
+  networkContact = input.required<NetworkContact>();
 
   statusText = computed(() => {
-    if (!this.contact()) return '';
+    const contact = this.networkContact();
+    if (!contact) return '';
 
     const now = new Date();
-    const lastConnect = new Date(this.contact()!.lastConnect);
-    const plannedReconnectionDate = this.contact()?.plannedReconnectionDate;
-    const plannedReconnectionTime = this.contact()?.plannedReconnectionTime;
-    lastConnect.setDate(lastConnect.getDate() + this.contact()!.reconnectionFrequency);
+    const lastConnect = new Date(contact.lastConnect);
+    const plannedReconnectionDate = contact.plannedReconnectionDate;
+    const plannedReconnectionTime = contact.plannedReconnectionTime;
+    lastConnect.setDate(lastConnect.getDate() + contact.reconnectionFrequency);
 
     const daysToNextConnect = Math.ceil((lastConnect.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 

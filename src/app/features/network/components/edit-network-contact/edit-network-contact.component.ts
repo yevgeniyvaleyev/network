@@ -47,8 +47,8 @@ export class EditNetworkContactComponent implements OnInit {
   public communicationLanguages = computed(() => this.authStore.currentUser()?.languages || ['english']);
   public planningStatuses: PlanningStatus[] = ['planned', 'processing', 'invited', 'not planned'];
 
-  private contactId = '';
-  public parentPath = '';
+  private contactId = signal('');
+  public parentPath = computed(() => `/network/view/${this.contactId()}`);
 
   public form: FormGroup = this.fb.group({
     name: ['', Validators.required],
@@ -93,9 +93,9 @@ export class EditNetworkContactComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.contactId = this.route.snapshot.paramMap.get('id') || '';
-    this.parentPath = `/network/view/${this.contactId}`;
-    const contact = this.networkStore.getContact(this.contactId);
+    const id = this.route.snapshot.paramMap.get('id') || '';
+    this.contactId.set(id);
+    const contact = this.networkStore.getContact(id);
 
     if (contact) {
       this.form.patchValue({
@@ -142,11 +142,11 @@ export class EditNetworkContactComponent implements OnInit {
   }
 
   public async onSubmit(): Promise<void> {
-    if (this.form.valid && this.contactId) {
-
+    const id = this.contactId();
+    if (this.form.valid && id) {
       try {
-        await this.networkStore.updateContact(this.contactId, this.form.value);
-        this.router.navigate(['/network/view', this.contactId]);
+        await this.networkStore.updateContact(id, this.form.value);
+        this.router.navigate(['/network/view', id]);
       } catch (error) {
         this.error.set('Error updating network contact.');
       }
@@ -154,8 +154,9 @@ export class EditNetworkContactComponent implements OnInit {
   }
 
   public onCancel(): void {
-    if (this.contactId) {
-      this.router.navigate(['/network/view', this.contactId]);
+    const id = this.contactId();
+    if (id) {
+      this.router.navigate(['/network/view', id]);
     }
   }
 

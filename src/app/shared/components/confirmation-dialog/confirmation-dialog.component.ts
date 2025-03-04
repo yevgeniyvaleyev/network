@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -18,19 +18,18 @@ export interface ConfirmationDialogData {
   styleUrls: ['./confirmation-dialog.component.scss']
 })
 export class ConfirmationDialogComponent {
-  title: string;
-  message: string;
-  okButtonText: string;
-  cancelButtonText: string;
+  private dialogData = signal<ConfirmationDialogData>({});
+
+  title = computed(() => this.dialogData()?.title || 'Confirmation');
+  message = computed(() => this.dialogData()?.message || 'Would you like to proceed?');
+  okButtonText = computed(() => this.dialogData()?.okButtonText || 'Yes');
+  cancelButtonText = computed(() => this.dialogData()?.cancelButtonText || 'No');
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogData
   ) {
-    this.title = data.title || 'Confirmation';
-    this.message = data.message || 'Would you like to proceed?';
-    this.okButtonText = data.okButtonText || 'Yes';
-    this.cancelButtonText = data.cancelButtonText || 'No';
+    this.dialogData.set(data);
   }
 
   onConfirm(): void {

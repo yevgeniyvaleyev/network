@@ -40,10 +40,6 @@ export class NetworkListComponent {
 
   private searchTerm = signal('');
 
-  constructor() {
-    console.log('---||', this.networkStore.getContact('stepansuvorov')?.lastConnect);
-  }
-
   public filteredContacts = computed(() => {
     const contacts = this.contacts();
     const term = this.searchTerm().toLowerCase();

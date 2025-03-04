@@ -1,16 +1,16 @@
 <div class="confirmation-dialog">
-  <h2 mat-dialog-title>{{ title }}</h2>
+  <h2 mat-dialog-title>{{ title() }}</h2>
 
   <mat-dialog-content>
-    <p>{{ message }}</p>
+    <p>{{ message() }}</p>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
     <button mat-button (click)="onCancel()">
-      {{ cancelButtonText }}
+      {{ cancelButtonText() }}
     </button>
     <button mat-button color="primary" (click)="onConfirm()">
-      {{ okButtonText }}
+      {{ okButtonText() }}
     </button>
   </mat-dialog-actions>
 </div>
