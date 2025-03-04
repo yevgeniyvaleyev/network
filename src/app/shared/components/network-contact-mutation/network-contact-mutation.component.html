@@ -1,4 +1,4 @@
-<app-layout [title]="title()" [config]="tabsConfig" (tabClick)="onTabClick($event)">
+<app-layout [title]="title()" [config]="tabsConfig" (tabClick)="onTabClick($event)" [isProgress]="isProgress()">
   @if(error()) {
   <mat-card class="error">
     {{ error() }}

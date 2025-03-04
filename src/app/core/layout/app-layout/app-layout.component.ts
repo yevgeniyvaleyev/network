@@ -8,6 +8,7 @@ import { AppLayoutTab } from './app-layout.types';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AppStore } from 'app/core/store/app.store';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-layout',
@@ -20,7 +21,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatIconModule,
     MatButtonModule,
     MatTabsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './app-layout.component.html',
   styleUrls: ['./app-layout.component.scss']
@@ -33,6 +35,7 @@ export class AppLayoutComponent {
   parentPath = input<string>();
   config = input<AppLayoutTab[]>();
   tabClick = output<string>();
+  isProgress = input(false);
 
   public isOnline = this.appStore.isOnline;
   public isBackgroundSync = this.appStore.isBackgroundSync;

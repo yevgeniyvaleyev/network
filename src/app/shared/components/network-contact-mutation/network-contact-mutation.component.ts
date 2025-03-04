@@ -40,6 +40,7 @@ export class NetworkContactMutationComponent {
   // Inputs
   contact = input<NetworkContact>();
   title = input<string>();
+  isProgress = input(false);
   submitButtonText = input<string>();
 
   // Outputs

@@ -1,3 +1,9 @@
+@if(isProgress()) {
+<div class="progress-overlay">
+  <mat-spinner></mat-spinner>
+</div>
+}
+
 <div class="app-container">
   <mat-toolbar class="app-toolbar">
     @if (parentPath()) {

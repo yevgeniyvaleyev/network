@@ -15,6 +15,7 @@ import { NetworkContactMutationComponent } from 'app/shared/components/network-c
       [contact]="contact()"
       (submit)="onSubmit($event)"
       (cancel)="onCancel()"
+      [isProgress]="isProgress()"
     />
   }
   `
@@ -26,6 +27,8 @@ export class EditNetworkContactComponent implements OnInit {
 
   public contact = signal<NetworkContact | undefined>(undefined);
   private contactId = signal('');
+
+  public isProgress = this.networkStore.loading;
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id') || '';

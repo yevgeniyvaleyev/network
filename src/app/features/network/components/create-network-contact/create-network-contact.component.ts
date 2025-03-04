@@ -11,6 +11,7 @@ import { NetworkContactMutationComponent } from 'app/shared/components/network-c
   template: `
     <app-network-contact-mutation
       [title]="'Create Contact'"
+      [isProgress]="isProgress()"
       (submit)="onSubmit($event)"
       (cancel)="onCancel()"
     />
@@ -19,6 +20,8 @@ import { NetworkContactMutationComponent } from 'app/shared/components/network-c
 export class CreateNetworkContactComponent {
   private router = inject(Router);
   private networkStore = inject(NetworkStore);
+
+  public isProgress = this.networkStore.loading;
 
   async onSubmit(contact: NetworkContact): Promise<void> {
     try {

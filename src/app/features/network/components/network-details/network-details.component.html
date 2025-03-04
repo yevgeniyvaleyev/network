@@ -1,4 +1,5 @@
-<app-layout title="Contact Details" parentPath="/network" [config]="tabsConfig" (tabClick)="onTabClick($event)">
+<app-layout title="Contact Details" parentPath="/network" [config]="tabsConfig" (tabClick)="onTabClick($event)"
+  [isProgress]="loading()">
   @if (contact()) {
   <mat-card>
     <mat-card-content>
