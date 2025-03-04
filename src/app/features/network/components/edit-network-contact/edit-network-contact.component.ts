@@ -1,170 +1,54 @@
-import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { AuthStore } from 'app/core/store/auth.store';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NetworkStore } from 'app/store/network.store';
-import { AppLayoutComponent } from 'core/layout/app-layout/app-layout.component';
-import { AppLayoutTab } from 'core/layout/app-layout/app-layout.types';
-import { PlanningStatus } from 'app/shared/services/network-contacts.service';
+import { NetworkContact } from 'app/shared/services/network-contacts.service';
+import { NetworkContactMutationComponent } from 'app/shared/components/network-contact-mutation/network-contact-mutation.component';
 
 @Component({
   selector: 'app-edit-network-contact',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    RouterModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    AppLayoutComponent,
-    MatCardModule
-  ],
-  templateUrl: './edit-network-contact.component.html',
-  styleUrls: ['./edit-network-contact.component.scss']
+  imports: [NetworkContactMutationComponent],
+  template: `
+  @if(contact()) {
+    <app-network-contact-mutation
+      [title]="'Edit Contact'"
+      [contact]="contact()"
+      (submit)="onSubmit($event)"
+      (cancel)="onCancel()"
+    />
+  }
+  `
 })
 export class EditNetworkContactComponent implements OnInit {
-  private fb = inject(FormBuilder);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private networkStore = inject(NetworkStore);
-  private authStore = inject(AuthStore);
 
-  public error = signal<string | null>(null);
-  public communicationLanguages = computed(() => this.authStore.currentUser()?.languages || ['english']);
-  public planningStatuses: PlanningStatus[] = ['planned', 'processing', 'invited', 'not planned'];
-
+  public contact = signal<NetworkContact | undefined>(undefined);
   private contactId = signal('');
-  public parentPath = computed(() => `/network/view/${this.contactId()}`);
-
-  public form: FormGroup = this.fb.group({
-    name: ['', Validators.required],
-    phoneNumber: [''],
-    lastConnect: [new Date(), Validators.required],
-    jobTitle: [''],
-    workedAt: [''],
-    preferredCommunicationChannel: [''],
-    communicationLanguage: [this.communicationLanguages()[0]],
-    email: ['', Validators.email],
-    reconnectionFrequency: [120, [Validators.required, Validators.min(1)]],
-    plannedReconnectionDate: [null],
-    plannedReconnectionTime: [''],
-    notes: [''],
-    planningStatus: ['not planned' as PlanningStatus]
-  });
-
-  public tabsConfig: AppLayoutTab[] = [
-    {
-      alias: 'save',
-      icon: 'save',
-      disabled: !this.form.valid
-    },
-    {
-      alias: 'cancel',
-      icon: 'cancel'
-    }
-  ]
-
-  public communicationChannels = [
-    'Email',
-    'Phone',
-    'LinkedIn',
-    'WhatsApp',
-    'Telegram'
-  ];
-
-  constructor() {
-    this.form.statusChanges.subscribe(() => {
-      this.tabsConfig[0].disabled = !this.form.valid;
-    });
-  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id') || '';
     this.contactId.set(id);
-    const contact = this.networkStore.getContact(id);
-
-    if (contact) {
-      this.form.patchValue({
-        ...contact,
-        lastConnect: contact.lastConnect
-      });
-
-      this.setupStatusSubscriptions();
-    } else {
-      this.error.set('Contact not found');
-    }
+    this.contact.set(this.networkStore.getContact(id));
   }
 
-  private setupStatusSubscriptions() {
-    this.form.get('plannedReconnectionDate')?.valueChanges.subscribe(date => {
-      this.updatePlanningStatus();
-    });
-
-    this.form.get('plannedReconnectionTime')?.valueChanges.subscribe(time => {
-      this.updatePlanningStatus();
-    });
-
-    this.form.get('planningStatus')?.valueChanges.subscribe(status => {
-      if (status === 'processing') {
-        this.form.patchValue({ plannedReconnectionTime: null });
-      } else if (status === 'invited') {
-        this.form.patchValue({
-          plannedReconnectionTime: null,
-          plannedReconnectionDate: null
-        });
-      }
-    });
-  }
-
-  private updatePlanningStatus() {
-    const date = this.form.get('plannedReconnectionDate')?.value;
-    const time = this.form.get('plannedReconnectionTime')?.value;
-
-    if (date && time) {
-      this.form.patchValue({ planningStatus: 'planned' }, { emitEvent: false });
-    } else if (date) {
-      this.form.patchValue({ planningStatus: 'processing' }, { emitEvent: false });
-    }
-  }
-
-  public async onSubmit(): Promise<void> {
+  async onSubmit(updatedContact: NetworkContact): Promise<void> {
     const id = this.contactId();
-    if (this.form.valid && id) {
+    if (id) {
       try {
-        await this.networkStore.updateContact(id, this.form.value);
+        await this.networkStore.updateContact(id, updatedContact);
         this.router.navigate(['/network/view', id]);
-      } catch (error) {
-        this.error.set('Error updating network contact.');
+      } catch (_) {
+        // Error handling is done in the mutation component
       }
     }
   }
 
-  public onCancel(): void {
+  onCancel(): void {
     const id = this.contactId();
     if (id) {
       this.router.navigate(['/network/view', id]);
-    }
-  }
-
-  public onTabClick(alias: string): void {
-    if (alias === 'save') {
-      this.onSubmit();
-    } else if (alias === 'cancel') {
-      this.onCancel();
     }
   }
 }
