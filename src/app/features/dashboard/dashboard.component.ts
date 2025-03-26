@@ -34,10 +34,20 @@ export class DashboardComponent {
   });
 
   readonly reconnectContacts = computed(() => {
-    return this.networkStore.contactsToReconnect().filter(contact => !this.isInviteSent(contact) && !contact.plannedReconnectionDate && !this.networkUtils.isMeetingTodayOrPassed(contact)).sort((a, b) => this.networkUtils.sortByOverdueValue(a, b));
+    return this.networkStore.contactsToReconnect().filter(contact => !this.isInviteSent(contact) && !this.processingContactsIds().includes(contact.id) && !contact.plannedReconnectionDate && !this.networkUtils.isMeetingTodayOrPassed(contact)).sort((a, b) => this.networkUtils.sortByOverdueValue(a, b));
+  });
+
+  private plannedReconnectContactsIds = computed(() => {
+    return this.plannedReconnectContacts().map(contact => contact.id);
+  });
+
+  private processingContactsIds = computed(() => {
+    return this.processingContacts().map(contact => contact.id);
   });
 
   private isInviteSent(contact: NetworkContact) {
     return contact.planningStatus === 'invited';
   }
+
+
 }
