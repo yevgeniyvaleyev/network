@@ -9,6 +9,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { AppStore } from 'app/core/store/app.store';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NavigationStore } from 'app/store/navigation.store';
 
 @Component({
   selector: 'app-layout',
@@ -30,13 +31,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 export class AppLayoutComponent {
   public router = inject(Router);
   private appStore = inject(AppStore);
+  private navigationStore = inject(NavigationStore);
 
   title = input<string>();
-  parentPath = input<string>();
   config = input<AppLayoutTab[]>();
   tabClick = output<string>();
   isProgress = input(false);
 
+  public parentPath = this.navigationStore.parentPath;
   public isOnline = this.appStore.isOnline;
   public isBackgroundSync = this.appStore.isBackgroundSync;
 
