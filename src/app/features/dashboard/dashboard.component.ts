@@ -5,11 +5,12 @@ import { AppMainLayoutComponent } from 'core/layout/app-main-layout/app-main-lay
 import { NetworkStore } from 'app/store/network.store';
 import { NetworkContact } from 'app/shared/services/network-contacts.service';
 import { NetworkUtilsService } from 'app/shared/services/network.utils.service';
+import { NetworkHealthComponent } from './components/network-health/network-health.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, ContactsListComponent, AppMainLayoutComponent],
+  imports: [CommonModule, ContactsListComponent, AppMainLayoutComponent, NetworkHealthComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
@@ -20,6 +21,9 @@ export class DashboardComponent {
   readonly loading = this.networkStore.loading;
   readonly contactsMeetingToday = this.networkStore.getContactsMeetingToday();
   readonly invitedContacts = this.networkStore.getInvitedContacts;
+  readonly contactsTotalCount = computed(() => {
+    return this.networkStore.contacts().length;
+  });
 
   readonly connectedContacts = computed(() => {
     return this.networkStore.connectedContacts();

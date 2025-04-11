@@ -10,27 +10,28 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
 import { NetworkContact } from 'app/shared/services/network-contacts.service';
 import { ReconnectionStatusComponent } from 'shared/components/reconnection-status/reconnection-status.component';
-import { DataContainerComponent } from '../data-container/data-container.component';
 
 @Component({
-  selector: 'app-contacts-list',
+  selector: 'app-data-container',
   standalone: true,
   imports: [
     CommonModule,
+    MatCardModule,
+    MatExpansionModule,
     MatIconModule,
-    MatListModule,
+    MatButtonModule,
     RouterModule,
-    ReconnectionStatusComponent,
-    DataContainerComponent
-
+    MatProgressSpinnerModule,
+    MatProgressBarModule
   ],
-  templateUrl: './contacts-list.component.html',
-  styleUrls: ['./contacts-list.component.scss']
+  templateUrl: './data-container.component.html',
+  styleUrls: ['./data-container.component.scss']
 })
-export class ContactsListComponent {
+export class DataContainerComponent {
   title = input<string>('');
-  contacts = input.required<NetworkContact[]>();
+  titleSuffix = input<string>('');
   isLoading = input(false);
+  hasData = input(false);
   icon = input('');
   isExpanded = input<boolean>(false);
 }

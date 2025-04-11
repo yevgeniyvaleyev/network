@@ -1,0 +1,42 @@
+@import 'configuration/variables';
+@import 'configuration/mixins';
+
+:host {
+  display: block;
+
+  ::ng-deep .mat-expansion-panel {
+    background-color: $light-gray;
+    margin: 0;
+
+    .mat-expansion-panel-header {
+      padding: 0 16px;
+    }
+  }
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .contact-count {
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 14px;
+  }
+}
+
+mat-nav-list {
+  padding: 0;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

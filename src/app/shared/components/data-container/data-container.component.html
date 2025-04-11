@@ -1,0 +1,23 @@
+<mat-expansion-panel [expanded]="isExpanded()">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <div class="title-container">
+        @if (icon()) {
+        <mat-icon>{{ icon() }}</mat-icon>
+        }
+        <span>{{ title() }}</span>
+        @if (titleSuffix()) {
+        <span class="contact-count">({{ titleSuffix() }})</span>
+        }
+      </div>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  @if (isLoading() && !hasData()) {
+  <div class="spinner-container">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+  } @else {
+  <ng-content></ng-content>
+  }
+</mat-expansion-panel>

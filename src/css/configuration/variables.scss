@@ -2,8 +2,15 @@ $grid-unit-value: 8;
 
 $grid-unit: $grid-unit-value * 1px;
 
+//Colors
+$green-main: #4caf50;
+$orange-main: #ff9800;
+$red-main: #b00020;
+$blue-main: #2196f3;
 $light-gray: #f5f5f5;
-$error-color: #b00020;
-$success-color: #4caf50;
-$info-color: #2196f3;
-$warning-color: #ff9800;
+
+//Status colors
+$error-color: $red-main;
+$success-color: $green-main;
+$info-color: $blue-main;
+$warning-color: $orange-main;

@@ -1,0 +1,29 @@
+<app-data-container [title]="'Network Health'" [isLoading]="isLoading()" [hasData]="true" [icon]="icon()"
+  [isExpanded]="isExpanded()">
+  <div class="stats-container">
+    <div class="stat-box">
+      <div class="stat-value">{{ contactsTotalCount() }}</div>
+      <div class="stat-label">Total</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value connected">{{ connectedContactsCount() }}</div>
+      <div class="stat-label">Connected</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value reconnect">{{ reconnectContactsCount() }}</div>
+      <div class="stat-label">Reconnect</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value planned">{{ plannedReconnectContactsCount() }}</div>
+      <div class="stat-label">Planned</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value processing">{{ processingContactsCount() }}</div>
+      <div class="stat-label">Processing</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value invited">{{ invitedContactsCount() }}</div>
+      <div class="stat-label">Invited</div>
+    </div>
+  </div>
+</app-data-container>
