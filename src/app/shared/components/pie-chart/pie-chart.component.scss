@@ -1,0 +1,14 @@
+@import 'configuration/variables';
+
+:host {
+  display: block;
+  --connected: #{$green-main};
+  --reconnect: #{$red-main};
+  --processing: #{$purple-main};
+  --invited: #{$orange-main};
+  --planned: #{$blue-main};
+}
+
+.pie-chart {
+  border-radius: 50%;
+}

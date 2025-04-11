@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DataContainerComponent } from 'app/shared/components/data-container/data-container.component';
 import { NetworkContact } from 'app/shared/services/network-contacts.service';
 import { NetworkHealthMapComponent } from '../network-health-map/network-health-map.component';
+import { PieChartComponent } from 'app/shared/components/pie-chart/pie-chart.component';
 
 @Component({
   selector: 'app-network-health',
@@ -13,7 +14,8 @@ import { NetworkHealthMapComponent } from '../network-health-map/network-health-
   imports: [
     CommonModule,
     DataContainerComponent,
-    NetworkHealthMapComponent
+    NetworkHealthMapComponent,
+    PieChartComponent
   ],
   templateUrl: './network-health.component.html',
   styleUrls: ['./network-health.component.scss']
@@ -45,7 +47,16 @@ export class NetworkHealthComponent {
   readonly plannedPercentage = computed(() => {
     return Math.round(this.plannedReconnectContactsCount() / this.contactsTotalCount() * 100);
   });
+  protected readonly chartItems = computed(() => {
+    return [
+      { percentage: this.connectedPercentage(), class: 'connected' },
+      { percentage: this.reconnectPercentage(), class: 'reconnect' },
+      { percentage: this.processingPercentage(), class: 'processing' },
+      { percentage: this.invitedPercentage(), class: 'invited' },
+      { percentage: this.plannedPercentage(), class: 'planned' }
+    ];
+  });
 
-title = signal('Network Health');
+  title = signal('Network Health');
   data = signal<NetworkContact[]>([]);
 }

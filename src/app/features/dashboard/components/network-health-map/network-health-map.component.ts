@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
+import { PieChartComponent } from 'app/shared/components/pie-chart/pie-chart.component';
 
 @Component({
   selector: 'app-network-health-map',
@@ -44,4 +45,6 @@ export class NetworkHealthMapComponent {
     const rest = totalSquareAmount - this.filledCells().length;
     return [...this.filledCells(), ...Array(rest).fill(-1)];
   });
+
+
 }

@@ -1,39 +1,45 @@
 <app-data-container [title]="'Network Health'" [isLoading]="isLoading()" [hasData]="true" [icon]="icon()"
   [isExpanded]="isExpanded()">
-  <div class="stats-container">
-    <div class="stat-box">
-      <div class="stat-value">{{ contactsTotalCount() }}</div>
-      <div class="stat-label">Total</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-value connected">{{ connectedContactsCount() }} <span class="percentage">/
-          {{connectedPercentage()}}%</span></div>
-      <div class="stat-label">Connected</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-value reconnect">{{ reconnectContactsCount() }} <span class="percentage">/
-          {{reconnectPercentage()}}%</span></div>
-      <div class="stat-label">Reconnect</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-value planned">{{ plannedReconnectContactsCount() }} <span class="percentage">/
-          {{plannedPercentage()}}%</span></div>
-      <div class="stat-label">Planned</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-value processing">{{ processingContactsCount() }} <span class="percentage">/
-          {{processingPercentage()}}%</span></div>
-      <div class="stat-label">Processing</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-value invited">{{ invitedContactsCount() }} <span class="percentage">/
-          {{invitedPercentage()}}%</span></div>
-      <div class="stat-label">Invited</div>
-    </div>
-  </div>
 
-  <app-network-health-map [contactsTotalCount]="contactsTotalCount()"
-    [connectedContactsCount]="connectedContactsCount()" [reconnectContactsCount]="reconnectContactsCount()"
-    [processingContactsCount]="processingContactsCount()" [invitedContactsCount]="invitedContactsCount()"
-    [plannedReconnectContactsCount]="plannedReconnectContactsCount()"></app-network-health-map>
+
+  <div class="infographics-container">
+    <app-network-health-map [contactsTotalCount]="contactsTotalCount()"
+      [connectedContactsCount]="connectedContactsCount()" [reconnectContactsCount]="reconnectContactsCount()"
+      [processingContactsCount]="processingContactsCount()" [invitedContactsCount]="invitedContactsCount()"
+      [plannedReconnectContactsCount]="plannedReconnectContactsCount()"></app-network-health-map>
+
+    <div class="stats-container">
+      <div class="stat-box">
+        <div class="stat-value">{{ contactsTotalCount() }}</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value connected">{{ connectedContactsCount() }} <span class="percentage">/
+            {{connectedPercentage()}}%</span></div>
+        <div class="stat-label">Connected</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value reconnect">{{ reconnectContactsCount() }} <span class="percentage">/
+            {{reconnectPercentage()}}%</span></div>
+        <div class="stat-label">Reconnect</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value planned">{{ plannedReconnectContactsCount() }} <span class="percentage">/
+            {{plannedPercentage()}}%</span></div>
+        <div class="stat-label">Planned</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value processing">{{ processingContactsCount() }} <span class="percentage">/
+            {{processingPercentage()}}%</span></div>
+        <div class="stat-label">Processing</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value invited">{{ invitedContactsCount() }} <span class="percentage">/
+            {{invitedPercentage()}}%</span></div>
+        <div class="stat-label">Invited</div>
+      </div>
+    </div>
+
+    <app-pie-chart [items]="this.chartItems()" [size]="85"></app-pie-chart>
+  </div>
 </app-data-container>
