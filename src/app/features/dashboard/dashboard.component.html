@@ -1,5 +1,6 @@
 <app-main-layout title="Dashboard">
-    <app-contacts-list [isLoading]="loading()" [contacts]="contactsMeetingToday()" [title]="'Today'" [icon]="'today'" />
+    <app-contacts-list [isLoading]="loading()" [contacts]="contactsMeetingToday()" [title]="'Today'" [icon]="'today'"
+        [isExpanded]="true" />
     <app-contacts-list [isLoading]="loading()" [contacts]="reconnectContacts()" [title]="'Contacts to reconnect'"
         [icon]="'schedule'" />
     <app-contacts-list [isLoading]="loading()" [contacts]="plannedReconnectContacts()" [title]="'Planned meetings'"

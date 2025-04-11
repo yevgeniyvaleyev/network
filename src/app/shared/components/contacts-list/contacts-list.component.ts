@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -16,10 +17,10 @@ import { ReconnectionStatusComponent } from 'shared/components/reconnection-stat
   imports: [
     CommonModule,
     MatCardModule,
+    MatExpansionModule,
     MatIconModule,
     MatListModule,
     MatButtonModule,
-    MatIconModule,
     RouterModule,
     ReconnectionStatusComponent,
     MatProgressSpinnerModule,
@@ -33,4 +34,5 @@ export class ContactsListComponent {
   contacts = input.required<NetworkContact[]>();
   isLoading = input(false);
   icon = input('');
+  isExpanded = input<boolean>(false);
 }
