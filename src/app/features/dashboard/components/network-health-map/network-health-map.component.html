@@ -1,0 +1,7 @@
+<div class="map-container" [style.grid-template-columns]="'repeat(' + side() + ', 4px)'">
+  @for (cell of cells(); track $index) {
+  <div class="map-cell" [class.connected]="cell === this.fillTypes.connected"
+    [class.reconnect]="cell === this.fillTypes.reconnect" [class.processing]="cell === this.fillTypes.processing"
+    [class.invited]="cell === this.fillTypes.invited" [class.planned]="cell === this.fillTypes.planned"></div>
+  }
+</div>

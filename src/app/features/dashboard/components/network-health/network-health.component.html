@@ -26,4 +26,9 @@
       <div class="stat-label">Invited</div>
     </div>
   </div>
+
+  <app-network-health-map [contactsTotalCount]="contactsTotalCount()"
+    [connectedContactsCount]="connectedContactsCount()" [reconnectContactsCount]="reconnectContactsCount()"
+    [processingContactsCount]="processingContactsCount()" [invitedContactsCount]="invitedContactsCount()"
+    [plannedReconnectContactsCount]="plannedReconnectContactsCount()"></app-network-health-map>
 </app-data-container>

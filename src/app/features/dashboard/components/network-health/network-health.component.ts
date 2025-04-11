@@ -5,14 +5,15 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { DataContainerComponent } from 'app/shared/components/data-container/data-container.component';
 import { NetworkContact } from 'app/shared/services/network-contacts.service';
+import { NetworkHealthMapComponent } from '../network-health-map/network-health-map.component';
 
 @Component({
   selector: 'app-network-health',
   standalone: true,
   imports: [
     CommonModule,
-    DataContainerComponent
-
+    DataContainerComponent,
+    NetworkHealthMapComponent
   ],
   templateUrl: './network-health.component.html',
   styleUrls: ['./network-health.component.scss']

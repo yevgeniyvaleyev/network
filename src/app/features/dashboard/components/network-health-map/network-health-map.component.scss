@@ -1,0 +1,37 @@
+@import 'configuration/variables';
+
+$size: 5px;
+
+.map-container {
+  display: grid;
+  gap: $size;
+  background-color: $light-gray;
+  padding: $size;
+}
+
+.map-cell {
+  width: $size;
+  height: $size;
+  border-radius: $size;
+  // background-color: $gray-main;
+
+  &.connected {
+    background-color: $green-main;
+  }
+
+  &.reconnect {
+    background-color: $red-main;
+  }
+
+  &.processing {
+    background-color: $yellow-main;
+  }
+
+  &.invited {
+    background-color: $orange-main;
+  }
+
+  &.planned {
+    background-color: $blue-main;
+  }
+}
