@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, signal } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,6 +30,22 @@ export class NetworkHealthComponent {
   invitedContactsCount = input<number>(0);
   plannedReconnectContactsCount = input<number>(0);
 
-  title = signal('Network Health');
+  readonly connectedPercentage = computed(() => {
+    return Math.round(this.connectedContactsCount() / this.contactsTotalCount() * 100);
+  });
+  readonly reconnectPercentage = computed(() => {
+    return Math.round(this.reconnectContactsCount() / this.contactsTotalCount() * 100);
+  });
+  readonly processingPercentage = computed(() => {
+    return Math.round(this.processingContactsCount() / this.contactsTotalCount() * 100);
+  });
+  readonly invitedPercentage = computed(() => {
+    return Math.round(this.invitedContactsCount() / this.contactsTotalCount() * 100);
+  });
+  readonly plannedPercentage = computed(() => {
+    return Math.round(this.plannedReconnectContactsCount() / this.contactsTotalCount() * 100);
+  });
+
+title = signal('Network Health');
   data = signal<NetworkContact[]>([]);
 }

@@ -6,23 +6,28 @@
       <div class="stat-label">Total</div>
     </div>
     <div class="stat-box">
-      <div class="stat-value connected">{{ connectedContactsCount() }}</div>
+      <div class="stat-value connected">{{ connectedContactsCount() }} <span class="percentage">/
+          {{connectedPercentage()}}%</span></div>
       <div class="stat-label">Connected</div>
     </div>
     <div class="stat-box">
-      <div class="stat-value reconnect">{{ reconnectContactsCount() }}</div>
+      <div class="stat-value reconnect">{{ reconnectContactsCount() }} <span class="percentage">/
+          {{reconnectPercentage()}}%</span></div>
       <div class="stat-label">Reconnect</div>
     </div>
     <div class="stat-box">
-      <div class="stat-value planned">{{ plannedReconnectContactsCount() }}</div>
+      <div class="stat-value planned">{{ plannedReconnectContactsCount() }} <span class="percentage">/
+          {{plannedPercentage()}}%</span></div>
       <div class="stat-label">Planned</div>
     </div>
     <div class="stat-box">
-      <div class="stat-value processing">{{ processingContactsCount() }}</div>
+      <div class="stat-value processing">{{ processingContactsCount() }} <span class="percentage">/
+          {{processingPercentage()}}%</span></div>
       <div class="stat-label">Processing</div>
     </div>
     <div class="stat-box">
-      <div class="stat-value invited">{{ invitedContactsCount() }}</div>
+      <div class="stat-value invited">{{ invitedContactsCount() }} <span class="percentage">/
+          {{invitedPercentage()}}%</span></div>
       <div class="stat-label">Invited</div>
     </div>
   </div>
