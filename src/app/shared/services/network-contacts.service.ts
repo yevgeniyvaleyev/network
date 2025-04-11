@@ -3,6 +3,17 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export type PlanningStatus = 'planned' | 'processing' | 'invited' | 'not planned';
+
+export interface Note {
+  timestamp: Date;
+  text: string;
+}
+
+export interface ResponseNote {
+  timestamp: string;
+  text: string;
+}
+
 export interface NetworkContact {
   id: string;
   name: string;
@@ -17,12 +28,13 @@ export interface NetworkContact {
   plannedReconnectionDate?: Date | null;
   plannedReconnectionTime?: string | null;
   planningStatus?: PlanningStatus;
-  notes?: string;
+  notes?: Note[];
 }
 
-export interface ResponseNetworkContact extends Omit<NetworkContact, 'lastConnect' | 'plannedReconnectionDate'> {
+export interface ResponseNetworkContact extends Omit<NetworkContact, 'lastConnect' | 'plannedReconnectionDate' | 'notes'> {
   lastConnect: string;
   plannedReconnectionDate?: string;
+  notes?: ResponseNote[];
 }
 
 @Injectable({

@@ -22,6 +22,10 @@ const normalizeContact = (contact: ResponseNetworkContact): NetworkContact => ({
   lastConnect: new Date(Date.parse(contact.lastConnect)),
   planningStatus: !contact.planningStatus && (contact as any)?.isInviteSent ? 'invited' : contact.planningStatus,
   plannedReconnectionDate: contact.plannedReconnectionDate ? new Date(Date.parse(contact.plannedReconnectionDate)) : undefined,
+  notes: Array.isArray(contact.notes) ? contact.notes.map(note => ({
+    ...note,
+    timestamp: new Date(Date.parse(note.timestamp))
+  })) : []
 })
 
 const STORAGE_KEY = 'network_contacts';
@@ -151,6 +155,3 @@ function isSameDate(date1: Date, date2: Date): boolean {
     date1.getMonth() === date2.getMonth() &&
     date1.getFullYear() === date2.getFullYear();
 }
-
-
-
